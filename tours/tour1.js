@@ -23,5 +23,6 @@ var tour = {
     'target': jQuery('.tripal-organism-img')[0] || 'site-name',
   }
  ]
-}
+};
+
 
