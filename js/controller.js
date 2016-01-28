@@ -1,6 +1,6 @@
 /* 
  * use a cookie to track which, if any, tour the user is navigating.
- * call hopscotch with the json tour definition.
+ * call hopscotch with the javascript tour definition object.
  */
 
 var lisTours = {};

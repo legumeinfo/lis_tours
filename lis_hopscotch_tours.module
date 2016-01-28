@@ -14,7 +14,7 @@ drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js
 drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css', 'external');
 
 // load the tour controller
-drupal_add_js(drupal_get_path('module', 'hopscotch_tours') .
+drupal_add_js(drupal_get_path('module', 'lis_hopscotch_tours') .
               '/js/controller.js');
 
 /**
@@ -31,7 +31,7 @@ function lis_hopscotch_tours_menu() {
 
 // send requested javascript tour back to cliend
 function lis_hopscotch_tours_js_endpoint($tourId) {
-    $module_path = drupal_get_path('module', 'hopscotch_tours');
+    $module_path = drupal_get_path('module', 'lis_hopscotch_tours');
     $file = "$module_path/tours/$tourId.js";
     drupal_add_http_header('Content-Type', 'application/javascript');
     readfile($file);
