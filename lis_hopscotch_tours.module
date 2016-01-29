@@ -7,15 +7,17 @@
  *   https://www.drupal.org/node/2216195
  */
 
-// load dependencies (we are using drupal's jQuery, btw to that
-// doesn't need to be loaded here)
+// we also depend on drupal's jQuery, however it *should*
+// automatically get loaded.
+
 drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js', 'external');
 drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js', 'external');
 drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css', 'external');
 
-// load the tour controller
-drupal_add_js(drupal_get_path('module', 'lis_hopscotch_tours') .
-              '/js/controller.js');
+
+// load our tour controller
+$my_path = drupal_get_path('module', 'lis_hopscotch_tours');
+drupal_add_js($my_path . '/js/lisTours.js');
 
 /**
  * Implements hook_menu().
@@ -29,10 +31,10 @@ function lis_hopscotch_tours_menu() {
     return $items;
 }
 
-// send requested javascript tour back to cliend
+// send requested javascript tour back to client
 function lis_hopscotch_tours_js_endpoint($tourId) {
-    $module_path = drupal_get_path('module', 'lis_hopscotch_tours');
-    $file = "$module_path/tours/$tourId.js";
+    $my_path = drupal_get_path('module', 'lis_hopscotch_tours');
+    $file = "$my_path/tours/$tourId.js";
     drupal_add_http_header('Content-Type', 'application/javascript');
     readfile($file);
     drupal_exit();
