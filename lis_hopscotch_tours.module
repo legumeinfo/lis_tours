@@ -10,14 +10,39 @@
 // we also depend on drupal's jQuery, however it *should*
 // automatically get loaded.
 
-drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js', 'external');
-drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.min.js', 'external');
-drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css', 'external');
+drupal_add_js(
+    '//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js',
+    array(
+        'type' => 'external',
+        'group' => JS_LIBRARY,
+    )
+);
+drupal_add_js(
+    '//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.min.js',
+    array(
+        'type' => 'external',
+        'group' => JS_LIBRARY,
+    )
+);
+drupal_add_css(
+    '//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css',
+    array(
+        'type' => 'external',
+        'group' => JS_LIBRARY,
+    )
+);
 
 
-// load our tour controller
+// load our tour controller. Enforce the loading order by using the 'group'.
 $my_path = drupal_get_path('module', 'lis_hopscotch_tours');
-drupal_add_js($my_path . '/js/lisTours.js');
+
+drupal_add_js(
+    $my_path . '/js/lisTours.js',
+    array(
+        'type' => 'file',
+        'group' => JS_DEFAULT,
+    )
+);
 
 /**
  * Implements hook_menu().
