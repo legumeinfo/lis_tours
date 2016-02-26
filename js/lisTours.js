@@ -8,7 +8,7 @@
 var lisTours = {};
 
 (function(){
-
+  
   this.cookieId = 'lis-multipage-tour';
   this.tourId = Cookies.get(this.cookieId);
   
@@ -19,10 +19,10 @@ var lisTours = {};
   this.go = function(tourId) {
     this.tourId = tourId;
     Cookies.set(this.cookieId, tourId);
-    startOrResumeTour(tourId);
+    startOrResumeTour(tourId, 0);
   }
 
-  function startOrResumeTour(tourId) {
+  function startOrResumeTour(tourId, step) {
     jQuery.getScript('/lis-tours/' + tourId + '/js', function() {
       if(! tour) {
 	console.log('failed to load tour: ' + tourId);
@@ -34,7 +34,7 @@ var lisTours = {};
       else {
 	tour.onEnd = function() { Cookies.remove(lisTours.cookieId); };
       }
-      hopscotch.startTour(tour);
+      hopscotch.startTour(tour, step);
     });
   }
   
