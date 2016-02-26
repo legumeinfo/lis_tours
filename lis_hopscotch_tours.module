@@ -11,7 +11,7 @@
 // automatically get loaded.
 
 drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/js/hopscotch.min.js', 'external');
-drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.4/js.cookie.min.js', 'external');
+drupal_add_js('//cdnjs.cloudflare.com/ajax/libs/js-cookie/2.1.0/js.cookie.min.js', 'external');
 drupal_add_css('//cdnjs.cloudflare.com/ajax/libs/hopscotch/0.2.5/css/hopscotch.min.css', 'external');
 
 
