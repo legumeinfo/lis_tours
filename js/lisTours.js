@@ -4,6 +4,7 @@
  * - call hopscotch with the javascript tour definition object.
  * - remove the cookie when tour ends.
  */
+"use strict";
 
 var lisTours = {};
 

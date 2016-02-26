@@ -1,3 +1,5 @@
+"use strict";
+
 var tour = {
   'id': 'tour2',
   'steps' : [ {
