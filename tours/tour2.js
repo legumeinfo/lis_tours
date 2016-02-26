@@ -9,7 +9,8 @@ var tour = {
     'target': 'site-name',
     'multipage': true,
     'onNext': function() {
-     window.location = '/home';}
+      window.location = '/home';
+    }
   }, {
     'title': 'Gene Contexts',
     'content': 'Let us begin by searching for a particular mungbean gene, Vradi08g22420.1.',
@@ -17,7 +18,8 @@ var tour = {
     'target': jQuery('#genesearchid')[0],
     'multipage': true,
     'onNext' : function() {
-      window.location = '/search/gene';}
+      window.location = '/search/gene';
+    }
   }, {
     'title': 'Gene Search',
     'content': 'Let us look for Vradi08g22420.1.',
@@ -25,7 +27,8 @@ var tour = {
     'target': jQuery('#edit-name')[0] || 'site-name',
     'multipage': true,
     'onNext': function() {
-	window.location='/search/gene?name=Vradi08g22420';}
+      window.location='/search/gene?name=Vradi08g22420';
+    }
   }, {
     'title': 'Input Gene name',
     'content': "We've done it for you. Now we want to see this gene's phylogenetic relationships.",
@@ -33,16 +36,17 @@ var tour = {
     'target': jQuery("[href='/chado_gene_phylotree_v2/Vradi08g22420.Vradi.ver6']")[0],
     'multipage': true,
     'onNext': function() {
-	window.location='/chado_phylotree/phytozome_10_2.59155167?hilite_node=vigra.Vradi08g22420.1';}
-   }, {
+      window.location='/chado_phylotree/phytozome_10_2.59155167?hilite_node=vigra.Vradi08g22420.1';
+    }
+  }, {
     'title': 'Phylotree',
     'content': 'Here is our gene again, surrounded by its cousins.',
     'target': jQuery('.hilite-node')[0],
     'placement': 'right'
-   }, {
+  }, {
     'title':  'More Info',
     'content': 'Click here for a tour that focuses on the features of this page.',
     'target': jQuery(".button phylogeny-help phylogeny-help-btn")[0],
     'placement': 'bottom'
-   }
+  }
 ]};
