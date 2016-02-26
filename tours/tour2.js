@@ -40,13 +40,15 @@ var tour = {
     }
   }, {
     'title': 'Phylotree',
-    'content': 'Here is our gene again, surrounded by its cousins.',
-    'target': jQuery('.hilite-node')[0],
+    'content': 'Please wait, loading tour...',
+    'dynamicContent' : 'Here is our gene again, surrounded by its cousins.',
+    'target': 'site-name', // this fake ID must exist or hopscotch may 'detour'.
+    'dynamicTarget' : '.hilite-node', // this is the real target for tour step.
     'placement': 'right'
   }, {
     'title':  'More Info',
     'content': 'Click here for a tour that focuses on the features of this page.',
-    'target': jQuery(".button phylogeny-help phylogeny-help-btn")[0],
+    'target': jQuery('.phylogeny-help-btn')[0],
     'placement': 'bottom'
   }
 ]};
