@@ -77,7 +77,7 @@ console.log("waited for it");
 },{
     'title': 'Tweaking your parameters',
     'content': 'There are many ways to change your settings, such as rearranging and adding tracks, zooming in or out, and changing specific visibilities.',
-    'target': jQuery("frameviewer").contents().getElementsById("#panels")[0],  //(".field-items")[0],
+    'target': jQuery("#frameviewer").contents().find(".inner_div[name='track_ace854_My_Track_1_image']")[0],  //(".field-items")[0],
     'placement': 'top'
 }  
 
