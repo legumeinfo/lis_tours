@@ -1,5 +1,3 @@
-"use strict";
-
 var tour = {
   'id': 'tour2',
   'steps' : [ {
@@ -41,9 +39,14 @@ var tour = {
   }, {
     'title': 'Phylotree',
     'content': 'Please wait, loading tour...',
+    // this selector needs to exist, or hopscotch will detour.
+    'target': jQuery('.hilite-node')[0] || 'site-name',
     'dynamicContent' : 'Here is our gene again, surrounded by its cousins.',
-    'target': 'site-name', // this fake ID must exist or hopscotch may 'detour'.
-    'dynamicTarget' : '.hilite-node', // this is the real target for tour step.
+    // this is callback function called by lisTours.js, returning the
+    // real target of this tour step.
+    'dynamicTarget' : function() {
+      return jQuery('.hilite-node')[0];
+    },
     'placement': 'right'
   }, {
     'title':  'More Info',

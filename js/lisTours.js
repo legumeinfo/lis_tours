@@ -4,11 +4,22 @@
  * - call hopscotch with the javascript tour definition object.
  * - remove the cookie when tour ends.
  */
-"use strict";
 
 var lisTours = {};
 
 (function(){
+
+  "use strict";
+  
+  if(! 'hopscotch' in window) {
+    console.log('hopscotch is required');
+    return;
+  }
+  
+  // cleanup existing tours first
+  if(hopscotch.getCurrTour()) {
+    hopscotch.endTour(false);
+  }
   
   this.cookieId = 'lis-multipage-tour';
   this.tourId = Cookies.get(this.cookieId);
@@ -19,7 +30,7 @@ var lisTours = {};
   
   this.go = function(tourId) {
     this.tourId = tourId;
-    Cookies.set(this.cookieId, tourId);
+    Cookies.set(this.cookieId, tourId, { expires: 365 });
     startOrResumeTour(tourId, 0);
   }
 
@@ -43,14 +54,15 @@ var lisTours = {};
       }
       var curStep = hopscotch.getCurrStepNum();
       var stepDef = tour.steps[curStep];
-      if('dynamicTarget' in stepDef) {
-	// expect dynamicTarget to be a jquery selector expression.
-	if(jQuery(stepDef.dynamicTarget)[0]) {
-	  // the target element exists; expect hopscotch will do the needful.
+      if(stepDef && ('dynamicTarget' in stepDef)) {
+	// expect dynamicTarget to be a callback returning a dom element
+	if(stepDef.dynamicTarget()) {
+	  // the dynamicTarget element already exists; expect hopscotch will
+	  // do the needful.
 	  return;
 	}
 	function waitForSelector() {
-	  var el = jQuery(stepDef.dynamicTarget)[0]
+	  var el = stepDef.dynamicTarget();
 	  if(! el) {
 	    // selector does not exist, need to wait for dom or dynamic load
 	    setTimeout(waitForSelector, 10);
@@ -69,6 +81,3 @@ var lisTours = {};
     });
   }
 }.call(lisTours));
-
-
-
