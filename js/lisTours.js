@@ -10,6 +10,8 @@ var lisTours = {};
 (function(){
 
   "use strict";
+  var that = this; /* http://javascript.crockford.com/private.html */
+  var WAIT_MS = 100;
   
   if(! 'hopscotch' in window) {
     console.log('hopscotch is required');
@@ -29,10 +31,10 @@ var lisTours = {};
   }
   
   this.go = function(tourId) {
-    this.tourId = tourId;
-    Cookies.set(this.cookieId, tourId, { expires: 365 });
+    that.tourId = tourId;
+    Cookies.set(that.cookieId, tourId, { expires: 365 });
     startOrResumeTour(tourId, 0);
-  }
+  };
 
   function startOrResumeTour(tourId, step) {
     jQuery.getScript('/lis-tours/' + tourId + '/js', function() {
@@ -65,7 +67,7 @@ var lisTours = {};
 	  var el = stepDef.dynamicTarget();
 	  if(! el) {
 	    // selector does not exist, need to wait for dom or dynamic load
-	    setTimeout(waitForSelector, 10);
+	    setTimeout(waitForSelector, WAIT_MS);
 	    return;
 	  }
 	  // selector exists; update target and content, then call
