@@ -1,51 +1,69 @@
+"use strict";
+
 /* 
- * lisTours
- * - use a cookie to track which, if any, tour the user is navigating.
- * - call hopscotch with the javascript tour definition object.
- * - remove the cookie when tour ends.
+  lisTours
+
+  - use a cookie to track which tour the user is following.
+  - call hopscotch with the javascript tour definition object.
+  - allow dynamically evaluated tour step targets.
+  - remove the cookie when tour ends.
+
+  requirements:
+
+  hopscotch.js and css : cdnjs.cloudflare.com/ajax/libs/hopscotch...
+  js.cookie : cdnjs.cloudflare.com/ajax/libs/js-cookie...
+  
  */
 
 var lisTours = {};
 
 (function(){
 
-  "use strict";
-  
+  var that = this; /* http://javascript.crockford.com/private.html */
+  var WAIT_MS = 100;
+  var COOKIE_ID = 'lis-multipage-tour';
+
   if(! 'hopscotch' in window) {
-    console.log('hopscotch is required');
-    return;
+    throw('hopscotch is required');
   }
   
   // cleanup existing tours first
   if(hopscotch.getCurrTour()) {
     hopscotch.endTour(false);
   }
-  
-  this.cookieId = 'lis-multipage-tour';
-  this.tourId = Cookies.get(this.cookieId);
+ 
+  this.tourId = Cookies.get(COOKIE_ID);
   
   if(this.tourId !== undefined) {
     startOrResumeTour(this.tourId);
   }
-  
-  this.go = function(tourId) {
-    this.tourId = tourId;
-    Cookies.set(this.cookieId, tourId, { expires: 365 });
-    startOrResumeTour(tourId, 0);
-  }
+
+  /* resume the tourId at (optional step number) */
+  this.go = function(tourId, atStep) {
+    that.tourId = tourId;
+    Cookies.set(COOKIE_ID, tourId, { expires: 365 });
+    var step = atStep || 0;
+    startOrResumeTour(tourId, step);
+  };
+
+  this.cleanupCookie = function() {
+    // prevent tour from re-appearing on every page load!
+    Cookies.remove(COOKIE_ID);
+  };
 
   function startOrResumeTour(tourId, step) {
-    jQuery.getScript('/lis-tours/' + tourId + '/js', function() {
+
+    var url = '/lis-tours/' + tourId + '/js';
+    jQuery.getScript(url, function() {
       if(! tour) {
-	console.log('failed to load tour: ' + tourId);
-	return;
+	throw('failed to load tour: ' + tourId);
       }
-      if(tour.onEnd) {
-	console.log('warning: will not clean up cookie after tour ending.');
-      }
-      else {
-	tour.onEnd = function() { Cookies.remove(lisTours.cookieId); };
-      }
+
+      //force the tour to cleanup so user does not see tour re-appear
+      //upon every page load.
+      tour.onClose = that.cleanupCookie;
+      tour.onEnd = that.cleanupCookie;
+      
       if(step !== undefined) {
 	hopscotch.startTour(tour, step);
       }
@@ -65,7 +83,7 @@ var lisTours = {};
 	  var el = stepDef.dynamicTarget();
 	  if(! el) {
 	    // selector does not exist, need to wait for dom or dynamic load
-	    setTimeout(waitForSelector, 10);
+	    setTimeout(waitForSelector, WAIT_MS);
 	    return;
 	  }
 	  // selector exists; update target and content, then call
