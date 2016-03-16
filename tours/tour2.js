@@ -15,7 +15,7 @@ var tour = {
       content: 'Let us begin by searching for a particular mungbean gene, \
                 Vradi08g22420.1.',
       placement: 'bottom',
-      target: jQuery('#genesearchid')[0],
+      target: 'site-name',
       multipage: true, /* indicates the next step is on a different page */
       onNext : function() {
 	window.location = '/search/gene';
