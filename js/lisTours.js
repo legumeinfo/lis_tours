@@ -1,21 +1,29 @@
+"use strict";
+
 /* 
- * lisTours
- * - use a cookie to track which, if any, tour the user is navigating.
- * - call hopscotch with the javascript tour definition object.
- * - remove the cookie when tour ends.
+  lisTours
+
+  - use a cookie to track which tour the user is following.
+  - call hopscotch with the javascript tour definition object.
+  - allow dynamically evaluated tour step targets.
+  - remove the cookie when tour ends.
+
+  requirements:
+
+  hopscotch.js and css : cdnjs.cloudflare.com/ajax/libs/hopscotch...
+  js.cookie : cdnjs.cloudflare.com/ajax/libs/js-cookie...
+  
  */
 
 var lisTours = {};
 
 (function(){
 
-  "use strict";
   var that = this; /* http://javascript.crockford.com/private.html */
   var WAIT_MS = 100;
   
   if(! 'hopscotch' in window) {
-    console.log('hopscotch is required');
-    return;
+    throw('hopscotch is required');
   }
   
   // cleanup existing tours first
@@ -29,18 +37,19 @@ var lisTours = {};
   if(this.tourId !== undefined) {
     startOrResumeTour(this.tourId);
   }
-  
-  this.go = function(tourId) {
+
+  /* resume the tourId at (optional step number) */
+  this.go = function(tourId, atStep) {
     that.tourId = tourId;
     Cookies.set(that.cookieId, tourId, { expires: 365 });
-    startOrResumeTour(tourId, 0);
+    var step = atStep || 0;
+    startOrResumeTour(tourId, step);
   };
 
   function startOrResumeTour(tourId, step) {
     jQuery.getScript('/lis-tours/' + tourId + '/js', function() {
       if(! tour) {
-	console.log('failed to load tour: ' + tourId);
-	return;
+	throw('failed to load tour: ' + tourId);
       }
       if(tour.onEnd) {
 	console.log('warning: will not clean up cookie after tour ending.');
