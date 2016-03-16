@@ -21,7 +21,8 @@ var lisTours = {};
 
   var that = this; /* http://javascript.crockford.com/private.html */
   var WAIT_MS = 100;
-  
+  var COOKIE_ID = 'lis-multipage-tour';
+
   if(! 'hopscotch' in window) {
     throw('hopscotch is required');
   }
@@ -30,9 +31,8 @@ var lisTours = {};
   if(hopscotch.getCurrTour()) {
     hopscotch.endTour(false);
   }
-  
-  this.cookieId = 'lis-multipage-tour';
-  this.tourId = Cookies.get(this.cookieId);
+ 
+  this.tourId = Cookies.get(COOKIE_ID);
   
   if(this.tourId !== undefined) {
     startOrResumeTour(this.tourId);
@@ -41,22 +41,29 @@ var lisTours = {};
   /* resume the tourId at (optional step number) */
   this.go = function(tourId, atStep) {
     that.tourId = tourId;
-    Cookies.set(that.cookieId, tourId, { expires: 365 });
+    Cookies.set(COOKIE_ID, tourId, { expires: 365 });
     var step = atStep || 0;
     startOrResumeTour(tourId, step);
   };
 
+  this.cleanupCookie = function() {
+    // prevent tour from re-appearing on every page load!
+    Cookies.remove(COOKIE_ID);
+  };
+
   function startOrResumeTour(tourId, step) {
-    jQuery.getScript('/lis-tours/' + tourId + '/js', function() {
+
+    var url = '/lis-tours/' + tourId + '/js';
+    jQuery.getScript(url, function() {
       if(! tour) {
 	throw('failed to load tour: ' + tourId);
       }
-      if(tour.onEnd) {
-	console.log('warning: will not clean up cookie after tour ending.');
-      }
-      else {
-	tour.onEnd = function() { Cookies.remove(lisTours.cookieId); };
-      }
+
+      //force the tour to cleanup so user does not see tour re-appear
+      //upon every page load.
+      tour.onClose = that.cleanupCookie;
+      tour.onEnd = that.cleanupCookie;
+      
       if(step !== undefined) {
 	hopscotch.startTour(tour, step);
       }
