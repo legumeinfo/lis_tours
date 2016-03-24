@@ -12,32 +12,36 @@ var tour = {
       }
     }, {
       title: 'Gene Contexts',
-      content: 'Let us begin by searching for a particular mungbean gene, \
-                Vradi08g22420.1.',
+      content: "Let's say we want to find a specific mungbean gene that codes for a Glutathione S-transferase, isozymes that catalyze glutathione to protect important intracellural proteins and nucleic acids from nonpolar xenobiotic substrates. In other words, the transferase uses the glutathione antioxidant to reduce poisonous hydrogen peroxide levels.",
       placement: 'bottom',
-      target: 'site-name',
+      target: 'genesearchid',
       multipage: true, /* indicates the next step is on a different page */
       onNext : function() {
 	window.location = '/search/gene';
       }
     }, {
       title: 'Gene Search',
-      content: 'Let us look for Vradi08g22420.1.',
+      content: 'Here we would type in our gene\'s description, "Glutathione S-transferase".',
       placement: 'bottom',
-      target: jQuery('#edit-name')[0] || 'site-name',
+      target: jQuery('#edit-description')[0] || 'site-name',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
-	window.location='/search/gene?name=Vradi08g22420';
+	window.location='/search/gene?name=vigra&description=glutathione%20S-transferase';
       }
     }, {
-      title: 'Input Gene name',
-      content: "We have searched for Vradi08g22420 for you. Now we want \
-                 to see this gene's phylogenetic relationships.",
+      title: 'Gene name',
+      content: "We've entered a description and we want to specify that we're interested in Vigna radiata, or mungbean. The short name is 'vigra'.",
+      target: jQuery('#edit-name')[0],
+      placement: 'bottom'
+    }, {
+      title: 'Find a good chromosome specimen',
+      content: "We've put the query in the proper fields. Now we want \
+                 to pick a gene and see its  phylogenetic relationships.",
       placement: 'top',
-      target: jQuery("[href='/chado_gene_phylotree_v2/Vradi08g22420.Vradi.ver6']")[0],
+      target: jQuery("[href='/chado_gene_phylotree_v2/Vradi01g03360.Vradi.ver6']")[0],
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
-	window.location='/chado_phylotree/phytozome_10_2.59155167?hilite_node=vigra.Vradi08g22420.1';
+	window.location='/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1';
     }
   }, {
     title: 'Phylotree',
@@ -54,7 +58,7 @@ var tour = {
        this is one way to do it, there are probably other ways to
        express the selector w/ css+jquery:
       */
-      return jQuery('#phylogram g > :contains("Vradi08g22420")')[0];
+      return jQuery('#phylogram g > :contains("Vradi01g03360.1")')[0];
     },
     onNext: function() {
       /* trigger click event on the leaf node, to reveal the dialog in
@@ -68,7 +72,7 @@ var tour = {
 	  e.dispatchEvent(evt);
 	});
       };
-      jQuery('#phylogram g > :contains("Vradi08g22420")').d3Click();
+      jQuery('#phylogram g > :contains("Vradi01g03360.1")').d3Click();
     }
   }, {
     title: 'Genomic Contexts',
@@ -78,7 +82,7 @@ var tour = {
     delay: 200, /* the jquery dialog has a 200ms slide animation */
     multipage: true, /* indicates that the next step is on a different page */
     onNext: function() {
-      window.location='/lis_context_viewer/index.html#/search/vigra.Vradi08g22420?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome';
+      window.location='/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome';
     }
   }, {
     // this is a placeholder step to prevent the 'Finish' button from

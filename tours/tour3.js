@@ -13,8 +13,8 @@ var tour = {
 	onNext: function() {
 		window.location='/home';}
      }, {
-	title: 'Home',
-	content: 'BLAST queries',
+	title: 'Search your sequence against our database',
+	content: 'We have BLAST on our webpage for your legume-browsing convenience.',
 	target: jQuery('#blastbtn')[0],
 	placement: 'bottom',
 	multipage: 'true',
