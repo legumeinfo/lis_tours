@@ -14,7 +14,7 @@ var tour = {
       title: 'Gene Contexts',
       content: "Let's say we want to find a specific mungbean gene that codes for a Glutathione S-transferase, isozymes that catalyze glutathione to protect important intracellural proteins and nucleic acids from nonpolar xenobiotic substrates. In other words, the transferase uses the glutathione antioxidant to reduce poisonous hydrogen peroxide levels.",
       placement: 'bottom',
-      target: 'genesearchid',
+      target: 'genesearchid',//this id was added personally
       multipage: true, /* indicates the next step is on a different page */
       onNext : function() {
 	window.location = '/search/gene';
