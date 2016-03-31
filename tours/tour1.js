@@ -72,13 +72,15 @@ console.log("waited for it");
     title: 'Genome Browser',
     content: 'The linked Gbrowse map will show you annotations on the genome',
     target: jQuery("[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']")[0] || 'site-name',
-    placement: 'right', 
+    placement: 'top',
+    xOffset: '-200',
+    arrowOffset: '220', 
     multipage: true,
     onNext: function() {
 	window.location='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red'; 
         //function test(){ console.log(jQuery("#frameviewer").contents());}
-	setTimeout(this, [1000]);
-	lisTours.go("tour1", 7);}
+	setTimeout(this, [300]);
+	lisTours.go("tour1", 8);}
 },{
     title: 'Gbrowse',
     content: 'Allows you to visualize syntenic relationships between legumes of your choice. The red bar is the lowest flanking marker for "seed yield".',
