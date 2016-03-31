@@ -2,7 +2,7 @@ var tour = {
   id: 'tour2',
   steps : [
     {
-      title: 'Welcome to the Legume Information System',
+      title: 'Phylotree Tour: Welcome to the Legume Information System',
       content: 'Click "next" to go to the Homepage.',
       placement: 'bottom',
       target: 'site-name',
@@ -11,7 +11,7 @@ var tour = {
 	window.location = '/home';
       }
     }, {
-      title: 'Gene Contexts',
+      title: 'Phylotree Tour: Gene Contexts',
       content: "Let's say we want to find a specific mungbean gene that codes for a Glutathione S-transferase, isozymes that catalyze glutathione to protect important intracellural proteins and nucleic acids from nonpolar xenobiotic substrates. In other words, the transferase uses the glutathione antioxidant to reduce poisonous hydrogen peroxide levels.",
       placement: 'bottom',
       target: 'genesearchid',//this id was added personally
@@ -20,7 +20,7 @@ var tour = {
 	window.location = '/search/gene';
       }
     }, {
-      title: 'Gene Search',
+      title: 'Phylotree Tour: Gene Search',
       content: 'Here we would type in our gene\'s description, "Glutathione S-transferase".',
       placement: 'bottom',
       target: jQuery('#edit-description')[0] || 'site-name',
@@ -29,12 +29,12 @@ var tour = {
 	window.location='/search/gene?name=vigra&description=glutathione%20S-transferase';
       }
     }, {
-      title: 'Gene name',
+      title: 'Phylotree Tour: Gene name',
       content: "We've entered a description and we want to specify that we're interested in Vigna radiata, or mungbean. The short name is 'vigra'.",
       target: jQuery('#edit-name')[0],
       placement: 'bottom'
     }, {
-      title: 'Find a good chromosome specimen',
+      title: 'Phylotree Tour: Find a good chromosome specimen',
       content: "We've put the query in the proper fields. Now we want \
                  to pick a gene and see its  phylogenetic relationships.",
       placement: 'top',
@@ -44,7 +44,7 @@ var tour = {
 	window.location='/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1';
     }
   }, {
-    title: 'Phylotree',
+    title: 'Phylotree Tour: Phylotree',
     content: 'Please wait, loading tour...',
     placement: 'right',
     target: 'site-name',
@@ -75,7 +75,7 @@ var tour = {
       jQuery('#phylogram g > :contains("Vradi01g03360.1")').d3Click();
     }
   }, {
-    title: 'Genomic Contexts',
+    title: 'Phylotree Tour: Genomic Contexts',
     content: 'Let us follow the link to the Genomic Context Viewer...',
     target: jQuery('#phylonode_popup_dialog')[0] || 'site-name',
     placement: 'right',
@@ -87,7 +87,7 @@ var tour = {
   }, {
     // this is a placeholder step to prevent the 'Finish' button from
     // displaying in prev ste.
-    title : 'To Be Continued...',
+    title : 'Phylotree Tour: To Be Continued...',
     content : '...',
     target : 'site-name',
   }
