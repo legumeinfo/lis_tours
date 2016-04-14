@@ -42,7 +42,7 @@ var tour = {
 	placement: 'top',
 	multipage: 'true',
 	onNext: function() {
-		window.location='/blast/report/ODE0#loaded/';}
+		window.location='/blast/report/ODQ3#loaded/';}//ODE0# previously
     }, { 
 	title: 'BLAST Tour: Results',
 	content: 'The E-value, or expected value, describes the probability that the results are by chance. A lower e-value suggests that the two sequences are more identical, and a "0" suggests that there is no possibility that these are two random sequences, they must be identical.',
@@ -117,7 +117,8 @@ var tour = {
 	  return jQuery('.hilite-node')[0]},
 	content: 'Please wait while page loads...',
 	target: 'site-name',	
-	placement: 'right'
+	placement: 'right',
+	yOffset: '-22'
     }
 
 ]

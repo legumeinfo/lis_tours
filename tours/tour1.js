@@ -73,7 +73,7 @@ console.log("waited for it");
     content: 'The linked Gbrowse map will show you annotations on the genome',
     target: jQuery("[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']")[0] || 'site-name',
     placement: 'top',
-    arrowOffset: '220',
+    arrowOffset: '220', 
     xOffset: '-200', 
     multipage: true,
     onNext: function() {
