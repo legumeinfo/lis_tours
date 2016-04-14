@@ -31,7 +31,7 @@ console.log("waited for it");
     }
 }, {
     title: 'QTL Tour: QTL Search',
-    content: 'In this tour we will begin by searching for a QTL: quantitative trait locus.This is a location on DNA that correlates with a specific phenotypic variance.',
+    content: 'In this tour we will begin by searching for a QTL. This is a location on DNA that correlates with a specific phenotypic variance.',
     placement: 'bottom',
     target: 'edit-qtl-symbol',
     multipage: true,
