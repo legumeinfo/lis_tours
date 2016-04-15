@@ -19,83 +19,131 @@ var lisTours = {};
 
 (function(){
 
-  var that = this; /* http://javascript.crockford.com/private.html */
+  console.log('lisTours.js loading');
+  
+  var that = this;
   var WAIT_MS = 100;
   var COOKIE_ID = 'lis-multipage-tour';
-
+  var timerId = null;
+  
   if(! 'hopscotch' in window) {
     throw('hopscotch is required');
   }
-  
-  // cleanup existing tours first
-  if(hopscotch.getCurrTour()) {
-    hopscotch.endTour(false);
-  }
  
   this.tourId = Cookies.get(COOKIE_ID);
-  
-  if(this.tourId !== undefined) {
-    startOrResumeTour(this.tourId);
-  }
 
-  /* resume the tourId at (optional step number) */
-  this.go = function(tourId, atStep) {
-    that.tourId = tourId;
-    Cookies.set(COOKIE_ID, tourId, { expires: 365 });
-    var step = atStep || 0;
-    startOrResumeTour(tourId, step);
-  };
-
-  this.cleanupCookie = function() {
+  this.cleanup = function() {
     // prevent tour from re-appearing on every page load!
     Cookies.remove(COOKIE_ID);
+    if(timerId) {
+      // stop wait for dynamicTarget
+      clearTimeout(timerId);
+    }
   };
 
-  function startOrResumeTour(tourId, step) {
+  /* updateDynamicTourSteps() : update the dynamic properties for all
+   * steps in tour (ideally this will enable previous button and next
+   * button navigation over the entire tour) */
+  function updateDynamicTourSteps() {
+    for(var i = 0; i < tour.steps.length; i++) {
+      var step = tour.steps[i];
+      console.log('verifying tour step  n=' + i);
+      console.log(step);
+      if('dynamicTarget' in step) {
+	// expect dynamicTarget is callback func returning a dom element.
+	var el = step.dynamicTarget();
+	if(el) {
+	  console.log('found dynamic target step n= ' + i);
+	  console.log(el);
+	  step.target = el;
+	  if('dynamicContent' in step) {
+	    step.content = step.dynamicContent;
+	  }
+	} else {
+	  console.log('dynamic target not found, step n=' + i);
+	  console.log(step.dynamicTarget);
+	}
+      }
+    }
+  }
+  
+  /* resume the tourId at a specific step number (default is to resume) */
+  this.go = function(tourId, stepNum) {
 
+    that.tourId = tourId;
+    
+    console.log('lisTours.go(' + tourId + ', ' + stepNum + ')');
+
+    // check if hopscotch is in agreement about the current tourid
+    var state = hopscotch.getState();
+    if(state) {
+      console.log('current hopsotch state: '+ state);
+      if(state.split(':')[0] !== tourId || stepNum !== undefined) {
+	try { hopscotch.endTour(true);  } catch(e) {}
+      }
+      if(stepNum === undefined) {
+	// extract the stepNum from the state object
+	stepNum = state.split(':')[1];
+	console.log('resuming at step n=' + stepNum);
+      }
+      if(stepNum === undefined) {
+	throw 'failed to resolve stepNum';
+      }
+    }
+    else {
+      stepNum = 0;
+    }
+    
+    Cookies.set(COOKIE_ID, tourId, { expires: 365 });
     var url = '/lis-tours/' + tourId + '/js';
     jQuery.getScript(url, function() {
       if(! tour) {
 	throw('failed to load tour: ' + tourId);
       }
+      // force the tour to cleanup so user does not see tour re-appear
+      // upon every page load.
+      tour.onClose = that.cleanup;
+      tour.onEnd = that.cleanup;
 
-      //force the tour to cleanup so user does not see tour re-appear
-      //upon every page load.
-      tour.onClose = that.cleanupCookie;
-      tour.onEnd = that.cleanupCookie;
+      updateDynamicTourSteps();
       
-      if(step !== undefined) {
-	hopscotch.startTour(tour, step);
-      }
-      else {
-	hopscotch.startTour(tour);
-      }
-      var curStep = hopscotch.getCurrStepNum();
-      var stepDef = tour.steps[curStep];
-      if(stepDef && ('dynamicTarget' in stepDef)) {
-	// expect dynamicTarget to be a callback returning a dom element
-	if(stepDef.dynamicTarget()) {
-	  // the dynamicTarget element already exists; expect hopscotch will
-	  // do the needful.
-	  return;
-	}
-	function waitForSelector() {
-	  var el = stepDef.dynamicTarget();
+      var currentStep = tour.steps[stepNum];
+      var waitCounter = 0;
+      // check/wait for dynamic target in the current target, if there is one.
+      if('dynamicTarget' in currentStep) {
+	var waitForDynamicTarget = function() {
+	  var el = currentStep.dynamicTarget();
 	  if(! el) {
-	    // selector does not exist, need to wait for dom or dynamic load
-	    setTimeout(waitForSelector, WAIT_MS);
+	    // selector still does not exist, need to wait for dom to load.
+	    console.log('waiting for dynamicTarget function:');
+	    console.log(currentStep.dynamicTarget);
+	    if(waitCounter++ > 100) {
+	      console.log('error: max waitCounter');
+	      try { hopscotch.endTour(true);  } catch(e) {}	      
+	      return;
+	    }
+	    timerId = setTimeout(waitForDynamicTarget, WAIT_MS);
 	    return;
 	  }
-	  // selector exists; update target and content, then call
-	  // hopscotch startTour again
-	  tour.steps[curStep].target = el;
-	  if('dynamicContent' in stepDef) {
-	    stepDef.content = stepDef.dynamicContent;
-	  }
-	  hopscotch.startTour(tour, curStep);
+	  console.log('found dynamic target element:');
+	  console.log(el);
+	  updateDynamicTourSteps();
+	  hopscotch.startTour(tour, stepNum);
 	}
-	waitForSelector();
+	waitForDynamicTarget();
+      }
+      else {
+	hopscotch.startTour(tour, stepNum);
       }
     });
   }
+    
+  if(this.tourId !== undefined) {
+    console.log(this.tourId);
+    this.go(this.tourId);
+  }
+  else {
+    console.log('no tourId');
+  }
+
 }.call(lisTours));
