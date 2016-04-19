@@ -9,15 +9,15 @@ var tour = {
 	content: 'Click "next" to go to the homepage',
 	target: 'site-name',
 	placement: 'right',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/home';}
      }, {
 	title: 'BLAST Tour: Search your sequence against our database',
 	content: 'We have BLAST on our webpage for your legume-browsing convenience.',
-	target: jQuery('#blastbtn')[0],
+       target: jQuery("[href='/blast']")[1],
 	placement: 'bottom',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/blast';}
     }, {
@@ -25,7 +25,7 @@ var tour = {
 	content: 'Search the LIS protein database',
 	target: jQuery("[href='/./blast/protein/protein']")[0],
 	placement: 'top',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/blast/protein/protein';}
     }, {
@@ -38,9 +38,9 @@ var tour = {
     }, {
 	title: 'BLAST Tour: Blast it',
 	content: 'Select a database to compare sequence against. We will compare against the chickpea, Cicer arietinum.',
-	target: '#edit-select-db',
+	target: 'edit-select-db',
 	placement: 'top',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/blast/report/ODQ3#loaded/';}//ODE0# previously
     }, { 
@@ -73,7 +73,7 @@ var tour = {
 	content: 'We can learn more about our chickpea target, Ca_09040, by entering it into a gene search query.',
 	target: jQuery("[href='/search']")[0],
 	placement: 'bottom',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/search/gene?name=Ca_09040';}
     }, {
@@ -93,7 +93,7 @@ var tour = {
 	content: 'Let us gather some more information on our gene',
 	target: jQuery("[href='/search/gene?name=Ca_09040&abbreviation=All&domains_op=contains&domains=&description_op=word&description=&gene_family_op=%3D&gene_family=&name_op=contains&submit_basket=Add%20all%20genes%20to%20Basket&order=name&sort=desc']")[0],
 	placement: 'top',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/feature/Cicer/arietinum/gene/Ca_09040_gene';}
     }, {
@@ -107,7 +107,7 @@ var tour = {
 	content: 'We can also find related genes in the phylotree viewer.',
 	target: jQuery("[href='/chado_gene_phylotree_v2/Ca_09040_gene']")[0],
 	placement: 'top',
-	multipage: 'true',
+	multipage: true,
 	onNext: function() {
 		window.location='/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040';}
     }, {

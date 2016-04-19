@@ -15,42 +15,47 @@ var tour = {
     }
   }, {
     title: 'gbrowse',
-    content: 'first gbrowse element! (loading)...',
-    dynamicContent: 'This is the main gbrowse Browser tab',
-    target: 'site-name',
-    dynamicTarget: function() {
+    content: 'This is the main gbrowse Browser tab',
+    target: function() {
       return jQuery('#frameviewer').contents().find('#main_page_select')[0];
     },
     placement: 'bottom',
     yOffset: jQuery('#frameviewer').length ? jQuery('#frameviewer').offset().top : 0,
+    multipage: false,
+    onNext: function() {
+      lisTours.wakeup();
+    },
     onPrev: function() {
       window.location = '/tours';
     },
-    multipage: true,
-    onNext: function() {
-      var next = hopscotch.getCurrStepNum();
-      hopscotch.endTour(false);
-      lisTours.go(TOUR_ID, next);
-    },
   }, {
     title: 'gbrowse continued',
-    content: 'another element in the gbrowse (loading)...',
-    dynamicContent: 'This a gbrowse track.',
+    content: 'This a gbrowse track.',
     placement: 'bottom',
     xOffset: 'center',
     yOffset: jQuery('#frameviewer').length ? jQuery('#frameviewer').offset().top : 0,
-    target: 'site-name',
-    dynamicTarget:  function() {
+    target: function() {
       return jQuery('#frameviewer').contents().find('.track')[0];
     },
-    multipage: false,
+    multipage: true,
     onNext: function() {
       window.location = '/home';
-    }
+    },
+    onPrev: function() {
+      lisTours.wakeup();
+    },
   }, {
     title: 'to be continued...',
     content: 'like a film',
     target: 'site-name',
     placement: 'bottom',
+    onPrev: function() {
+      window.location = GBROWSE_URL;
+    },
   }
-]};
+],
+  showPrevButton: true,
+  onError: function(e) {
+    console.log('error:  ' + e);
+  }
+};

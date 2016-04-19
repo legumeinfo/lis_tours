@@ -14,7 +14,9 @@ var tour = {
       title: 'Phylotree Tour: Gene Contexts',
       content: "Let's say we want to find a specific mungbean gene that codes for a Glutathione S-transferase, isozymes that catalyze glutathione to protect important intracellural proteins and nucleic acids from nonpolar xenobiotic substrates. In other words, the transferase uses the glutathione antioxidant to reduce poisonous hydrogen peroxide levels.",
       placement: 'bottom',
-      target: 'genesearchid',//this id was added personally
+      target: function() {
+	return jQuery("a:contains('Gene Search')")[0];
+      },
       multipage: true, /* indicates the next step is on a different page */
       onNext : function() {
 	window.location = '/search/gene';
@@ -23,7 +25,7 @@ var tour = {
       title: 'Phylotree Tour: Gene Search',
       content: 'Here we would type in our gene\'s description, "Glutathione S-transferase".',
       placement: 'bottom',
-      target: jQuery('#edit-description')[0] || 'site-name',
+      target: 'edit-description',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
 	window.location='/search/gene?name=vigra&description=glutathione%20S-transferase';
@@ -31,14 +33,19 @@ var tour = {
     }, {
       title: 'Phylotree Tour: Gene name',
       content: "We've entered a description and we want to specify that we're interested in Vigna radiata, or mungbean. The short name is 'vigra'.",
-      target: jQuery('#edit-name')[0],
-      placement: 'bottom'
+      target: 'edit-name',
+      placement: 'bottom',
+      onNext: function() {
+	lisTours.wakeup();
+      },
     }, {
       title: 'Phylotree Tour: Find a good chromosome specimen',
       content: "We've put the query in the proper fields. Now we want \
                  to pick a gene and see its  phylogenetic relationships.",
       placement: 'top',
-      target: jQuery("[href='/chado_gene_phylotree_v2/Vradi01g03360.Vradi.ver6']")[0],
+      target: function() {
+	return jQuery("[href='/chado_gene_phylotree_v2/Vradi01g03360.Vradi.ver6']")[0];
+      },
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
 	window.location='/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1';
@@ -47,9 +54,9 @@ var tour = {
     title: 'Phylotree Tour: Phylotree',
     content: 'Please wait, loading tour...',
     placement: 'right',
-    target: 'site-name',
-    dynamicContent : 'Here is our gene again, surrounded by its cousins.',
-    dynamicTarget : function() {
+    content : 'Here is our gene again, surrounded by its cousins.',
+    multipage: false,
+    target : function() {
       /* just looking for .hilite-node here was not going to work. we
        need to use jquery to find the gene of interest. the dom
        element looks like this, according to chrome inspect element:
@@ -77,7 +84,7 @@ var tour = {
   }, {
     title: 'Phylotree Tour: Genomic Contexts',
     content: 'Let us follow the link to the Genomic Context Viewer...',
-    target: jQuery('#phylonode_popup_dialog')[0] || 'site-name',
+    target: 'phylonode_popup_dialog',
     placement: 'right',
     delay: 200, /* the jquery dialog has a 200ms slide animation */
     multipage: true, /* indicates that the next step is on a different page */
@@ -90,5 +97,11 @@ var tour = {
     title : 'Phylotree Tour: To Be Continued...',
     content : '...',
     target : 'site-name',
+    placement: 'bottom',
+    onShow: function() {
+      // dont actually want the user to see this, if they reload page,
+      // for example
+      hopscotch.endTour(true);
+    },
   }
 ]};

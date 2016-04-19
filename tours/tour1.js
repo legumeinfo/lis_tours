@@ -1,17 +1,5 @@
 var tour = {
   'id': 'tour1',
-	
-	function($) {
-	var tourState = hopscotch.getState(tourId);
-	if(tourState !== null && tourState != undefined) {
-		return; }
-	$(document).ready(waitForiFrame);
-console.log("waited for it");
-		function waitForiFrame() {
-		if(!$('#frameviewer').length ||!('$("#frameviewer").contentWindow.document.body.innerHTML').length){
-		setTimeout(waitForiFrame, 2000);
-		return;}}},
-
   'steps' : [ {
     title: 'Welcome to LIS!',
     content: 'Clicking "next" will take you to our homepage.',
@@ -19,82 +7,104 @@ console.log("waited for it");
     target: 'site-name',
     multipage: true,
     onNext: function() {
-      window.location = '/home'}
-}, {
+      window.location = '/home';
+    }
+  }, {
     title: 'QTL Tour: Some guidance',
     content: 'This tour will provide an example for how one could use our tools to improve their crops.',
     placement: 'bottom',
-    target: jQuery("[href='/search/qtl']")[0] || 'site-name',
+    target: function() {
+      return jQuery("[href='/search/qtl']")[0];
+    },
     multipage: true,
     onNext : function() {
       window.location = '/search/qtl';
-    }
-}, {
+    },
+  }, {
     title: 'QTL Tour: QTL Search',
     content: 'In this tour we will begin by searching for a QTL. This is a location on DNA that correlates with a specific phenotypic variance.',
     placement: 'bottom',
     target: 'edit-qtl-symbol',
     multipage: true,
     onNext: function() {
-	window.location='/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_symbol_op=%3D&qtl_symbol=seed_yield';}
-}, {
+      window.location='/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_symbol_op=%3D&qtl_symbol=seed_yield';
+    }
+  }, {
     title: 'QTL Tour: Given: A QTL.',
     content: 'Let\'s look for a "seed yield" QTL.',
-    target: jQuery("[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']")[0] || 'site-name',
+    target: function() {
+      return jQuery("[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']")[0]; 
+    },
     placement: 'bottom',
     multipage: true,
     onNext : function() {
-	window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5';}
-},{
+      window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5';}
+  }, {
     title: 'QTL Tour: The Overview',
     content: "To go straight for the details, the 'details' link can lead you right to this trait's  place on the chromosome.",
     placement: 'top',
-    target: jQuery("[href='?pane=qtl_details']") [0] || 'site-name',
+    target: function() {
+      return jQuery("[href='?pane=qtl_details']")[0];
+    },
     onNext: function() {
-	window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5#pane=qtl_details'}
-},{
+      window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5#pane=qtl_details'}
+  }, {
     title: 'QTL Tour: Nearest Marker',
     content: 'This is the closest identifiable DNA sequence to the gene that contains the seed yield phenotype. Since we know that neighboring alleles tend to be inherited together, we can use markers to find specific traits in chromosomes.',
     placement: 'top',
-    target: jQuery("[href='/node/1360413']")[0] || 'site-name',
+    target: function() {
+      jQuery("[href='/node/1360413']")[0];
+    },
     multipage: true,
     onNext: function() {
-	window.location= '/node/1360783#pane=marker'}
-},{
+      window.location= '/node/1360783#pane=marker'}
+  }, {
     title: 'QTL Tour: Marker Overview',
     content: 'The "Overview" links to articles and descriptions of the marker.To find this marker on the phaseolus map, we can look under "Marker Positions".',
-    target: jQuery("[href='?pane=positions'")[0],
+    target: function() {
+     return jQuery("[href='?pane=positions'")[0];
+    },
     placement: 'bottom',
     multipage: true,
     onNext: function() {
-	window.location='/node/1360783?pane=positions'}
-},{
+      window.location = '/node/1360783?pane=positions';
+    }
+  }, {
     title: 'QTL Tour: Genome Browser',
     content: 'The linked Gbrowse map will show you annotations on the genome',
-    target: jQuery("[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']")[0] || 'site-name',
+    target: function() {
+      return jQuery("[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']")[0];
+    },
     placement: 'top',
     arrowOffset: '220', 
     xOffset: '-200', 
     multipage: true,
     onNext: function() {
-	window.location='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red'; 
-        //function test(){ console.log(jQuery("#frameviewer").contents());}
-	setTimeout(this, [1000]);
-	lisTours.go("tour1", 9);}
-},{
+      window.location = '/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red';
+    }
+  }, {
     title: 'QTL Tour: Gbrowse',
     content: 'Allows you to visualize syntenic relationships between legumes of your choice. The red bar is the lowest flanking marker for "seed yield".',
-    target: jQuery('#frameviewer').contents().find('#track_centromere')[0] || 'site-name',
+    target: function() {
+      return jQuery('#frameviewer').contents().find('#track_centromere')[0];
+    },
+    onNext: function() {
+      lisTours.wakeup();
+    },
     placement: "bottom",
   },{
     title: 'QTL Tour: Tweaking your parameters',
     content: 'There are many ways to change your settings, such as rearranging and adding tracks, zooming in or out, and changing specific visibilities.',
-    target: jQuery("#frameviewer").contents().find(".inner_div[name='track_ace854_My_Track_1_image']")[0],  //(".field-items")[0],
+    target: function() {
+      return jQuery("#frameviewer").contents().find(".inner_div[name='track_ace854_My_Track_1_image']")[0];
+    },
     placement: 'top'
-}  
-
- ],
-showPrevButton: true,
+  }
+],
+  //showPrevButton: true,
+  onError: function(e) {
+    console.log('error: ' + e);
+  },
 };
 
 
