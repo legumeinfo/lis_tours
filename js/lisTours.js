@@ -42,15 +42,16 @@ var lisTours = {};
       clearTimeout(timerId);
     }
   };
-    
+
+  /* wakeup() : a helper function to be used from tour onNext or
+   * onPrev. Use this in the case of dynamic target, and the
+   * window.location is not changing. */ 
   this.wakeup = function() {
     var stepNum = hopscotch.getCurrStepNum();
     that.updateStepTarget(stepNum);
   };
   
-  /* updateStepTarget() : helper function to be used from tour steps'
-     onNext, onPrev callback. Returns the resolved dom element, if
-     any. */
+  /* updateStepTarget() : Returns the resolved target dom element, if any. */
   this.updateStepTarget = function(stepNum) {
     console.log('updateStepTarget() stepNum=' + stepNum);
     var state = hopscotch.getState();
