@@ -47,13 +47,13 @@ var tour = {
       return jQuery("[href='?pane=qtl_details']")[0];
     },
     onNext: function() {
-      window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5#pane=qtl_details'}
+	lisTours.wakeup();}
   }, {
     title: 'QTL Tour: Nearest Marker',
     content: 'This is the closest identifiable DNA sequence to the gene that contains the seed yield phenotype. Since we know that neighboring alleles tend to be inherited together, we can use markers to find specific traits in chromosomes.',
     placement: 'top',
     target: function() {
-      jQuery("[href='/node/1360413']")[0];
+      return jQuery("[href='/node/1360413']")[0];
     },
     multipage: true,
     onNext: function() {
@@ -88,17 +88,31 @@ var tour = {
     target: function() {
       return jQuery('#frameviewer').contents().find('#track_centromere')[0];
     },
+    placement: "top",
     onNext: function() {
       lisTours.wakeup();
-    },
-    placement: "bottom",
+    }
   },{
-    title: 'QTL Tour: Tweaking your parameters',
-    content: 'There are many ways to change your settings, such as rearranging and adding tracks, zooming in or out, and changing specific visibilities.',
+    title: 'QTL Tour: Our track',
+    content: 'Here is the lowest flanking marker, BM199. All the tracks can be dragged to rearrange them.',
     target: function() {
-      return jQuery("#frameviewer").contents().find(".inner_div[name='track_ace854_My_Track_1_image']")[0];
+      return jQuery("#frameviewer").contents().find("#track_0b5f86_My_Track_1_image")[0];
     },
-    placement: 'top'
+    placement: 'top',
+    yOffset: '180',
+    xoffset: '200',
+    onNext: function() {
+	lisTours.wakeup();
+    }
+  }, {
+    title: 'QTL Tour: Settings',
+    content: 'You can choose which tracks to display through the navigation bar.',
+    target: function() {
+	return jQuery("#frameviewer").contents().find("#main_page_select")[0];
+    },
+    placement: 'top',
+    yOffset: '173',
+    xOffset: '200'
   }
 ],
   //showPrevButton: true,

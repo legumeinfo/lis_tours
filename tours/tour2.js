@@ -1,6 +1,6 @@
 var tour = {
-  id: 'tour2',
-  steps : [
+  'id': 'tour2',
+  'steps' : [
     {
       title: 'Phylotree Tour: Welcome to the Legume Information System',
       content: 'Click "next" to go to the Homepage.',

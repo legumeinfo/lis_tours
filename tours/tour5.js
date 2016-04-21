@@ -14,7 +14,7 @@ var tour = {
      },{
 	title: 'Proteins',
 	content: 'We will be starting from the Protein Domains tool. We want to find out more about the domain LysM RLK, a protein that is proposed to control bacterial entry. This is a useful element in the study of the symbiotic relationships of legumes with nitrogen-fixing bacteria.',
-	target: '#proteinid',
+	target: jQuery("a:contains('Protein Domains')")[0],
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
@@ -22,7 +22,7 @@ var tour = {
      },{
 	title: 'Starting Goal',
 	content: "We will input the IPR term, IPR018392, from our gene medtr.Medtr8g078300, which codes for LysM RLK4 to see where it is present in other legume species.",
-	target: '#edit-iprterm',
+	target: 'edit-iprterm',
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
@@ -43,7 +43,7 @@ var tour = {
      },{
 	title: 'Protein Tour: Genes',
 	content: 'Clicking on the gene will take you to the jBrowse page',
-	target: jQuery("[title~='Name']")[0],
+	target: jQuery("[href='/feature/Lotus/japonicus/gene/Lj0g3v0306419']")[0],
 	placement: 'top'
      },{
 	title: 'Protein Tour: Basket',
@@ -62,11 +62,8 @@ var tour = {
 		window.location='/chado_phylotree/phytozome_10_2.59131567?hilite_node=lotja.Lj0g3v0306419.1';}
      },{
 	title: 'Protein Tour: Gene Tree',
-	dynamicContent: 'Here is the gene in a phylogenetic context.',
-	dynamicTarget: function() {
-		return jQuery('.hilite-node')[0];},
-	content: 'Please wait while page loads...',
-	target: 'site-name',
+	content: 'Here is the gene in a phylogenetic context.',
+	target: jQuery('.hilite-node')[0],
 	placement: 'right',
 	yOffset: '-19'
      }

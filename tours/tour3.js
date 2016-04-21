@@ -42,7 +42,7 @@ var tour = {
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
-		window.location='/blast/report/ODQ3#loaded/';}//ODE0# previously
+		window.location='/blast/report/ODE2#loaded/';}//ODE0# previously
     }, { 
 	title: 'BLAST Tour: Results',
 	content: 'The E-value, or expected value, describes the probability that the results are by chance. A lower e-value suggests that the two sequences are more identical, and a "0" suggests that there is no possibility that these are two random sequences, they must be identical.',
@@ -79,12 +79,12 @@ var tour = {
     }, {
 	title: 'BLAST Tour: Our Chickpea Gene',
 	content: 'Searching for gene and gene family information',
-	target: '#edit-name',
+	target: 'edit-name',
 	placement: 'bottom'
     }, {
 	title: 'BLAST Tour: Using the Gene Basket',
 	content: 'Click "Add to Basket" if you would like to save copies of mRNA sequences to compare.',
-	target: jQuery('#add2basket-link-1132520')[0],
+	target: jQuery('add2basket-link-1132520')[0],
 	placement: 'top',
 	arrowOffset: '230',
 	xOffset: '-200'
@@ -100,7 +100,7 @@ var tour = {
 	title: 'BLAST Tour: GBrowse',
 	content: 'Here we can see our chickpea gene and choose tracks to add to the visualization.',
 	delay: '400',
-	target: jQuery('#frameviewer') [0] || 'site-name',
+	target: jQuery('#frameviewer') [0],
 	placement: 'top',
     }, {
 	title: 'BLAST Tour: Let\'s look at some more genes',
@@ -112,11 +112,9 @@ var tour = {
 		window.location='/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040';}
     }, {
 	title: 'BLAST Tour: Family Tree',
-	dynamicContent: 'Here is Ca_09040 next to a closely related barrel medick gene.',
-	dynamicTarget: function() {
+	content: 'Here is Ca_09040 next to a closely related barrel medick gene.',
+	target: function() {
 	  return jQuery('.hilite-node')[0]},
-	content: 'Please wait while page loads...',
-	target: 'site-name',	
 	placement: 'right',
 	yOffset: '-22'
     }
