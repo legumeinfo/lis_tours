@@ -30,20 +30,31 @@ var tour = {
 		window.location='/blast/protein/protein';}
     }, {
 	title: 'BLAST Tour: Begin the Alignment',
-	content: 'We will use a sample sequence, Glyma.02g227200.1 fatty acid desaturase 8.',
-	target: jQuery('#fasta-textarea')[0],
+	content: 'We will be using the sample sequence, so tick the checkbox to display it.',
+	target: jQuery('#edit-example-sequence')[0],
 	placement: 'top',
-	onNext: function() {
-		jQuery('#edit-example-sequence').trigger('click');}
+	showNextButton: false,
+	nextOnTargetClick: true
+	//onNext: function() {
+	//	jQuery('#edit-example-sequence').click();}//trigger('click');}
     }, {
-	title: 'BLAST Tour: Blast it',
-	content: 'Select a database to compare sequence against. We will compare against the chickpea, Cicer arietinum.',
+	title: 'BLAST Tour: Select database',
+	content: 'Select the Cicer arietinum CDC Frontier database to compare sequence against.',
 	target: 'edit-select-db',
 	placement: 'top',
-	multipage: true,
-	onNext: function() {
-		window.location='/blast/report/ODE2#loaded/';}//ODE0# previously
+	nextOnTargetClick: true,
+        showNextButton: false,
+	//onNext: function() {
+	//	window.location='/blast/report/ODE2#loaded/';}
     }, { 
+	title: 'BLAST Tour: Blast it',
+	content: 'Click the "BLAST" button to continue to results.',
+	target: jQuery('#edit-submit')[0],
+	placement: 'bottom',
+	multipage: true,
+        showNextButton: false,
+	nextOnTargetClick: true
+    }, {
 	title: 'BLAST Tour: Results',
 	content: 'The E-value, or expected value, describes the probability that the results are by chance. A lower e-value suggests that the two sequences are more identical, and a "0" suggests that there is no possibility that these are two random sequences, they must be identical.',
 	target: jQuery('.evalue')[0],

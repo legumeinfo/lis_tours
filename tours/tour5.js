@@ -55,7 +55,7 @@ var tour = {
      },{
 	title: 'Protein Tour: Phylotree',
 	content: 'The phytozome link will take you to the phylogeny tree rooted on the PF01476 domain',
-	target: jQuery("[href='/chado_gene_phylotree_v2/Lj0g3v0306419']")[0],
+	target: jQuery("[href='/feature/Lotus/japonicus/gene/Lj0g3v0306419']")[0],
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
