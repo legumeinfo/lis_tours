@@ -2,16 +2,16 @@ var tour = {
   'id': 'tour1',
   'steps' : [ {
     title: 'Welcome to LIS!',
-    content: 'Clicking "next" will take you to our homepage.',
+    content: 'Clicking "next" will take you to our homepage, where the tour will begin.',
     placement: 'bottom',
     target: 'site-name',
     multipage: true,
     onNext: function() {
-      window.location = '/home';
+      window.location = '/';
     }
   }, {
-    title: 'QTL Tour: Some guidance',
-    content: 'This tour will provide an example for how one could use our tools to improve their crops.',
+    title: 'QTL Tour: Getting started',
+    content: 'This tour will provide an example of navigating LIS from the genetic location of a published QTL to the associated region of the annotated genome for the species in which it was found. From the home page, the QTL search can be accessed from this button, but to continue on the tour click "Next".',
     placement: 'bottom',
     target: function() {
       return jQuery("[href='/search/qtl']")[0];
@@ -21,17 +21,20 @@ var tour = {
       window.location = '/search/qtl';
     },
   }, {
-    title: 'QTL Tour: QTL Search',
-    content: 'In this tour we will begin by searching for a QTL. This is a location on DNA that correlates with a specific phenotypic variance.',
+    title: 'QTL Tour: Finding the desired QTL',
+    content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above.',
     placement: 'bottom',
-    target: 'edit-qtl-symbol',
-    multipage: true,
+    target: 'edit-qtl-name',
+    multipage: true,  
+    onShow: function() {
+	jQuery('#edit-qtl-name')[0].value='Seed yield';
+    },
     onNext: function() {
-      window.location='/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_symbol_op=%3D&qtl_symbol=seed_yield';
+      window.location='/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield';
     }
   }, {
-    title: 'QTL Tour: Given: A QTL.',
-    content: 'Let\'s look for a "seed yield" QTL.',
+    title: 'QTL Tour: The list of QTL matching the query',
+    content: 'Let\'s look at the details for a specific "seed yield" QTL.',
     target: function() {
       return jQuery("[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']")[0]; 
     },
@@ -40,24 +43,27 @@ var tour = {
     onNext : function() {
       window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5';}
   }, {
-    title: 'QTL Tour: The Overview',
-    content: "To go straight for the details, the 'details' link can lead you right to this trait's  place on the chromosome.",
+    title: 'QTL Tour: Information about the selected QTL',
+    content: "To go straight for the details, the 'details' link can lead you right to this trait's place on the chromosome.",
     placement: 'top',
     target: function() {
       return jQuery("[href='?pane=qtl_details']")[0];
-    },
+    }, 
     onNext: function() {
+	jQuery("[href='?pane=qtl_details']")[0].click();
 	lisTours.wakeup();}
   }, {
     title: 'QTL Tour: Nearest Marker',
-    content: 'This is the closest identifiable DNA sequence to the gene that contains the seed yield phenotype. Since we know that neighboring alleles tend to be inherited together, we can use markers to find specific traits in chromosomes.',
-    placement: 'top',
+    content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
+    placement: 'bottom',
     target: function() {
-      return jQuery("[href='/node/1360413']")[0];
+      return jQuery("#tripal_feature-table-base > tbody > tr:nth-child(2) > td")[1];
     },
     multipage: true,
     onNext: function() {
-      window.location= '/node/1360783#pane=marker'}
+      jQuery("#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a")[0].click();
+      //window.location= '/feature/Phaseolus/vulgaris/genetic_marker/BM199'}
+    }
   }, {
     title: 'QTL Tour: Marker Overview',
     content: 'The "Overview" links to articles and descriptions of the marker.To find this marker on the phaseolus map, we can look under "Marker Positions".',
@@ -67,7 +73,7 @@ var tour = {
     placement: 'bottom',
     multipage: true,
     onNext: function() {
-      window.location = '/node/1360783?pane=positions';
+      window.location = '/feature/Phaseolus/vulgaris/genetic_marker/BM199?pane=positions';
     }
   }, {
     title: 'QTL Tour: Genome Browser',
