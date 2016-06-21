@@ -22,9 +22,9 @@ var tour = {
 		window.location='/blast';}
     }, {
 	title: 'BLAST Tour: Protein BLAST',
-	content: 'Search the LIS protein database',
+	content: 'Pick the version of the blast algorithm that is appropriate given the type (nucleotide or protein) of input sequence you have and the type ofthe sequences in the database you want to search.  We will use blastp to search one of the LIS protein databases with a protein query sequence.',
 	target: jQuery("[href='/./blast/protein/protein']")[0],
-	placement: 'top',
+	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
 		window.location='/blast/protein/protein';}
@@ -77,7 +77,7 @@ var tour = {
     }, {
 	title: 'BLAST Tour: Target Information',
 	content: 'Clicking the target name will take you to that gene\'s GBrowse page, where you can see its synteny with other legumes.',
-	target: jQuery("[href='/gbrowse_cicar1.0?query=h_feat=Query_1;q=Ca_09040']")[0],
+	target: jQuery("#blast_report > tbody > tr:nth-child(1) > td.hit > a")[0],
 	placement: 'bottom'
     }, {
 	title: 'BLAST Tour: Continuing',
@@ -95,14 +95,14 @@ var tour = {
     }, {
 	title: 'BLAST Tour: Using the Gene Basket',
 	content: 'Click "Add to Basket" if you would like to save copies of mRNA sequences to compare.',
-	target: jQuery('add2basket-link-1132520')[0],
+	target: jQuery('#ajax-link')[0],
 	placement: 'top',
 	arrowOffset: '230',
 	xOffset: '-200'
     }, {
 	title: 'BLAST Tour: Gene Info',
-	content: 'Let us gather some more information on our gene',
-	target: jQuery("[href='/search/gene?name=Ca_09040&abbreviation=All&domains_op=contains&domains=&description_op=word&description=&gene_family_op=%3D&gene_family=&name_op=contains&submit_basket=Add%20all%20genes%20to%20Basket&order=name&sort=desc']")[0],
+	content: 'Let\'s gather some more information on our gene',
+	target: jQuery("#block-system-main > div > div > div.view-content > table > tbody > tr.odd.views-row-first > td.views-field.views-field-name.active > a")[0],
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
@@ -116,7 +116,7 @@ var tour = {
     }, {
 	title: 'BLAST Tour: Let\'s look at some more genes',
 	content: 'We can also find related genes in the phylotree viewer.',
-	target: jQuery("[href='/chado_gene_phylotree_v2/Ca_09040_gene']")[0],
+	target: jQuery("#tripal_feature-table-base > tbody > tr:nth-child(4) > td > a")[0],
 	placement: 'top',
 	multipage: true,
 	onNext: function() {

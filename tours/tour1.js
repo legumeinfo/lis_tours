@@ -102,10 +102,10 @@ var tour = {
     title: 'QTL Tour: Our track',
     content: 'Here is the lowest flanking marker, BM199. All the tracks can be dragged to rearrange them.',
     target: function() {
-      return jQuery("#frameviewer").contents().find("#track_0b5f86_My_Track_1_image")[0];
+      return jQuery("#frameviewer").contents().find("#centromere_image")[0];
     },
     placement: 'top',
-    yOffset: '180',
+    yOffset: '160',
     xoffset: '200',
     onNext: function() {
 	lisTours.wakeup();
@@ -117,7 +117,7 @@ var tour = {
 	return jQuery("#frameviewer").contents().find("#main_page_select")[0];
     },
     placement: 'top',
-    yOffset: '173',
+    yOffset: '155',
     xOffset: '200'
   }
 ],

@@ -13,7 +13,7 @@ var tour = {
 		window.location='/home';}
      },{
 	title: 'Proteins',
-	content: 'We will be starting from the Protein Domains tool. We want to find out more about the domain LysM RLK, a protein that is proposed to control bacterial entry. This is a useful element in the study of the symbiotic relationships of legumes with nitrogen-fixing bacteria.',
+	content: 'We will be starting from the Protein Domains tool. We want to find out more about the domain LysM found in a class of receptor-like kinases, that are proposed to control bacterial entry in signaling pathways relating to pathogen defense and symbiont recognition. This is a useful element in the study of the symbiotic relationships of legumes with nitrogen-fixing bacteria.',
 	target: jQuery("a:contains('Protein Domains')")[0],
 	placement: 'bottom',
 	multipage: true,
@@ -21,15 +21,21 @@ var tour = {
 		window.location='/search/protein_domains';}
      },{
 	title: 'Starting Goal',
-	content: "We will input the IPR term, IPR018392, from our gene medtr.Medtr8g078300, which codes for LysM RLK4 to see where it is present in other legume species.",
-	target: 'edit-iprterm',
+	content: "We will input the domain name LysM from our gene medtr.Medtr8g078300, which codes for LysM RLK4 to see where it is present in other legume species.",
+	target: 'edit-cvterm-name',
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/search/protein_domains?IPRterm=IPR018392';}
+		window.location='/search/protein_domains?cvterm_name=LysM';}
+     },{
+	title: 'Protein Tour: Interpro',
+	content: 'We\'ve gotten matches from two protein domain databases, but both belong to the same Interpro classification.',
+	//target: jQuery("#block-system-main > div > div > div.view-content > table > thead > tr > th.views-field.views-field-IPRterm")[0],
+	target: jQuery("th.views-field.views-field-IPRterm")[0],
+	placement: 'top'
      },{
 	title: 'Protein Tour: More Genes',
-	content: 'We will look for occurances of this domain in Lotus Japonicus.',
+	content: 'We will look for occurrences of this domain in Lotus japonicus.',
 	target: jQuery("[title~='Lotja']")[0],
 	placement: 'top',
 	multipage: true,
@@ -42,13 +48,13 @@ var tour = {
 	placement: 'top'
      },{
 	title: 'Protein Tour: Genes',
-	content: 'Clicking on the gene will take you to the jBrowse page',
-	target: jQuery("[href='/feature/Lotus/japonicus/gene/Lj0g3v0306419']")[0],
+	content: 'Clicking on the gene will take you to the gene details page, where you can see the structure of the gene in its genomic context.',
+	target: jQuery("[href='/feature/Lotus/japonicus/gene/Lj0g3v0306419']")[0] || jQuery("#block-system-main > div > div > div.view-content > table > tbody > tr:nth-child(7) > td.views-field.views-field-name.active > a"),
 	placement: 'top'
      },{
 	title: 'Protein Tour: Basket',
 	content: 'By adding the gene to the basket you can access its mRNA and polypeptide sequence.',
-	target: jQuery("[href='/basket/add/4468488/nojs/?destination=search/gene%3Fabbreviation%3Dlotja%26domains%3DPF01476']")[0],
+	target: jQuery("[href='/basket/add/4468488/nojs/?destination=search/gene%3Fabbreviation%3Dlotja%26domains%3DPF01476']")[0] || jQuery("#ajax-link--7"),
 	placement: 'top',
 	xOffset: '-200',
 	arrowOffset: '230'

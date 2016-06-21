@@ -12,7 +12,7 @@ var tour = {
       }
     }, {
       title: 'Phylotree Tour: Gene Contexts',
-      content: "Let's say we want to find a specific mungbean gene that codes for a Glutathione S-transferase, isozymes that catalyze glutathione to protect important intracellural proteins and nucleic acids from nonpolar xenobiotic substrates. In other words, the transferase uses the glutathione antioxidant to reduce poisonous hydrogen peroxide levels.",
+      content: "Let's say we want to find genes described as having a particular function.",
       placement: 'bottom',
       target: function() {
 	return jQuery("a:contains('Gene Search')")[0];
@@ -23,28 +23,46 @@ var tour = {
       }
     }, {
       title: 'Phylotree Tour: Gene Search',
-      content: 'Here we would type in our gene\'s description, "Glutathione S-transferase".',
+      content: 'Here we would type in our gene\'s expected description',
       placement: 'bottom',
       target: 'edit-description',
+      onShow: function() {
+          jQuery('#edit-description')[0].value='gamma-glutamyl transpeptidase';
+      },
+    }, {
+      title: 'Phylotree Tour: Gene Search',
+      content: 'Then click "Apply" to apply the specified filter to the genes in the result.',
+      placement: 'bottom',
+      target: '#edit-submit-gene',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
-	window.location='/search/gene?name=vigra&description=glutathione%20S-transferase';
+          jQuery('#edit-submit-gene')[0].click();
       }
     }, {
-      title: 'Phylotree Tour: Gene name',
-      content: "We've entered a description and we want to specify that we're interested in Vigna radiata, or mungbean. The short name is 'vigra'.",
-      target: 'edit-name',
-      placement: 'bottom',
-      onNext: function() {
-	lisTours.wakeup();
+      title: 'Phylotree Tour: Species',
+      content: "We've gotten results back for all species with annotated genomes in LIS. Supposing we are initially interested in the genes from Vigna radiata (mungbean), we would specify the five-letter species abbreviation 'vigra', composed of the first three letters of the genus and the first two letters of the species component of the scientific name.",
+      onShow: function() {
+          jQuery("#edit-abbreviation")[0].value='vigra';
       },
+      target: 'edit-abbreviation',
+      placement: 'bottom',
+    }, {
+    }, {
+      title: 'Phylotree Tour: Gene Search',
+      content: 'Again click "Apply" to apply the added filter to the genes in the result.',
+      placement: 'bottom',
+      target: '#edit-submit-gene',
+      multipage: true, /* indicates the next step is on a different page */
+      onNext: function() {
+          jQuery('#edit-submit-gene')[0].click();
+      }
     }, {
       title: 'Phylotree Tour: Find a good chromosome specimen',
       content: "We've put the query in the proper fields. Now we want \
                  to pick a gene and see its  phylogenetic relationships.",
       placement: 'top',
       target: function() {
-	return jQuery("[href='/chado_gene_phylotree_v2/Vradi01g03360.Vradi.ver6']")[0];
+	return jQuery("#block-system-main > div > div > div.view-content > table > tbody > tr.odd.views-row-first > td.views-field.views-field-gene-family > a")[0];
       },
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
