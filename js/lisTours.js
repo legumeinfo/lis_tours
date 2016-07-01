@@ -141,10 +141,12 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
     }
     
     Cookies.set(COOKIE_ID, tourId, { expires: 365 });
+    tour = null;
     var url = '/lis-tours/' + tourId + '/js';
-    
-    jQuery.getScript(url, function() {
-      
+    jQuery.getScript(url, that.tourLoaded);
+  };
+
+  this.tourLoaded = function() {
       if(! tour) {
 	throw 'failed to load tour: ' + tourId;
       }
@@ -167,19 +169,17 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
 	  that.cleanup();
 	  throw 'error: exceeded max wait ms for target';
 	}
-	timerId = setTimeout(function() {
-	  that.go(tourId);
-	}, WAIT_MS);
+	timerId = setTimeout(that.tourLoaded, WAIT_MS);
 	return;
       }
       if(LOGGING) {
 	console.log('starting tour with dom element: ');
 	console.log(el)
       }
-      hopscotch.startTour(tour, 0);
-    });
-  }
-
+      hopscotch.startTour(tour);
+  };
+  
+  
   this.navigating = false;
     
   /* location() - a wrapper for window location */
@@ -202,7 +202,9 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
     if(LOGGING) {
       console.log(this.tourId);
     }
-    this.go(this.tourId);
+    tour = null;
+    var url = '/lis-tours/' + that.tourId + '/js';
+    jQuery.getScript(url, that.tourLoaded);    
   }
   else {
     if(LOGGING) {
