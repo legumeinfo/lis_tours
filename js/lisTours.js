@@ -121,9 +121,8 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
     return el;
   };
   
-  /* go(): resume the tourId at a specific step number (default is to
-     resume) */
-  this.go = function(tourId, stepNum) {
+  /* go(): start a tour at step zero. Will cancel previous tour, if any. */
+  this.go = function(tourId) {
 
     if(timerId) {
       clearTimeout(timerId);
@@ -133,54 +132,32 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
     that.tourId = tourId;
 
     if(LOGGING) {
-      console.log('lisTours.go(' + tourId + ', ' + stepNum + ')');
+      console.log('lisTours.go(' + tourId +')');
     }
 
     // check if hopscotch is in agreement about the current tourid
-    var state = hopscotch.getState();
-    if(state) {
-
-      if(LOGGING) {
-	console.log('current hopsotch state: '+ state);
-      }
-      var parts = state.split(':');
-      if(parts[0] !== tourId) {
-	// end previous tour
-	try { hopscotch.endTour(true);  } catch(e) {}
-      }
-      if(stepNum === undefined) {
-	// extract the stepNum from the state object
-	stepNum = parseInt(state.split(':')[1]);
-	if(LOGGING) {
-	  console.log('resuming at step n=' + stepNum);
-	}
-      }
-      if(stepNum === undefined) {
-	throw 'failed to resolve stepNum';
-      }
-    }
-    else {
-      stepNum = 0;
+    if(hopscotch.getState()) {
+      try { hopscotch.endTour(true);  } catch(e) {}
     }
     
     Cookies.set(COOKIE_ID, tourId, { expires: 365 });
     var url = '/lis-tours/' + tourId + '/js';
+    
     jQuery.getScript(url, function() {
       
       if(! tour) {
 	throw 'failed to load tour: ' + tourId;
       }
-      if(LOGGING) {
-	console.log(tour);
-      }
-      
       // force the tour to cleanup so user does not see tour re-appear
       // upon every page load.
       tour.onClose = that.cleanup;
       tour.onEnd = that.cleanup;
 
-      var el = that.updateStepTarget();
+      if(LOGGING) {
+	console.log(tour);
+      }
       
+      var el = that.updateStepTarget();
       // if target could not be resolved, check again after wait,
       // until the max wait time.
       if(! el) {
@@ -190,18 +167,37 @@ var lisTours = {}; /* the tour wrapper/launcher, created by this module */
 	  that.cleanup();
 	  throw 'error: exceeded max wait ms for target';
 	}
-	timerId = setTimeout(function() { that.go(tourId, stepNum); },
-			     WAIT_MS);
+	timerId = setTimeout(function() {
+	  that.go(tourId);
+	}, WAIT_MS);
 	return;
       }
       if(LOGGING) {
 	console.log('starting tour with dom element: ');
 	console.log(el)
       }
-      hopscotch.startTour(tour, stepNum);
+      hopscotch.startTour(tour, 0);
     });
   }
+
+  this.navigating = false;
     
+  /* location() - a wrapper for window location */
+  this.location = function(url) {
+    that.navigating = true;
+    window.location = url;
+  };
+
+  jQuery(window).unload( function() {
+    if(! tour) {
+      return; // there is no tour, so do nothing
+    }
+    if(that.navigating) {
+      return; // the tour requested a new url, so don't cleanup
+    }
+    that.cleanup();
+  });
+  
   if(this.tourId !== undefined) {
     if(LOGGING) {
       console.log(this.tourId);
