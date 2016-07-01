@@ -11,7 +11,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red';
+	  lisTours.location('/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red');
 		console.log(hopscotch.getCurrStepNum());
 		function waitForifrm(){
 		var iframe = document.getElementById('#frameviewer'),

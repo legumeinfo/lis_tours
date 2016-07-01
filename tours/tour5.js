@@ -10,7 +10,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/home';}
+	  lisTours.location('/home');}
      },{
 	title: 'Proteins',
 	content: 'We will be starting from the Protein Domains tool. We want to find out more about the domain LysM found in a class of receptor-like kinases, that are proposed to control bacterial entry in signaling pathways relating to pathogen defense and symbiont recognition. This is a useful element in the study of the symbiotic relationships of legumes with nitrogen-fixing bacteria.',
@@ -18,7 +18,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/search/protein_domains';}
+	  lisTours.location('/search/protein_domains');}
      },{
 	title: 'Starting Goal',
 	content: "We will input the domain name LysM from our gene medtr.Medtr8g078300, which codes for LysM RLK4 to see where it is present in other legume species.",
@@ -26,7 +26,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/search/protein_domains?cvterm_name=LysM';}
+	  lisTours.location('/search/protein_domains?cvterm_name=LysM');}
      },{
 	title: 'Protein Tour: Interpro',
 	content: 'We\'ve gotten matches from two protein domain databases, but both belong to the same Interpro classification.',
@@ -40,7 +40,7 @@ var tour = {
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
-		window.location='/search/gene?abbreviation=lotja&domains=PF01476';}
+	  lisTours.location('/search/gene?abbreviation=lotja&domains=PF01476');}
      },{
 	title: 'Protein Tour: Lotja genes',
 	content: 'Here you can pick which combination of proteins in the lotus you would like to further inspect.',
@@ -65,7 +65,7 @@ var tour = {
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
-		window.location='/chado_phylotree/phytozome_10_2.59131567?hilite_node=lotja.Lj0g3v0306419.1';}
+	  lisTours.location('/chado_phylotree/phytozome_10_2.59131567?hilite_node=lotja.Lj0g3v0306419.1');}
      },{
 	title: 'Protein Tour: Gene Tree',
 	content: 'Here is the gene in a phylogenetic context.',

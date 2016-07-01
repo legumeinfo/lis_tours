@@ -8,7 +8,7 @@ var tour = {
       target: 'site-name',
       multipage: true,
       onNext: function() {
-	window.location = '/';
+	lisTours.location('/');
       }
     },
     {
@@ -18,7 +18,7 @@ var tour = {
       target: 'site-name',
       multipage: true,
       onNext: function() {
-	window.location = '/germplasm/map';
+	lisTours.location('/germplasm/map');
       }
     },
     {
@@ -30,7 +30,7 @@ var tour = {
       },
       multipage: true,
       onNext: function() {
-	window.location = '/';
+	lisTours.location('/');
       }
     },
     {

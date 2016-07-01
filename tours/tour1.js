@@ -7,7 +7,7 @@ var tour = {
     target: 'site-name',
     multipage: true,
     onNext: function() {
-      window.location = '/';
+      lisTours.location('/');
     }
   }, {
     title: 'QTL Tour: Getting started',
@@ -18,7 +18,7 @@ var tour = {
     },
     multipage: true,
     onNext : function() {
-      window.location = '/search/qtl';
+      lisTours.location('/search/qtl');
     },
   }, {
     title: 'QTL Tour: Finding the desired QTL',
@@ -30,7 +30,7 @@ var tour = {
 	jQuery('#edit-qtl-name')[0].value='Seed yield';
     },
     onNext: function() {
-      window.location='/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield';
+      lisTours.location('/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield');
     }
   }, {
     title: 'QTL Tour: The list of QTL matching the query',
@@ -41,7 +41,8 @@ var tour = {
     placement: 'bottom',
     multipage: true,
     onNext : function() {
-      window.location = '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5';}
+      lisTours.location('/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5');
+    }
   }, {
     title: 'QTL Tour: Information about the selected QTL',
     content: "To go straight for the details, the 'details' link can lead you right to this trait's place on the chromosome.",
@@ -62,7 +63,7 @@ var tour = {
     multipage: true,
     onNext: function() {
       jQuery("#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a")[0].click();
-      //window.location= '/feature/Phaseolus/vulgaris/genetic_marker/BM199'}
+      //lisTours.location('/feature/Phaseolus/vulgaris/genetic_marker/BM199')}
     }
   }, {
     title: 'QTL Tour: Marker Overview',
@@ -73,7 +74,7 @@ var tour = {
     placement: 'bottom',
     multipage: true,
     onNext: function() {
-      window.location = '/feature/Phaseolus/vulgaris/genetic_marker/BM199?pane=positions';
+      lisTours.location('/feature/Phaseolus/vulgaris/genetic_marker/BM199?pane=positions');
     }
   }, {
     title: 'QTL Tour: Genome Browser',
@@ -86,7 +87,7 @@ var tour = {
     xOffset: '-200', 
     multipage: true,
     onNext: function() {
-      window.location = '/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red';
+      lisTours.location('/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red');
     }
   }, {
     title: 'QTL Tour: Gbrowse',

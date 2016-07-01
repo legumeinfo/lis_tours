@@ -11,7 +11,7 @@ var tour = {
 	placement: 'right',
 	multipage: true,
 	onNext: function() {
-		window.location='/home';}
+	  lisTours.location('/home');}
      }, {
 	title: 'BLAST Tour: Search your sequence against our database',
 	content: 'We have BLAST on our webpage for your legume-browsing convenience.',
@@ -19,7 +19,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/blast';}
+	  lisTours.location('/blast');}
     }, {
 	title: 'BLAST Tour: Protein BLAST',
 	content: 'Pick the version of the blast algorithm that is appropriate given the type (nucleotide or protein) of input sequence you have and the type ofthe sequences in the database you want to search.  We will use blastp to search one of the LIS protein databases with a protein query sequence.',
@@ -27,7 +27,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/blast/protein/protein';}
+	  lisTours.location('/blast/protein/protein');}
     }, {
 	title: 'BLAST Tour: Begin the Alignment',
 	content: 'We will be using the sample sequence, so tick the checkbox to display it.',
@@ -45,7 +45,7 @@ var tour = {
 	nextOnTargetClick: true,
         showNextButton: false,
 	//onNext: function() {
-	//	window.location='/blast/report/ODE2#loaded/';}
+	//	lisTours.location()='/blast/report/ODE2#loaded/';}
     }, { 
 	title: 'BLAST Tour: Blast it',
 	content: 'Click the "BLAST" button to continue to results.',
@@ -86,7 +86,7 @@ var tour = {
 	placement: 'bottom',
 	multipage: true,
 	onNext: function() {
-		window.location='/search/gene?name=Ca_09040';}
+	  lisTours.location('/search/gene?name=Ca_09040');}
     }, {
 	title: 'BLAST Tour: Our Chickpea Gene',
 	content: 'Searching for gene and gene family information',
@@ -106,7 +106,7 @@ var tour = {
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
-		window.location='/feature/Cicer/arietinum/gene/Ca_09040_gene';}
+	  lisTours.location('/feature/Cicer/arietinum/gene/Ca_09040_gene');}
     }, {
 	title: 'BLAST Tour: GBrowse',
 	content: 'Here we can see our chickpea gene and choose tracks to add to the visualization.',
@@ -120,7 +120,7 @@ var tour = {
 	placement: 'top',
 	multipage: true,
 	onNext: function() {
-		window.location='/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040';}
+	  lisTours.location('/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040');}
     }, {
 	title: 'BLAST Tour: Family Tree',
 	content: 'Here is Ca_09040 next to a closely related barrel medick gene.',

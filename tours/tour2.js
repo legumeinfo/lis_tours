@@ -8,7 +8,7 @@ var tour = {
       target: 'site-name',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
-	window.location = '/home';
+	lisTours.location('/home');
       }
     }, {
       title: 'Phylotree Tour: Gene Contexts',
@@ -19,7 +19,7 @@ var tour = {
       },
       multipage: true, /* indicates the next step is on a different page */
       onNext : function() {
-	window.location = '/search/gene';
+	lisTours.location('/search/gene');
       }
     }, {
       title: 'Phylotree Tour: Gene Search',
@@ -66,7 +66,7 @@ var tour = {
       },
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
-	window.location='/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1';
+	lisTours.location('/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1');
     }
   }, {
     title: 'Phylotree Tour: Phylotree',
@@ -107,7 +107,7 @@ var tour = {
     delay: 200, /* the jquery dialog has a 200ms slide animation */
     multipage: true, /* indicates that the next step is on a different page */
     onNext: function() {
-      window.location='/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome';
+      lisTours.location('/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome');
     }
   }, {
     // this is a placeholder step to prevent the 'Finish' button from
