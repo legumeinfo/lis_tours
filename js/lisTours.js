@@ -8,18 +8,26 @@
   - allow dynamically evaluated tour step targets.
   - remove the cookie when tour ends.
 
+  Usage: lisTours.go('tour2');
+
   requirements:
 
-  hopscotch.js and css : cdnjs.cloudflare.com/ajax/libs/hopscotch...
-  js.cookie : cdnjs.cloudflare.com/ajax/libs/js-cookie...
+  hopscotch.js and CSS : cdnjs.cloudflare.com/ajax/libs/hopscotch
+  js.cookie : cdnjs.cloudflare.com/ajax/libs/js-cookie
+  jQuery : cdnjs.cloudflare.com/ajax/libs/jquery or use drupal jquery
   
  */
 
-var lisTours = {};
+var tour = null; /* the tour scripts load into a global var named tour */
+var lisTours = {}; /* the tour wrapper/launcher, created by this module */
 
 (function(){
 
-  console.log('lisTours.js loading');
+  var LOGGING = true;
+
+  if(LOGGING) {
+    console.log('lisTours.js loading');
+  }
   
   var that = this;
   var WAIT_MS = 100;
@@ -36,10 +44,17 @@ var lisTours = {};
 
   this.cleanup = function() {
     // prevent tour from re-appearing on every page load!
+    if(LOGGING) {
+      console.log('cleanup() removing cookie ' + COOKIE_ID);
+    }
     Cookies.remove(COOKIE_ID);
     if(timerId) {
-      // stop wait for taret
+      if(LOGGING) {
+	console.log('cleanup() clearing timer id');
+      }
+      // stop wait for target
       clearTimeout(timerId);
+      timerId = null;
     }
   };
 
@@ -53,7 +68,9 @@ var lisTours = {};
   
   /* updateStepTarget() : Returns the resolved target dom element, if any. */
   this.updateStepTarget = function(stepNum) {
-    console.log('updateStepTarget() stepNum=' + stepNum);
+    if(LOGGING) {
+      console.log('updateStepTarget() stepNum=' + stepNum);
+    }
     var state = hopscotch.getState();
     if(state) {
       var parts = state.split(':');
@@ -76,7 +93,9 @@ var lisTours = {};
       // string should be an id of dom element.
       var el = jQuery('#'+target)[0];
       if(! el) {
-	console.log('waiting for target id: ' +target);
+	if(LOGGING) {
+	  console.log('waiting for target id: ' +target);
+	}
       }
       break;
     case 'function':
@@ -87,8 +106,10 @@ var lisTours = {};
 	step.target = el;
       }
       else {
-	console.log('waiting for target callback fn:');
-	console.log(target);
+	if(LOGGING) {
+	  console.log('waiting for target callback fn:');
+	  console.log(target);
+	}
       }
       break;
     case 'object':
@@ -104,14 +125,24 @@ var lisTours = {};
      resume) */
   this.go = function(tourId, stepNum) {
 
-    that.tourId = tourId;
+    if(timerId) {
+      clearTimeout(timerId);
+      timerId = null;
+    }
     
-    console.log('lisTours.go(' + tourId + ', ' + stepNum + ')');
+    that.tourId = tourId;
+
+    if(LOGGING) {
+      console.log('lisTours.go(' + tourId + ', ' + stepNum + ')');
+    }
 
     // check if hopscotch is in agreement about the current tourid
     var state = hopscotch.getState();
     if(state) {
-      console.log('current hopsotch state: '+ state);
+
+      if(LOGGING) {
+	console.log('current hopsotch state: '+ state);
+      }
       var parts = state.split(':');
       if(parts[0] !== tourId) {
 	// end previous tour
@@ -120,7 +151,9 @@ var lisTours = {};
       if(stepNum === undefined) {
 	// extract the stepNum from the state object
 	stepNum = parseInt(state.split(':')[1]);
-	console.log('resuming at step n=' + stepNum);
+	if(LOGGING) {
+	  console.log('resuming at step n=' + stepNum);
+	}
       }
       if(stepNum === undefined) {
 	throw 'failed to resolve stepNum';
@@ -137,7 +170,9 @@ var lisTours = {};
       if(! tour) {
 	throw 'failed to load tour: ' + tourId;
       }
-      console.log(tour);
+      if(LOGGING) {
+	console.log(tour);
+      }
       
       // force the tour to cleanup so user does not see tour re-appear
       // upon every page load.
@@ -159,18 +194,24 @@ var lisTours = {};
 			     WAIT_MS);
 	return;
       }
-      console.log('starting tour with dom element: ');
-      console.log(el)
+      if(LOGGING) {
+	console.log('starting tour with dom element: ');
+	console.log(el)
+      }
       hopscotch.startTour(tour, stepNum);
     });
   }
     
   if(this.tourId !== undefined) {
-    console.log(this.tourId);
+    if(LOGGING) {
+      console.log(this.tourId);
+    }
     this.go(this.tourId);
   }
   else {
-    console.log('no tourId');
+    if(LOGGING) {
+      console.log('no tourId');
+    }
   }
 
 }.call(lisTours));
