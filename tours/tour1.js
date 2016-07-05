@@ -69,7 +69,7 @@ var tour = {
     title: 'QTL Tour: Marker Overview',
     content: 'The "Overview" links to articles and descriptions of the marker.To find this marker on the phaseolus map, we can look under "Marker Positions".',
     target: function() {
-     return jQuery("[href='?pane=positions'")[0];
+     return jQuery("[href='?pane=positions']")[0];
     },
     placement: 'bottom',
     multipage: true,
