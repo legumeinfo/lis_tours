@@ -6,26 +6,23 @@ var tour = new Tour({
     title: 'Welcome to LIS!',
     content: 'Clicking "next" will take you to our homepage, where the tour will begin.',
     placement: 'bottom',
-    element: 'site-name',
-    onNext: function() {
-      lisTours.location('/');
-    }
+    element: '#site-name',
   }, {
     title: 'QTL Tour: Getting started',
     content: 'This tour will provide an example of navigating LIS from the genetic location of a published QTL to the associated region of the annotated genome for the species in which it was found. From the home page, the QTL search can be accessed from this button, but to continue on the tour click "Next".',
+    path: '/',
     placement: 'bottom',
     element: "[href='/search/qtl']",
-    path: '/search/qtl',
   }, {
     title: 'QTL Tour: Finding the desired QTL',
     content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above.',
     placement: 'bottom',
-    element: 'edit-qtl-name',
+    element: '#edit-qtl-name',
     onShow: function() {
-	jQuery('#edit-qtl-name')[0].value='Seed yield';
+      jQuery('#edit-qtl-name')[0].value='Seed yield';
     },
     onNext: function() {
-      lisTours.location('/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield');
+      path: '/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield'
     }
   }, {
     title: 'QTL Tour: The list of QTL matching the query',
