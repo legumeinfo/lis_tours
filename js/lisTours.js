@@ -6,15 +6,28 @@
 
 var lisTours = {}; /* the lisTours wrapper/launcher, created by this module */
 
-console.log('jQuery version outside lisTours: ' + jQuery.fn.jquery);
+
+if(jQuery) {
+  //console.log('jQuery version: ' + jQuery.fn.jquery);
+
+  console.log('_jquery version: ' +_jquery.fn.jquery);
+  console.log('jQuery version: ' + jQuery.fn.jquery);  
+}
+
+if($) {
+  console.log('$ version: ' + $.fn.jquery);
+}
 
 (function(){
   var that = this;
-  var $ = jQuery = require('jquery');
+  var jQuery = $;
+  var _jquery = require('jquery').noConflict(true);
+  var bootstrapTour = require('../node_modules/build/js/bootstrap-tour-standalone.js');
+  var tour = require('../tours/tour1.js');
   
-  console.log('jQuery version inside lisTours: ' + jQuery.fn.jquery);
-  console.log('jQuery version inside lisTours: ' + $.fn.jquery);
-
+  console.log('$ version in lisTours: '+ $.fn.jquery);
+  console.log('jQuery version in lisTours: ' + jQuery.fn.jquery);    
+  
   this.go = function(tourId) {
     var url = '/lis-tours/'+ tourId + '/js';
     jQuery.getScript(url, that.tourLoaded);
@@ -32,9 +45,7 @@ console.log('jQuery version outside lisTours: ' + jQuery.fn.jquery);
       var force = true;
       tour.start(force);
     }
-  };
-  
+  };  
 }.call(lisTours));
 
-console.log('jQuery version outside lisTours, after require(): ' +
-	    jQuery.fn.jquery);
+lisTours.tourLoaded();

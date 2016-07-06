@@ -1,11 +1,3 @@
-
-var tour = null; /* the tour loads into a global var named tour. */
-
-(function(jQuery) {
-  console.log(jQuery.fn.jquery);
-  var that = this;
-}.call(tour, lisToursJqueryNoConflict));
-
 var tour = new Tour({
   name: 'tour1',
   debug: true,
@@ -122,3 +114,4 @@ var tour = new Tour({
   }
 ],
 });
+module.exports = tour;

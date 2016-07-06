@@ -9,32 +9,8 @@
 
 $my_path = drupal_get_path('module', 'lis_hopscotch_tours');
 
-// drupal_add_css(
-//     '//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/css/bootstrap-tour-standalone.min.css',
-//     array(
-//         'type' => 'external',
-//         'group' => JS_LIBRARY,
-//     )
-// );
-
 // drupal_add_js(
-//     $my_path . '/js/jquery-noconflict-3.0.0.min.js',
-//     array(
-//         'type' => 'file',
-//         'group' => JS_LIBRARY,
-//     )
-// );
-
-// drupal_add_js(
-//     '//cdnjs.cloudflare.com/ajax/libs/bootstrap-tour/0.10.3/js/bootstrap-tour-standalone.js',
-//     array(
-//         'type' => 'external',
-//         'group' => JS_LIBRARY,
-//     )
-// );
-
-// drupal_add_js(
-//     $my_path . '/js/lisTours.js',
+//     $my_path . '/js/bundle.js',
 //     array(
 //         'type' => 'file',
 //         'group' => JS_DEFAULT,
