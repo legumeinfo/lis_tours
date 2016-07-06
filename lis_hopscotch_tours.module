@@ -1,7 +1,7 @@
 <?php
 /* 
- * Drupal 7 - inject our javascript and CSS everywhere using
- *   drupal_add_js() and drupal_add_css().
+ * Drupal 7 - inject our javascript and CSS bundle everywhere using
+ *   drupal_add_js().
  *
  * Drupal 8 - one would rewrite this to use an asset libraries:
  *   https://www.drupal.org/node/2216195
@@ -9,33 +9,10 @@
 
 $my_path = drupal_get_path('module', 'lis_hopscotch_tours');
 
-// drupal_add_js(
-//     $my_path . '/js/bundle.js',
-//     array(
-//         'type' => 'file',
-//         'group' => JS_DEFAULT,
-//     )
-// );
-
-
-/**
- * Implements hook_menu().
- */
-function lis_hopscotch_tours_menu() {
-    $items['lis-tours/%/js'] = array(
-        'page callback' => 'lis_hopscotch_tours_js_endpoint',
-        'page arguments' => array(1),
-        'access callback' => TRUE, // allow anonymous http            
-    );
-    return $items;    
-}
-
-// send requested javascript tour back to client
-function lis_hopscotch_tours_js_endpoint($tourId) {
-    $my_path = drupal_get_path('module', 'lis_hopscotch_tours');
-    $file = "$my_path/tours/$tourId.js";
-    drupal_add_http_header('Content-Type', 'application/javascript');
-    readfile($file);
-    drupal_exit();    
-}
-
+drupal_add_js(
+    $my_path . '/build/bundle.js',
+    array(
+        'type' => 'file',
+        'group' => JS_DEFAULT,
+    )
+);

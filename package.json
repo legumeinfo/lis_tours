@@ -2,13 +2,14 @@
   "name": "lis_tours",
   "version": "1.0.0",
   "description": "A Drupal7 module for multi-page hopscotch tours (http://linkedin.github.io/hopscotch/)",
-  "main": "js/lisTours.js",
+  "main": "js/index.js",
   "dependencies": {
     "bootstrap-tour": "^0.10.3",
     "jquery": "^3.0.0"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
+    "imports-loader": "^0.6.5",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1"
   },
@@ -19,8 +20,8 @@
     "type": "git",
     "url": "git+https://github.com/ncgr/lis_hopscotch_tours.git"
   },
-  "author": "agr",
-  "license": "ISC",
+  "author": "Alex Rice <agr@ncgr.org>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/ncgr/lis_hopscotch_tours/issues"
   },

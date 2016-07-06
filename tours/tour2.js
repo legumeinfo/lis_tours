@@ -1,11 +1,13 @@
-var tour = {
-  'id': 'tour2',
-  'steps' : [
+var tour = new Tour({
+  name: 'tour2',
+  debug: true,
+  orphan: true,
+  steps : [
     {
       title: 'Phylotree Tour: Welcome to the Legume Information System',
       content: 'Click "next" to go to the Homepage.',
       placement: 'bottom',
-      target: 'site-name',
+      element: 'site-name',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
 	lisTours.location('/home');
@@ -14,7 +16,7 @@ var tour = {
       title: 'Phylotree Tour: Gene Contexts',
       content: "Let's say we want to find genes described as having a particular function.",
       placement: 'bottom',
-      target: function() {
+      element: function() {
 	return jQuery("a:contains('Gene Search')")[0];
       },
       multipage: true, /* indicates the next step is on a different page */
@@ -25,7 +27,7 @@ var tour = {
       title: 'Phylotree Tour: Gene Search',
       content: 'Here we would type in our gene\'s expected description',
       placement: 'bottom',
-      target: 'edit-description',
+      element: 'edit-description',
       onShow: function() {
           jQuery('#edit-description')[0].value='gamma-glutamyl transpeptidase';
       },
@@ -33,7 +35,7 @@ var tour = {
       title: 'Phylotree Tour: Gene Search',
       content: 'Then click "Apply" to apply the specified filter to the genes in the result.',
       placement: 'bottom',
-      target: '#edit-submit-gene',
+      element: '#edit-submit-gene',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
           jQuery('#edit-submit-gene')[0].click();
@@ -44,14 +46,14 @@ var tour = {
       onShow: function() {
           jQuery("#edit-abbreviation")[0].value='vigra';
       },
-      target: 'edit-abbreviation',
+      element: 'edit-abbreviation',
       placement: 'bottom',
     }, {
     }, {
       title: 'Phylotree Tour: Gene Search',
       content: 'Again click "Apply" to apply the added filter to the genes in the result.',
       placement: 'bottom',
-      target: '#edit-submit-gene',
+      element: '#edit-submit-gene',
       multipage: true, /* indicates the next step is on a different page */
       onNext: function() {
           jQuery('#edit-submit-gene')[0].click();
@@ -61,7 +63,7 @@ var tour = {
       content: "We've put the query in the proper fields. Now we want \
                  to pick a gene and see its  phylogenetic relationships.",
       placement: 'top',
-      target: function() {
+      element: function() {
 	return jQuery("#block-system-main > div > div > div.view-content > table > tbody > tr.odd.views-row-first > td.views-field.views-field-gene-family > a")[0];
       },
       multipage: true, /* indicates the next step is on a different page */
@@ -74,7 +76,7 @@ var tour = {
     placement: 'right',
     content : 'Here is our gene again, surrounded by its cousins.',
     multipage: false,
-    target : function() {
+    element : function() {
       /* just looking for .hilite-node here was not going to work. we
        need to use jquery to find the gene of interest. the dom
        element looks like this, according to chrome inspect element:
@@ -102,7 +104,7 @@ var tour = {
   }, {
     title: 'Phylotree Tour: Genomic Contexts',
     content: 'Let us follow the link to the Genomic Context Viewer...',
-    target: 'phylonode_popup_dialog',
+    element: 'phylonode_popup_dialog',
     placement: 'right',
     delay: 200, /* the jquery dialog has a 200ms slide animation */
     multipage: true, /* indicates that the next step is on a different page */
@@ -114,7 +116,7 @@ var tour = {
     // displaying in prev ste.
     title : 'Phylotree Tour: To Be Continued...',
     content : '...',
-    target : 'site-name',
+    element : 'site-name',
     placement: 'bottom',
     onShow: function() {
       // dont actually want the user to see this, if they reload page,
@@ -122,4 +124,6 @@ var tour = {
       hopscotch.endTour(true);
     },
   }
-]};
+  ]
+});
+module.exports = tour;
