@@ -1,11 +1,20 @@
-var tour = {
-  'id': 'tour1',
-  'steps' : [ {
+
+var tour = null; /* the tour loads into a global var named tour. */
+
+(function(jQuery) {
+  console.log(jQuery.fn.jquery);
+  var that = this;
+}.call(tour, lisToursJqueryNoConflict));
+
+var tour = new Tour({
+  name: 'tour1',
+  debug: true,
+  orphan: true,
+  steps : [ {
     title: 'Welcome to LIS!',
     content: 'Clicking "next" will take you to our homepage, where the tour will begin.',
     placement: 'bottom',
-    target: 'site-name',
-    multipage: true,
+    element: 'site-name',
     onNext: function() {
       lisTours.location('/');
     }
@@ -13,19 +22,13 @@ var tour = {
     title: 'QTL Tour: Getting started',
     content: 'This tour will provide an example of navigating LIS from the genetic location of a published QTL to the associated region of the annotated genome for the species in which it was found. From the home page, the QTL search can be accessed from this button, but to continue on the tour click "Next".',
     placement: 'bottom',
-    target: function() {
-      return jQuery("[href='/search/qtl']")[0];
-    },
-    multipage: true,
-    onNext : function() {
-      lisTours.location('/search/qtl');
-    },
+    element: "[href='/search/qtl']",
+    path: '/search/qtl',
   }, {
     title: 'QTL Tour: Finding the desired QTL',
     content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above.',
     placement: 'bottom',
-    target: 'edit-qtl-name',
-    multipage: true,  
+    element: 'edit-qtl-name',
     onShow: function() {
 	jQuery('#edit-qtl-name')[0].value='Seed yield';
     },
@@ -35,11 +38,10 @@ var tour = {
   }, {
     title: 'QTL Tour: The list of QTL matching the query',
     content: 'Let\'s look at the details for a specific "seed yield" QTL.',
-    target: function() {
+    element: function() {
       return jQuery("[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']")[0]; 
     },
     placement: 'bottom',
-    multipage: true,
     onNext : function() {
       lisTours.location('/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5');
     }
@@ -47,7 +49,7 @@ var tour = {
     title: 'QTL Tour: Information about the selected QTL',
     content: "To go straight for the details, the 'details' link can lead you right to this trait's place on the chromosome.",
     placement: 'top',
-    target: function() {
+    element: function() {
       return jQuery("[href='?pane=qtl_details']")[0];
     }, 
     onNext: function() {
@@ -57,10 +59,9 @@ var tour = {
     title: 'QTL Tour: Nearest Marker',
     content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
     placement: 'bottom',
-    target: function() {
+    element: function() {
       return jQuery("#tripal_feature-table-base > tbody > tr:nth-child(2) > td")[1];
     },
-    multipage: true,
     onNext: function() {
       jQuery("#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a")[0].click();
       //lisTours.location('/feature/Phaseolus/vulgaris/genetic_marker/BM199')}
@@ -68,31 +69,29 @@ var tour = {
   }, {
     title: 'QTL Tour: Marker Overview',
     content: 'The "Overview" links to articles and descriptions of the marker.To find this marker on the phaseolus map, we can look under "Marker Positions".',
-    target: function() {
+    element: function() {
      return jQuery("[href='?pane=positions']")[0];
     },
     placement: 'bottom',
-    multipage: true,
     onNext: function() {
       lisTours.location('/feature/Phaseolus/vulgaris/genetic_marker/BM199?pane=positions');
     }
   }, {
     title: 'QTL Tour: Genome Browser',
     content: 'The linked Gbrowse map will show you annotations on the genome',
-    target: function() {
+    element: function() {
       return jQuery("[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']")[0];
     },
     placement: 'top',
     arrowOffset: '220', 
     xOffset: '-200', 
-    multipage: true,
     onNext: function() {
       lisTours.location('/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red');
     }
   }, {
     title: 'QTL Tour: Gbrowse',
     content: 'Allows you to visualize syntenic relationships between legumes of your choice. The red bar is the lowest flanking marker for "seed yield".',
-    target: function() {
+    element: function() {
       return jQuery('#frameviewer').contents().find('#track_centromere')[0];
     },
     placement: "top",
@@ -102,7 +101,7 @@ var tour = {
   },{
     title: 'QTL Tour: Our track',
     content: 'Here is the lowest flanking marker, BM199. All the tracks can be dragged to rearrange them.',
-    target: function() {
+    element: function() {
       return jQuery("#frameviewer").contents().find("#centromere_image")[0];
     },
     placement: 'top',
@@ -114,7 +113,7 @@ var tour = {
   }, {
     title: 'QTL Tour: Settings',
     content: 'You can choose which tracks to display through the navigation bar.',
-    target: function() {
+    element: function() {
 	return jQuery("#frameviewer").contents().find("#main_page_select")[0];
     },
     placement: 'top',
@@ -122,10 +121,4 @@ var tour = {
     xOffset: '200'
   }
 ],
-  //showPrevButton: true,
-  onError: function(e) {
-    console.log('error: ' + e);
-  },
-};
-
-
+});
