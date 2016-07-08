@@ -3,14 +3,19 @@
 /* 
  *  lisTours bundle entry point (index.js).
  */
-var ready = require('./ready.js');
-
-
 var lisTours = {}; /* the lisTours library, created by this module */
 
-(function($){
+
+if(! window.console )
+{
+  // support console.log on old IE versions, if it doesn't exist    
+  require.ensure(['console-shim'], function(require) {
+    require('console-shim');
+  });
+}
+
+(function(){
   var that = this;
-  var jQuery = $;
   var TOUR_ID_KEY = 'lisTourId';
   var dependenciesLoaded = false;
 
@@ -76,8 +81,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
     })
   };
-    
-  ready(function() {
+
+
+  this.init = function() {
     // lookup the most recent tour id, and load it's module, to enable
     // tour to resume automatically.
     var tourId = localStorage.getItem(TOUR_ID_KEY);
@@ -85,18 +91,21 @@ var lisTours = {}; /* the lisTours library, created by this module */
       console.log(tourId);
       that.resume(tourId);
     }
-  });
+  };
+
+
+  if(jQuery) {
+    jQuery('document').ready(this.init);    
+  }
+  else {
+    // lazy load our jquery, if there is not one already.
+    require.ensure(['jquery'], function(require) {
+      require('jquery');
+      jQuery('document').ready(thist.init);
+    });
+  }
   
-}.call(lisTours, window.__jquery));
-
-
-if(! window.console )
-{
-  // support console.log on old IE versions, if it doesn't exist    
-  require.ensure(['console-shim'], function(require) {
-    require('console-shim');
-  });
-}
+}.call(lisTours));
 
 // make the lisTours library available globally
 module.exports = lisTours;
