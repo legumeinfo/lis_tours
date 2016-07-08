@@ -7,7 +7,7 @@
  *   https://www.drupal.org/node/2216195
  */
 
-$my_path = drupal_get_path('module', 'lis_hopscotch_tours');
+$my_path = drupal_get_path('module', 'lis_tours');
 
 drupal_add_js(
     $my_path . '/build/bundle.js',

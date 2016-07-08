@@ -1,9 +1,0 @@
-name = "Hopscotch Tours"
-description = "Support multi-page hopscotch tours."
-core = "7.x"
-project = lis_hopscotch_tours
-package = lis_hopscotch_tours
-version = "7.x-1.x"
-
-
-

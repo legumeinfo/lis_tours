@@ -1,0 +1,9 @@
+name = "LIS Tours"
+description = "Support multi-page bootstrap tours."
+core = "7.x"
+project = lis_tours
+package = lis_tours
+version = "7.x-1.x"
+
+
+
