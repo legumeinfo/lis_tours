@@ -4,6 +4,8 @@
  *  lisTours bundle entry point (index.js).
  */
 var ready = require('./ready.js');
+
+
 var lisTours = {}; /* the lisTours library, created by this module */
 
 (function($){
@@ -74,7 +76,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
     })
   };
-  
+    
   ready(function() {
     // lookup the most recent tour id, and load it's module, to enable
     // tour to resume automatically.
@@ -86,6 +88,15 @@ var lisTours = {}; /* the lisTours library, created by this module */
   });
   
 }.call(lisTours, window.__jquery));
+
+
+if(! window.console )
+{
+  // support console.log on old IE versions, if it doesn't exist    
+  require.ensure(['console-shim'], function(require) {
+    require('console-shim');
+  });
+}
 
 // make the lisTours library available globally
 module.exports = lisTours;
