@@ -111,4 +111,6 @@ var tour = new Tour({
   }
 ],
 });
+
+lisTours.register(tour);
 module.exports = tour;

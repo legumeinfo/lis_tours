@@ -5,19 +5,18 @@
  */
 var lisTours = {}; /* the lisTours library, created by this module */
 
-
-if(! window.console )
-{
-  // support console.log on old IE versions, if it doesn't exist    
-  require.ensure(['console-shim'], function(require) {
-    require('console-shim');
-  });
-}
-
 (function(){
   var that = this;
   var TOUR_ID_KEY = 'lisTourId';
   var dependenciesLoaded = false;
+  
+  if(! window.console )
+  {
+    // support console.log on old IE versions, if it doesn't exist    
+    require.ensure(['console-shim'], function(require) {
+      require('console-shim');
+    });
+  }
 
   /* loadDeps() : use webpack lazy loading to load the dependencies of
    * lisTours only if a tour is requested or tour in progress.
@@ -26,7 +25,8 @@ if(! window.console )
     console.log('loadDeps()');
     require.ensure(['jquery',
 		    '!style!css!../css/bootstrap-tour-standalone.min.css',
-		    './bootstrap-tour-loader.js'],
+		    './bootstrap-tour-loader.js',
+		    '../tours/index.js'],
        function(require) {
 	 // JQuery: load our version of jquery and stash it in a global
 	 // var, taking care not to conflict with existing, older, jquery,
@@ -39,6 +39,8 @@ if(! window.console )
 	 require('!style!css!../css/bootstrap-tour-standalone.min.css');
 	 // load a customized bootstrap tour js (consumes our __jquery version)
 	 require('./bootstrap-tour-loader.js');
+	 // load tour definitions
+	 require('../tours/index.js');
 	 // callback fn
 	 cb.call(that);
        });
@@ -49,9 +51,9 @@ if(! window.console )
    */
   this.go = function(tourId) {
     that.loadDeps(function() {
-      var tour = require('../tours/' + tourId +'.js');
+      var tour = that.tours[tourId];
       if(! tour) {
-	throw 'failed to load tour: ' + tourId;
+	throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
       tour.end();
@@ -64,11 +66,10 @@ if(! window.console )
    * restore a tour at whatever step bootstrap tour has retained state. 
    */
   this.resume = function(tourId) {
-    console.log('resume()' + tourId);
     that.loadDeps(function() {
-      var tour = require('../tours/' + tourId +'.js');
+      var tour = that.tours[tourId];
       if(! tour) {
-	throw 'failed to load tour: ' + tourId;
+	throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
       if(tour.ended()) {
@@ -82,6 +83,15 @@ if(! window.console )
     })
   };
 
+  this.tours = {};
+
+  /* register():
+   * each tour object must register, so we can find the tour object by
+   * it's key.
+   */
+  this.register = function(tour) {
+    that.tours[tour._options.name] = tour;
+  };
 
   this.init = function() {
     // lookup the most recent tour id, and load it's module, to enable
