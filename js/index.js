@@ -22,11 +22,10 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * lisTours only if a tour is requested or tour in progress.
    */
   this.loadDeps = function(cb) {
-    console.log('loadDeps()');
     require.ensure(['jquery',
 		    '!style!css!../css/bootstrap-tour-standalone.min.css',
 		    './bootstrap-tour-loader.js',
-		    '../tours/index.js'],
+		    './tours/index.js'],
        function(require) {
 	 // JQuery: load our version of jquery and stash it in a global
 	 // var, taking care not to conflict with existing, older, jquery,
@@ -40,7 +39,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 // load a customized bootstrap tour js (consumes our __jquery version)
 	 require('./bootstrap-tour-loader.js');
 	 // load tour definitions
-	 require('../tours/index.js');
+	 require('./tours/index.js');
 	 // callback fn
 	 cb.call(that);
        });
@@ -92,7 +91,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
   this.register = function(tour) {
     var name = tour._options.name;
     that.tours[name] = tour;
-    console.log('tour registered: ' + name );
   };
 
   this.init = function() {
@@ -100,7 +98,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
     // tour to resume automatically.
     var tourId = localStorage.getItem(TOUR_ID_KEY);
     if(tourId) {
-      console.log(tourId);
       that.resume(tourId);
     }
   };
