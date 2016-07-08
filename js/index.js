@@ -90,7 +90,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * it's key.
    */
   this.register = function(tour) {
-    that.tours[tour._options.name] = tour;
+    var name = tour._options.name;
+    that.tours[name] = tour;
+    console.log('tour registered: ' + name );
   };
 
   this.init = function() {

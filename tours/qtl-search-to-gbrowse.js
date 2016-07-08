@@ -1,5 +1,5 @@
 var tour = new Tour({
-  name: 'tour1',
+  name: 'qtl-search-to-gbrowse',
   debug: true,
   orphan: true,
   steps : [ {
