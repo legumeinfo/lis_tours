@@ -28,6 +28,7 @@ The webpack build config is in `webpack.config.js` so webpack can used like this
     # build optimized bundle for production
     webpack -p --display-modules --optimize-minimize --optimize-dedupe
 
-Webpack will bundle up all the required javascript and css, into a single resource, build/bundle.js
+Webpack will bundle up all the required javascript and css, into a loader, `build/bundle.js`, and a chunk file `part-[hash].js`.
+
 
 
