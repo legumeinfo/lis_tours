@@ -24,6 +24,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
   this.loadDeps = function(cb) {
     require.ensure(['jquery',
 		    '!style!css!../css/bootstrap-tour-standalone.min.css',
+		    '!style!css!../css/lis-tours.css',
 		    './bootstrap-tour-loader.js',
 		    './tours/index.js'],
        function(require) {
@@ -36,6 +37,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 require('./bootstrap-tour-loader.js');
 	 // load the bootstrap tours css
 	 require('!style!css!../css/bootstrap-tour-standalone.min.css');
+	 require('!style!css!../css/lis-tours.css');
 	 // load a customized bootstrap tour js (consumes our __jquery version)
 	 require('./bootstrap-tour-loader.js');
 	 // load tour definitions

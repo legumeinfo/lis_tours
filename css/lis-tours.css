@@ -1,0 +1,4 @@
+/* overrides and additions to bootstrap-tour-standalone.css */
+.popover-content {
+    font-size: 87.5%;
+}
