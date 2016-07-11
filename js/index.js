@@ -91,6 +91,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * it's key.
    */
   this.register = function(tour) {
+    console.log(tour);
     var name = tour._options.name;
     that.tours[name] = tour;
   };
@@ -104,15 +105,14 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
   };
 
-
-  if(jQuery) {
-    jQuery('document').ready(this.init);    
+  if('jQuery' in window) {
+    jQuery('document').ready(that.init);
   }
   else {
     // lazy load our jquery, if there is not one already.
     require.ensure(['jquery'], function(require) {
-      require('jquery');
-      jQuery('document').ready(thist.init);
+      window.__jquery = require('jquery').noConflict(true);      
+      window.__jquery('document').ready(that.init);
     });
   }
   

@@ -1,6 +1,7 @@
 (function(jQuery) {
 
   var $ = jQuery;
+  
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
     debug: true,
