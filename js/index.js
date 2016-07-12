@@ -8,7 +8,10 @@ var lisTours = {}; /* the lisTours library, created by this module */
 (function(){
   var that = this;
   var TOUR_ID_KEY = 'lisTourId';
+  var MS = 100;
+  var MAX_MS = 10000;
   var dependenciesLoaded = false;
+  var $ = null;
   
   if(! window.console )
   {
@@ -32,7 +35,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 // var, taking care not to conflict with existing, older, jquery,
 	 // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
 	 // jquery Deferred/Promise classes)
-	 window.__jquery = require('jquery').noConflict(true);
+	 $ = window.__jquery = require('jquery').noConflict(true);
 	 // load a customized bootstrap tour js (consumes our __jquery version)
 	 require('./bootstrap-tour-loader.js');
 	 // load the bootstrap tours css
@@ -47,13 +50,13 @@ var lisTours = {}; /* the lisTours library, created by this module */
        });
   };
   
-  /* go() 
-   * force a tour to start at step 0.
+  /* go() : force a tour to start at step 0.
    */
   this.go = function(tourId) {
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
+	localStorage.removeItem(TOUR_ID_KEY);
 	throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
@@ -63,13 +66,14 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   };
 
-  /* resume()
-   * restore a tour at whatever step bootstrap tour has retained state. 
+  /* resume() : restore a tour at whatever step bootstrap tour has
+   * retained state.
    */
   this.resume = function(tourId) {
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
+	localStorage.removeItem(TOUR_ID_KEY);
 	throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
@@ -86,25 +90,48 @@ var lisTours = {}; /* the lisTours library, created by this module */
 
   this.tours = {};
 
-  /* register():
-   * each tour object must register, so we can find the tour object by
-   * it's key.
+  /* register() : each tour object must register, so we can lookup the
+   * tour object by it's tag name.
    */
   this.register = function(tour) {
-    console.log(tour);
     var name = tour._options.name;
     that.tours[name] = tour;
   };
-
+  
+  this.waitForContent = function(tour, cb) {
+    var promise = new $.Deferred();
+    var elapsed = 0;
+    function waiter() {
+      var res = cb();
+      if(res) {
+	promise.resolve();
+	return;
+      }
+      else {
+	elapsed += MS;
+	if(elapsed >= MAX_MS) {
+	  tour.end();
+	  throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
+	}
+	console.log('waiting for dynamic content from callback ' + cb);
+	setTimeout(waiter, MS);
+      }
+    }
+    setTimeout(waiter, MS);
+    return promise;
+  };
+    
+  /* init() : lookup the most recent tour id, and load it's module, to
+   * enable tour to resume automatically.
+   */
   this.init = function() {
-    // lookup the most recent tour id, and load it's module, to enable
-    // tour to resume automatically.
     var tourId = localStorage.getItem(TOUR_ID_KEY);
     if(tourId) {
       that.resume(tourId);
     }
   };
 
+  
   if('jQuery' in window) {
     jQuery('document').ready(that.init);
   }
@@ -121,3 +148,5 @@ var lisTours = {}; /* the lisTours library, created by this module */
 // make the lisTours library available globally
 module.exports = lisTours;
 window.lisTours = lisTours;
+console.log('lisTours loaded');
+

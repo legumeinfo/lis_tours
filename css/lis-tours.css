@@ -2,3 +2,8 @@
 .popover-content {
     font-size: 87.5%;
 }
+.tour-step-element-reflex {
+    border-style: solid;
+    border-width: 2px;
+    border-color: cyan;
+}
