@@ -65,12 +65,9 @@
       	element: "#tripal_feature-table-base > tbody > tr:nth-child(3) > td > a",
 	reflex: true,
 	onShow: function(tour) {
-	  console.log(location.hash);
 	  if(location.hash.indexOf('qtl_details') === -1) {
 	    var el = $("[href='?pane=qtl_details']")[0];
 	    if(el) {
-	      console.log('clicking');
-	      console.log(el);
 	      el.click();
 	    }
 	  }
@@ -98,16 +95,14 @@
 	reflex: true,
       	placement: 'top',
 	onShow: function(tour) {
-	  console.log(location.hash);
 	  if(location.hash.indexOf('positions') === -1) {
 	    var el = $("[href='?pane=positions']")[0];
 	    if(el) {
-	      console.log('clicking');
-	      console.log(el);
 	      el.click();
 	    }
 	  }
-	}      },
+	}
+      },
       {
 	path: GBROWSE,
 	title: 'QTL Tour: GBrowse',
