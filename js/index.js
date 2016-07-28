@@ -9,7 +9,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var that = this;
   var TOUR_ID_KEY = 'lisTourId';
   var MS = 100;
-  var MAX_MS = 10000;
+  //adf: doubled this from previous value to accomodate slow gene searches;
+  //maybe there's a better approach.
+  var MAX_MS = 20000;
   var dependenciesLoaded = false;
   var $ = null;
   
