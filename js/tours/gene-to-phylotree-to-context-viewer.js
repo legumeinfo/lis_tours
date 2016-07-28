@@ -112,8 +112,30 @@ to pick a gene and see its  phylogenetic relationships.",
 	placement: 'top',
 	element: "#block-system-main > div > div > div.view-content > table > tbody > tr.odd.views-row-first > td.views-field.views-field-gene-family > a",
       }, {
-	title: 'Phylotree Tour: Phylotree',
+        title: 'Phylotree Tour: Gene Search',
 	path: '/chado_phylotree/phytozome_10_2.59088092?hilite_node=vigra.Vradi01g03360.1',
+        content: 'Waiting for tree display...',
+	placement: 'top',
+	onShown: function(tour) {
+	  // wait for dynamic content with a loading dialog.
+	  if(tour.skipStep) {
+	    tour.skipStep = false;
+	    tour.prev();
+	    return;
+	  }
+	  var promise = lisTours.waitForContent(
+	    tour,
+	    function() {
+	      return $('#phylogram g > :contains("Vradi01g03360.1")')[0];
+	    });
+	  // advance automatically to next step when done loading
+	  promise.then(function() {
+	    tour.next();
+	  });
+	  return promise;
+	}
+      }, {
+	title: 'Phylotree Tour: Phylotree',
 	placement: 'right',
 	content : 'Here is our gene again, surrounded by its cousins.',
 	element : 
