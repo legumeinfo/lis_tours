@@ -36,6 +36,7 @@
 	content: 'Then click "Apply" to apply the specified filter to the genes in the result.',
 	placement: 'bottom',
 	element: '#edit-submit-gene',
+	reflex: true,
 	onNext: function() {
           $('#edit-submit-gene')[0].click();
 	}
@@ -83,6 +84,28 @@
           $('#edit-submit-gene')[0].click();
 	}
       }, {
+        title: 'Phylotree Tour: Gene Search',
+        content: 'Waiting for query results...',
+	placement: 'top',
+	onShown: function(tour) {
+	  // wait for dynamic content with a loading dialog.
+	  if(tour.skipStep) {
+	    tour.skipStep = false;
+	    tour.prev();
+	    return;
+	  }
+	  var promise = lisTours.waitForContent(
+	    tour,
+	    function() {
+	      return $('tr.odd:nth-child(1) > td:nth-child(1) > a:nth-child(1):contains(\'vigra\')')[0];
+	    });
+	  // advance automatically to next step when done loading
+	  promise.then(function() {
+	    tour.next();
+	  });
+	  return promise;
+	}
+      }, {
 	title: 'Phylotree Tour: Find a good chromosome specimen',
 	content: "We've put the query in the proper fields. Now we want \
 to pick a gene and see its  phylogenetic relationships.",
@@ -103,6 +126,7 @@ to pick a gene and see its  phylogenetic relationships.",
 	     express the selector w/ css+jquery:
 	  */
 	  '#phylogram g > :contains("Vradi01g03360.1")',
+	reflex: true,
 	onNext: function() {
 	  /* trigger click event on the leaf node, to reveal the dialog in
 	     the correct location. need workaround for 3d and jquery
@@ -121,13 +145,9 @@ to pick a gene and see its  phylogenetic relationships.",
 	title: 'Phylotree Tour: Genomic Contexts',
 	content: 'Let us follow the link to the Genomic Context Viewer...',
 	element: 'phylonode_popup_dialog',
+	reflex: true,
 	placement: 'top',
-	delay: 200, // the jquery dialog has a 200ms slide animation 
-/*
-	onNext: function() {
-	  lisTours.location('/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome');
-	}
-*/
+	delay: 400, // the jquery dialog has a 200ms slide animation 
       }, {
 	// this is a placeholder step to prevent the 'Finish' button from
 	// displaying in prev ste.
@@ -136,11 +156,6 @@ to pick a gene and see its  phylogenetic relationships.",
 	content : '...',
 	element : 'site-name',
 	placement: 'bottom',
-	onShow: function() {
-	  // dont actually want the user to see this, if they reload page,
-	  // for example
-	  hopscotch.endTour(true);
-	},
       }
     ]
   });
