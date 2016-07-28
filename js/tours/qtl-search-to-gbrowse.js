@@ -10,7 +10,7 @@
     steps : [
       {
       	path: '/tours',
-      	title: 'Welcome to LIS!',
+      	title: 'QTL Tour: Welcome to LIS!',
       	content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
       	placement: 'bottom',
       	element: '#site-name',
