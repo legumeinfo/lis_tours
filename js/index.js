@@ -38,8 +38,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
 	 // jquery Deferred/Promise classes)
 	 $ = window.__jquery = require('jquery').noConflict(true);
-	 // load a customized bootstrap tour js (consumes our __jquery version)
-	 require('./bootstrap-tour-loader.js');
 	 // load the bootstrap tours css
 	 require('!style!css!../css/bootstrap-tour-standalone.min.css');
 	 require('!style!css!../css/lis-tours.css');
