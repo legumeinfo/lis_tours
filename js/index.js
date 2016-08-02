@@ -80,7 +80,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       tour.init();
       if(tour.ended()) {
-	console.log('removing tour id: ' + tourId) ;
+	//console.log('removing tour id: ' + tourId) ;
 	localStorage.removeItem(TOUR_ID_KEY);
       }
       else {
@@ -115,7 +115,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	  tour.end();
 	  throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
 	}
-	console.log('waiting for dynamic content from callback ' + cb);
+	//console.log('waiting for dynamic content from callback ' + cb);
 	setTimeout(waiter, MS);
       }
     }
@@ -150,5 +150,5 @@ var lisTours = {}; /* the lisTours library, created by this module */
 // make the lisTours library available globally
 module.exports = lisTours;
 window.lisTours = lisTours;
-console.log('lisTours loaded');
+//console.log('lisTours loaded');
 
