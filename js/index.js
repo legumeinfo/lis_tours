@@ -38,8 +38,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
 	 // jquery Deferred/Promise classes)
 	 $ = window.__jquery = require('jquery').noConflict(true);
-	 // load a customized bootstrap tour js (consumes our __jquery version)
-	 require('./bootstrap-tour-loader.js');
 	 // load the bootstrap tours css
 	 require('!style!css!../css/bootstrap-tour-standalone.min.css');
 	 require('!style!css!../css/lis-tours.css');
@@ -80,7 +78,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       tour.init();
       if(tour.ended()) {
-	console.log('removing tour id: ' + tourId) ;
+	//console.log('removing tour id: ' + tourId) ;
 	localStorage.removeItem(TOUR_ID_KEY);
       }
       else {
@@ -115,7 +113,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	  tour.end();
 	  throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
 	}
-	console.log('waiting for dynamic content from callback ' + cb);
+	//console.log('waiting for dynamic content from callback ' + cb);
 	setTimeout(waiter, MS);
       }
     }
@@ -150,5 +148,5 @@ var lisTours = {}; /* the lisTours library, created by this module */
 // make the lisTours library available globally
 module.exports = lisTours;
 window.lisTours = lisTours;
-console.log('lisTours loaded');
+//console.log('lisTours loaded');
 
