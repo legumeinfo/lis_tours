@@ -26,7 +26,7 @@
       },
       {
       	path: '/search/qtl',
-      	title: 'QTL Tour: Finding the desired QTL',
+      	title: 'QTL Tour: QTL Search',
       	content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above. We entered "Seed yield" in the QTL name field. The Apply button will apply the search parameters. Now press Next or &#8594;',
       	placement: 'bottom',
       	element: '#edit-qtl-name',
@@ -34,11 +34,19 @@
       	onShown: function(tour) {
       	  $('#edit-qtl-name')[0].value='Seed yield';
       	},
-      },
-      {
-      	path: '/search/qtl?organism=Phaseolus%20vulgaris&trait_class=All&expt_pub_symbol_op=%3D&expt_pub_symbol=&qtl_name_op=%3D&qtl_name=seed%20yield',
+      }, {
+	title: 'QTL Tour: QTL Search',
+	content: 'Then click "Apply" to apply the specified filter to the QTL in the result.',
+	placement: 'bottom',
+	element: '#edit-submit-qtl',
+	reflex: true,
+	onNext: function() {
+          $('#edit-submit-qtl')[0].click();
+	}
+      }, {
+      	path: '/search/qtl',
       	title: 'QTL Tour: The list of QTL matching the query',
-      	content: 'Let us look at the details for a specific "seed yield" QTL.',
+      	content: 'Let\'s look at the details for a specific "seed yield" QTL.',
       	element: "[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']",
 	reflex: true,
       	placement: 'bottom',
