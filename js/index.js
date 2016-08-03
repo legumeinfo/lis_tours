@@ -1,6 +1,6 @@
 "use strict";
 
-/* 
+/*
  *  lisTours bundle entry point (index.js).
  */
 var lisTours = {}; /* the lisTours library, created by this module */
@@ -14,10 +14,10 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var MAX_MS = 20000;
   var dependenciesLoaded = false;
   var $ = null;
-  
+
   if(! window.console )
   {
-    // support console.log on old IE versions, if it doesn't exist    
+    // support console.log on old IE versions, if it doesn't exist
     require.ensure(['console-shim'], function(require) {
       require('console-shim');
     });
@@ -49,7 +49,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 cb.call(that);
        });
   };
-  
+
   /* go() : force a tour to start at step 0.
    */
   this.go = function(tourId) {
@@ -97,7 +97,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     var name = tour._options.name;
     that.tours[name] = tour;
   };
-  
+
   this.waitForContent = function(tour, cb) {
     var promise = new $.Deferred();
     var elapsed = 0;
@@ -120,7 +120,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     setTimeout(waiter, MS);
     return promise;
   };
-    
+
   /* init() : lookup the most recent tour id, and load it's module, to
    * enable tour to resume automatically.
    */
@@ -131,22 +131,21 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
   };
 
-  
+
   if('jQuery' in window) {
-    jQuery('document').ready(that.init);
+    jQuery(document).ready(that.init);
   }
   else {
     // lazy load our jquery, if there is not one already.
     require.ensure(['jquery'], function(require) {
-      window.__jquery = require('jquery').noConflict(true);      
-      window.__jquery('document').ready(that.init);
+      window.__jquery = require('jquery').noConflict(true);
+      window.__jquery(document).ready(that.init);
     });
   }
-  
+
 }.call(lisTours));
 
 // make the lisTours library available globally
 module.exports = lisTours;
 window.lisTours = lisTours;
 //console.log('lisTours loaded');
-
