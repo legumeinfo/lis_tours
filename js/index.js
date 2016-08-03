@@ -28,25 +28,25 @@ var lisTours = {}; /* the lisTours library, created by this module */
    */
   this.loadDeps = function(cb) {
     require.ensure(['jquery',
-		    '!style!css!../css/bootstrap-tour-standalone.min.css',
-		    '!style!css!../css/lis-tours.css',
-		    './bootstrap-tour-loader.js',
-		    './tours/index.js'],
+        '!style!css!../css/bootstrap-tour-standalone.min.css',
+        '!style!css!../css/lis-tours.css',
+        './bootstrap-tour-loader.js',
+        './tours/index.js'],
        function(require) {
-	 // JQuery: load our version of jquery and stash it in a global
-	 // var, taking care not to conflict with existing, older, jquery,
-	 // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
-	 // jquery Deferred/Promise classes)
-	 $ = window.__jquery = require('jquery').noConflict(true);
-	 // load the bootstrap tours css
-	 require('!style!css!../css/bootstrap-tour-standalone.min.css');
-	 require('!style!css!../css/lis-tours.css');
-	 // load a customized bootstrap tour js (consumes our __jquery version)
-	 require('./bootstrap-tour-loader.js');
-	 // load tour definitions
-	 require('./tours/index.js');
-	 // callback fn
-	 cb.call(that);
+   // JQuery: load our version of jquery and stash it in a global
+   // var, taking care not to conflict with existing, older, jquery,
+   // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
+   // jquery Deferred/Promise classes)
+   $ = window.__jquery = require('jquery').noConflict(true);
+   // load the bootstrap tours css
+   require('!style!css!../css/bootstrap-tour-standalone.min.css');
+   require('!style!css!../css/lis-tours.css');
+   // load a customized bootstrap tour js (consumes our __jquery version)
+   require('./bootstrap-tour-loader.js');
+   // load tour definitions
+   require('./tours/index.js');
+   // callback fn
+   cb.call(that);
        });
   };
 
@@ -56,8 +56,8 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
-	localStorage.removeItem(TOUR_ID_KEY);
-	throw 'failed to load tour id: ' + tourId;
+  localStorage.removeItem(TOUR_ID_KEY);
+  throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
       tour.end();
@@ -73,17 +73,17 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
-	localStorage.removeItem(TOUR_ID_KEY);
-	throw 'failed to load tour id: ' + tourId;
+  localStorage.removeItem(TOUR_ID_KEY);
+  throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
       if(tour.ended()) {
-	//console.log('removing tour id: ' + tourId) ;
-	localStorage.removeItem(TOUR_ID_KEY);
+  //console.log('removing tour id: ' + tourId) ;
+  localStorage.removeItem(TOUR_ID_KEY);
       }
       else {
-	var force = true;
-	tour.start(force);
+  var force = true;
+  tour.start(force);
       }
     })
   };
@@ -104,17 +104,17 @@ var lisTours = {}; /* the lisTours library, created by this module */
     function waiter() {
       var res = cb();
       if(res) {
-	promise.resolve();
-	return;
+  promise.resolve();
+  return;
       }
       else {
-	elapsed += MS;
-	if(elapsed >= MAX_MS) {
-	  tour.end();
-	  throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
-	}
-	//console.log('waiting for dynamic content from callback ' + cb);
-	setTimeout(waiter, MS);
+  elapsed += MS;
+  if(elapsed >= MAX_MS) {
+    tour.end();
+    throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
+  }
+  //console.log('waiting for dynamic content from callback ' + cb);
+  setTimeout(waiter, MS);
       }
     }
     setTimeout(waiter, MS);
