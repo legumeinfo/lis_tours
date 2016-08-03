@@ -8,5 +8,6 @@ require('./qtl-search-to-gbrowse.js');
 require('./gene-to-phylotree-to-context-viewer.js');
 require('./blast-demo.js');
 require('./protein-domain.js');
-require('./germplasm-world-tour.js');
-
+//require('./germplasm-world-tour.js');
+require('./phylotree.js');
+require('./germplasm-map.js');
