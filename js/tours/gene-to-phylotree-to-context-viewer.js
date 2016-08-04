@@ -126,14 +126,6 @@
 	  return promise;
 	}
       }, {
-	title: 'Phylotree Tour: Functional description',
-	content: "Notice that there is a subtle difference in the annotation of one gene with respect to the two others, though they are all listed as belonging to the same gene family.",
-	placement: 'top',
-	element: "th.views-field-description",
-	onPrev: function(tour) {
-	  tour.skipStep = true;
-	},
-      }, {
 	title: 'Phylotree Tour: Gene Family',
 	content: "Following the link to the gene family will show you this gene in the context of a tree representing the orthologous, paralogous and homoeologous members of the family.",
 	placement: 'left',
@@ -162,16 +154,16 @@
 	  });
 	  return promise;
 	}
-      }, /*{
+      }, {
 	title: 'Phylotree Tour: Phylotree',
-	placement: 'left',
+	placement: 'right',
 	content : 'Here is our gene again, surrounded by orthologues from other species. ',
 	element : 
 	  '#phylogram g > :contains("vigra.Vradi01g03360.1")',
 	onPrev: function(tour) {
 	  tour.skipStep = true;
 	},
-      }, */{
+      }, {
 	title: 'Phylotree Tour: Phylotree',
 	placement: 'right',
 	content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
@@ -237,8 +229,6 @@
           var promise = lisTours.waitForContent(
             tour,
             function() {
-              //return $('#viewer-content > svg > g:nth-child(265) > path')[0];
-debugger;
 	      return $('g.gene:has(:contains("Vradi01g03360")) > path');
             });
           // advance automatically to next step when done loading
@@ -252,7 +242,6 @@ debugger;
 	title: 'Phylotree Tour: Context Viewer',
 	content: 'Our gene is front and center, outlined in yellow among its syntenic relations.',
 	//element: $('.rail')[250],
-	//element: 'g.gene > :contains("Vradi01g03360")',
 	element: 'g.gene:has(:contains("Vradi01g03360")) > path',
 	placement: 'top',
         onPrev: function(tour) {
