@@ -4,6 +4,7 @@
 
   var tour = new Tour({
     name: 'gene-to-phylotree-to-context-viewer',
+    keyboard: true,
     debug: true,
     orphan: true,
     steps : [
@@ -75,8 +76,11 @@
       }, {
 	title: 'Phylotree Tour: Search Results',
 	content: "We've gotten paged results back for all species with annotated genomes in LIS. ",
-	element: '.view-footer',
-	placement: 'bottom',
+	element: '#block-system-main > div > div > div.view-content > table > thead > tr > th.views-field.views-field-name.active > a',
+	placement: 'top',
+        onPrev: function(tour) {
+          tour.skipStep = true;
+        }
       }, {
 	title: 'Phylotree Tour: Filter by Species',
 	content: "Supposing we are initially interested in the genes from Vigna radiata (mungbean), we would specify the five-letter species abbreviation 'vigra', composed of the first three letters of the genus and the first two letters of the species component of the scientific name.",
@@ -123,9 +127,9 @@
 	}
       }, {
 	title: 'Phylotree Tour: Functional description',
-	content: "Notice that there is a subtle difference in the annotation of this gene with respect to the two others, though they are listed as belonging to the same gene family.",
-	placement: 'right',
-	element: "tr.even > td:nth-child(7)",
+	content: "Notice that there is a subtle difference in the annotation of one gene with respect to the two others, though they are all listed as belonging to the same gene family.",
+	placement: 'top',
+	element: "th.views-field-description",
 	onPrev: function(tour) {
 	  tour.skipStep = true;
 	},
@@ -158,16 +162,19 @@
 	  });
 	  return promise;
 	}
-      }, {
+      }, /*{
 	title: 'Phylotree Tour: Phylotree',
-	placement: 'right',
+	placement: 'left',
 	content : 'Here is our gene again, surrounded by orthologues from other species. ',
 	element : 
 	  '#phylogram g > :contains("vigra.Vradi01g03360.1")',
-      }, {
+	onPrev: function(tour) {
+	  tour.skipStep = true;
+	},
+      }, */{
 	title: 'Phylotree Tour: Phylotree',
 	placement: 'right',
-	content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',//,.<br>The nodes of the tree representing the genes as well as the internal ancestral nodes can be clicked for more options.',
+	content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
 	element : 
 	  '#phylogram g > :contains("vigra.Vradi02g12890.1")',
       }, {
@@ -176,6 +183,7 @@
 	content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
 	element : 
 	  '#phylogram g > :contains("vigra.Vradi01g03360.1")',
+        reflex: true,
 	onNext: function() {
 	  /* trigger click event on the leaf node, to reveal the dialog in
 	     the correct location. need workaround for 3d and jquery
@@ -189,21 +197,72 @@
 	    });
 	  };
 	  $('#phylogram g > :contains("Vradi01g03360.1")').d3Click();
+	  var promise = lisTours.waitForContent(
+	    tour,
+	    function() {
+	      return $("#phylonode_popup_dialog a[href*='lis_context_viewer']")[0];
+	    });
+	  // advance automatically to next step when done loading
+	  promise.then(function() {
+	      tour.next();
+	  });
+	  return promise;
 	}
       }, {
 	title: 'Phylotree Tour: Genomic Contexts',
-	content: 'Let us follow the link to the Genomic Context Viewer...',
-	element: 'phylonode_popup_dialog',
-	reflex: true,
-	placement: 'top',
-	delay: 400, // the jquery dialog has a 200ms slide animation 
+	content: 'We get a popup with a number of options relevant to the gene.',
+	element: "#phylonode_popup_dialog",
+	placement: 'bottom',
       }, {
-        path : '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome',
+	title: 'Phylotree Tour: Genomic Contexts',
+	content: 'Let\'s follow the link for similar genomic contexts',
+	element: "#phylonode_popup_dialog a[href*='lis_context_viewer']",
+	reflex: true,
+	placement: 'right',
+      }, {
+	path: '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome',
+	//path: RegExp("\/lis_context_viewer\/index.html#\/search"),
+	//path: /\/lis_context_viewer\/index.html#\/search/,
+	title: 'Phylotree Tour: Gene Search',
+        content: 'Please be patient, as we wait for the page to load...',
+        placement: 'top',
+        onShown: function(tour) {
+          $('.popover-navigation div').hide();
+          // wait for dynamic content with a loading dialog.
+          if(tour.skipStep) {
+            tour.skipStep = false;
+            tour.prev();
+            return;
+          }
+          var promise = lisTours.waitForContent(
+            tour,
+            function() {
+              //return $('#viewer-content > svg > g:nth-child(265) > path')[0];
+debugger;
+	      return $('g.gene:has(:contains("Vradi01g03360")) > path');
+            });
+          // advance automatically to next step when done loading
+          promise.then(function() {
+            tour.next();
+          });
+          return promise;
+        }
+      },{
+        //path : '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome',
 	title: 'Phylotree Tour: Context Viewer',
 	content: 'Our gene is front and center, outlined in yellow among its syntenic relations.',
-	element: 'tick:contains("vigra.Vr01:5441229-5543253")',
+	//element: $('.rail')[250],
+	//element: 'g.gene > :contains("Vradi01g03360")',
+	element: 'g.gene:has(:contains("Vradi01g03360")) > path',
+	placement: 'top',
+        onPrev: function(tour) {
+          tour.skipStep = true;}
+      }, {
+	title: 'Phylotree Tour: More Help',
+	content: 'If you would like to learn how to use the features of the Context viewer, you can take the Help Tour',
+	element: '#helpbtn',
 	placement: 'bottom'
-      }
+     }
     ]
   });
 

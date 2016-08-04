@@ -118,6 +118,7 @@
 	placement: 'top',
 	onShown: function(tour) {
 	  // wait for dynamic content with a loading dialog.
+          $('.popover-navigation div').hide();
 	  if(tour.skipStep) {
 	    tour.skipStep = false;
 	    tour.prev();
