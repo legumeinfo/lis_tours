@@ -146,7 +146,7 @@
 	  var promise = lisTours.waitForContent(
 	    tour,
 	    function() {
-	      return $('#phylogram g > :contains("Vradi01g03360.1")')[0];
+	      return $('#phylogram text:contains("Vradi01g03360.1")')[0];
 	    });
 	  // advance automatically to next step when done loading
 	  promise.then(function() {
@@ -159,7 +159,7 @@
 	placement: 'right',
 	content : 'Here is our gene again, surrounded by orthologues from other species. ',
 	element : 
-	  '#phylogram g > :contains("vigra.Vradi01g03360.1")',
+	  '#phylogram text:contains("vigra.Vradi01g03360.1")',
 	onPrev: function(tour) {
 	  tour.skipStep = true;
 	},
@@ -168,13 +168,13 @@
 	placement: 'right',
 	content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
 	element : 
-	  '#phylogram g > :contains("vigra.Vradi02g12890.1")',
+	  '#phylogram text:contains("vigra.Vradi02g12890.1")',
       }, {
 	title: 'Phylotree Tour: Phylotree',
 	placement: 'right',
 	content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
 	element : 
-	  '#phylogram g > :contains("vigra.Vradi01g03360.1")',
+	  '#phylogram text:contains("vigra.Vradi01g03360.1")',
         reflex: true,
 	onNext: function() {
 	  /* trigger click event on the leaf node, to reveal the dialog in
@@ -188,7 +188,7 @@
 	      e.dispatchEvent(evt);
 	    });
 	  };
-	  $('#phylogram g > :contains("Vradi01g03360.1")').d3Click();
+	  $('#phylogram g:has(:contains("Vradi01g03360.1"))').d3Click();
 	  var promise = lisTours.waitForContent(
 	    tour,
 	    function() {
@@ -240,7 +240,7 @@
       },{
         //path : '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome',
 	title: 'Phylotree Tour: Context Viewer',
-	content: 'Our gene is front and center, outlined in yellow among its syntenic relations.',
+	content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong.',
 	//element: $('.rail')[250],
 	element: 'g.gene:has(:contains("Vradi01g03360")) > path',
 	placement: 'top',
