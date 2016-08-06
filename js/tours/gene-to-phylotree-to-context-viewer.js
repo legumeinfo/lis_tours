@@ -40,15 +40,6 @@
 	reflex: true,
 	onNext: function() {
           $('#edit-submit-gene')[0].click();
-	  var promise = lisTours.waitForContent(
-	    tour,
-	    function() {
-	      return $('tr.odd:nth-child(1) > td:nth-child(7):contains(\'gamma-glutamyl transpeptidase\')')[0];
-	    });
-	  // advance automatically to next step when done loading
-	  promise.then(function() {
-	      tour.next();
-	  });
 	}
       }, {
         title: 'Phylotree Tour: Gene Search',
@@ -125,6 +116,14 @@
 	  });
 	  return promise;
 	}
+       }, {
+     title: 'Phylotree Tour: Functional description',
+     content: "Notice that there is a subtle difference in the annotation of one gene with respect to the two others, though they are all listed as belonging to the same gene family.",
+     placement: 'top',
+     element: "th.views-field-description",
+     onPrev: function(tour) {
+       tour.skipStep = true;
+     },
       }, {
 	title: 'Phylotree Tour: Gene Family',
 	content: "Following the link to the gene family will show you this gene in the context of a tree representing the orthologous, paralogous and homoeologous members of the family.",
@@ -188,7 +187,8 @@
 	      e.dispatchEvent(evt);
 	    });
 	  };
-	  $('#phylogram g:has(:contains("Vradi01g03360.1"))').d3Click();
+debugger;
+	  $('#phylogram g.leaf:contains("Vradi01g03360.1")').d3Click();
 	  var promise = lisTours.waitForContent(
 	    tour,
 	    function() {
@@ -196,7 +196,10 @@
 	    });
 	  // advance automatically to next step when done loading
 	  promise.then(function() {
-	      tour.next();
+              //for reasons adf doesn't entirely understand, we don't need to
+              //invoke the tour.next here and in fact doing so gives the double
+              //click phenomenon where the popup appears and then gets re-invoked
+	      //tour.next();
 	  });
 	  return promise;
 	}
