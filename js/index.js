@@ -50,9 +50,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
        });
   };
 
-  /* go() : force a tour to start at step 0.
+  /* go() : force a tour to start at step 0, or the specific step num.
    */
-  this.go = function(tourId) {
+  this.go = function(tourId, stepNum) {
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
@@ -61,10 +61,14 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       tour.init();
       tour.end();
-      tour.restart();
+      tour.restart(true);
+      if(stepNum) {
+	tour.goTo(stepNum);
+      }
       localStorage[TOUR_ID_KEY] = tourId;
     });
   };
+  
 
   /* resume() : restore a tour at whatever step bootstrap tour has
    * retained state.
@@ -98,6 +102,20 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that.tours[name] = tour;
   };
 
+  /* waitForSelector() : a wrapper for waitForContent(). Use this to wait for
+   * existence of a jquery selector string.
+   */
+  this.waitForSelector = function(tour, jquerySelector) {
+    console.log(jquerySelector);
+    return that.waitForContent(tour, function() {
+      return ($(jquerySelector).length > 0);
+    });
+  };
+
+  /* waitForContent(): provide a callback function which will resolve
+   * a promise when the callback returns truthy. Useful for onShow()
+   * and onShown() for example.
+   */
   this.waitForContent = function(tour, cb) {
     var promise = new $.Deferred();
     var elapsed = 0;
@@ -113,7 +131,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     tour.end();
     throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
   }
-  //console.log('waiting for dynamic content from callback ' + cb);
+  console.log('waiting for dynamic content from callback ' + cb);
   setTimeout(waiter, MS);
       }
     }
