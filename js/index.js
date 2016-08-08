@@ -50,9 +50,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
        });
   };
 
-  /* go() : force a tour to start at step 0.
+  /* go() : force a tour to start at step 0, or the specific step num.
    */
-  this.go = function(tourId) {
+  this.go = function(tourId, step) {
     that.loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
@@ -60,11 +60,18 @@ var lisTours = {}; /* the lisTours library, created by this module */
   throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
-      tour.end();
-      tour.restart();
+      if(! step) {
+	tour.end();
+	tour.restart();
+      }
+      else {
+	tour.goTo(step);
+      }
       localStorage[TOUR_ID_KEY] = tourId;
     });
   };
+
+  
 
   /* resume() : restore a tour at whatever step bootstrap tour has
    * retained state.
