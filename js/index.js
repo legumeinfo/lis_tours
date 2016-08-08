@@ -105,6 +105,19 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that.tours[name] = tour;
   };
 
+  /* waitForSelector() : a wrapper for waitForContent(). Use this to wait for
+   * existence of a jquery selector string.
+   */
+  this.waitForSelector = function(tour, jquerySelector) {
+    return that.waitForContent(tour, function() {
+      return ($(jquerySelector).length > 0);
+    });
+  };
+
+  /* waitForContent(): provide a callback function which will resolve
+   * a promise when the callback returns truthy. Useful for onShow()
+   * and onShown() for example.
+   */
   this.waitForContent = function(tour, cb) {
     var promise = new $.Deferred();
     var elapsed = 0;
