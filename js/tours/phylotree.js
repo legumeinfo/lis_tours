@@ -75,7 +75,7 @@
         placement: 'top',
 	onShow: function(tour) {
 	  return lisTours.waitForSelector(tour, SELECTOR.leaf);
-	}
+	},
       },
       {
         title: 'Interior Nodes',
@@ -85,7 +85,14 @@
         element: SELECTOR.interior,
         placement: 'top',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.interior);
+	  // this will error out for tiny trees with no interior nodes
+	  // return lisTours.waitForSelector(tour, SELECTOR.interior);
+	},
+	onShown: function(tour) {
+	  var interiorNodes = $(SELECTOR.interior).length;
+	  if(! interiorNodes) {
+	    $('h3.popover-title').html('Interior Nodes (Not visible in this tree)');
+	  }
 	}
       },
       {
