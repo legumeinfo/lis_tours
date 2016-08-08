@@ -4,7 +4,7 @@
   "description": "A Drupal7 module for multi-page hopscotch tours (http://linkedin.github.io/hopscotch/)",
   "main": "js/index.js",
   "dependencies": {
-    "bootstrap-tour": "^0.10.3",
+    "bootstrap-tour": "^0.11.0",
     "console-shim": "^1.0.3",
     "jquery": "^3.0.0"
   },
