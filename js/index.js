@@ -60,11 +60,17 @@ var lisTours = {}; /* the lisTours library, created by this module */
   throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
-      if(! step) {
-	tour.end();
+      if(tour.ended()) {
 	tour.restart();
       }
+      if(! step) {
+	// force re-start
+	tour.end();
+	tour.start(true);
+      }
       else {
+	// step num was requested
+	tour.start(true);
 	tour.goTo(step);
       }
       localStorage[TOUR_ID_KEY] = tourId;
@@ -109,6 +115,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * existence of a jquery selector string.
    */
   this.waitForSelector = function(tour, jquerySelector) {
+    console.log(jquerySelector);
     return that.waitForContent(tour, function() {
       return ($(jquerySelector).length > 0);
     });
@@ -133,7 +140,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     tour.end();
     throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
   }
-  //console.log('waiting for dynamic content from callback ' + cb);
+  console.log('waiting for dynamic content from callback ' + cb);
   setTimeout(waiter, MS);
       }
     }
