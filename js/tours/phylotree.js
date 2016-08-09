@@ -2,14 +2,14 @@
 
   var $ = jQuery;
   
-  var EXAMPLE_URL  = '/chado_phylotree/phytozome_10_2.59026956';
+  var EXAMPLE_URL  = '/chado_phylotree/phytozome_10_2.59027108';
 
   // jquery selectors which are used in the tour definition 
   var SELECTOR = {
     family:           '#base-tripal-data-pane .tripal-data-block-desc',
     phylogram:        '#phylogram svg',
     phylogramNav:     'a:contains("Phylogram")',
-    leaf:             '#phylogram .legume-leaf-node:first',
+    leaf:             '#phylogram .legume-leaf-node:last',
     interior:         '#phylogram .inner circle:first',
     root:             '#phylogram .root circle:first',
     msa:              '#msa-toggle',
@@ -36,9 +36,7 @@
       {
       	title: 'Welcome',
       	content: 'This quick tour will acquaint you with the phylogeny tree \
-               viewer and other resources available in this section.',
-      	placement: 'right',
-	reflex: true,
+               viewer and other resources available in this section.'
       },
       {
       	title: 'Gene family name',
@@ -103,7 +101,7 @@
          the oldest common ancestor. It is the result of midpoint \
          rooting of the tree.)',
         element: SELECTOR.root,
-        placement: 'top',
+        placement: 'bottom',
 	onShow: function(tour) {
 	  return lisTours.waitForSelector(tour, SELECTOR.root);
 	},
