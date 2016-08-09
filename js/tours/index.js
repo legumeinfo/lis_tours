@@ -10,4 +10,5 @@ require('./blast-demo.js');
 require('./protein-domain.js');
 //require('./germplasm-world-tour.js');
 require('./phylotree.js');
+require('./genome-context-viewer.js');
 require('./germplasm-map.js');
