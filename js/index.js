@@ -9,10 +9,8 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var that = this;
   var TOUR_ID_KEY = 'lisTourId';
   var VISITED_KEY = 'lisTourVisited';
-  var MS = 100;
-  //adf: doubled this from previous value to accomodate slow gene searches;
-  //maybe there's a better approach.
-  var MAX_MS = 20000;
+  var MS = 100; /* interval for checking on dynamic content */
+  var MAX_MS = 10000;
   var dependenciesLoaded = false;
   var $ = null;
 
@@ -114,20 +112,25 @@ var lisTours = {}; /* the lisTours library, created by this module */
   /* waitForSelector() : a wrapper for waitForContent(). Use this to wait for
    * existence of a jquery selector string.
    */
-  this.waitForSelector = function(tour, jquerySelector) {
+  this.waitForSelector = function(tour, jquerySelector, timeout) {
     console.log(jquerySelector);
-    return that.waitForContent(tour, function() {
-      return ($(jquerySelector).length > 0);
-    });
+    return that.waitForContent(
+      tour,
+      function() {
+	return ($(jquerySelector).length > 0);
+      },
+      timeout);
   };
 
   /* waitForContent(): provide a callback function which will resolve
    * a promise when the callback returns truthy. Useful for onShow()
    * and onShown() for example.
    */
-  this.waitForContent = function(tour, cb) {
+  this.waitForContent = function(tour, cb, timeout) {
     var promise = new $.Deferred();
     var elapsed = 0;
+    var maxMs = timeout || MAX_MS;
+
     function waiter() {
       var res = cb();
       if(res) {
@@ -136,7 +139,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       else {
         elapsed += MS;
-        if(elapsed >= MAX_MS) {
+        if(elapsed >= maxMs) {
           tour.end();
           throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
         }
