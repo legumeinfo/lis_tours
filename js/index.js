@@ -1,20 +1,29 @@
-"use strict";
+'use strict';
 
 /*
- *  lisTours bundle entry point (index.js). use webpack lazy loading
- * to load the dependencies of lisTours. JQuery: load our version of
- * jquery and stash it in a global var, taking care not to conflict
- * with existing, older, jquery, e.g. drupal7 requires jquery 1.4.4
- * (Bootstrap Tours requires jquery Deferred/Promise classes which
- * were added in 1.5). Load the bootstrap tours css and load a
- * customized bootstrap tour js (consumes our __jquery version).
+
+ lisTours bundle entry point (index.js). use webpack lazy loading to
+  load the dependencies of lisTours.
+
+ Note jquery versions!
+
+ bootstrap requires jquery < 3.0
+ bootstrap-tours requires jquery > 1.5 (needs Promise/Deferred classes)
+ Drupal7 runs with jquery 1.4.4 which is too old.
+
+ So, we need to detect jquery and possibly lazy-load it and stash it
+ in a global var, taking care not to conflict with existing, older,
+ jquery.
+
+ Similarly, need to detect bootstrap, and lazy-load either the
+ standalone or regular version of bootstrap-tours js and css.
  */
 
 var lisTours = {}; /* the lisTours library, created by this module */
 
 (function(){
   var that = this;
-  var JQUERY_MIN = 1.5;
+  var JQUERY_VER = 2.2; // 2.2.x will do
   var TOUR_ID_KEY = 'lisTourId';
   var VISITED_KEY = 'lisTourVisited';
   var MS = 100; /* interval for checking on dynamic content */
@@ -184,10 +193,15 @@ var lisTours = {}; /* the lisTours library, created by this module */
   };
 
   function _jQueryRequired() {
-    if (! window.jQuery) { return true; }
+    
+    if (! window.jQuery) {
+      return true;
+    }
     try {
       var version = parseFloat(window.jQuery.fn.jquery);
-      return (version < JQUERY_MIN); 
+      console.log('existing jquery: ' + window.jQuery.fn.jquery);
+      var required = (version !== JQUERY_VER);
+      return required;
     }
     catch(e) {
       return true;
@@ -198,12 +212,14 @@ var lisTours = {}; /* the lisTours library, created by this module */
     // use existing jquery
     $ = window.__jquery = jQuery;
     $(document).ready(that.init);
+    console.log('using jquery: '+ $.fn.jquery);
   }
   else {
     // lazy load the latest jquery
     require.ensure(['jquery'], function(require) {
       $ = window.__jquery = require('jquery').noConflict(true);
       $(document).ready(that.init);
+      console.log('using jquery: '+ $.fn.jquery);
     });
   }
 
