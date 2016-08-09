@@ -1,12 +1,20 @@
 "use strict";
 
 /*
- *  lisTours bundle entry point (index.js).
+ *  lisTours bundle entry point (index.js). use webpack lazy loading
+ * to load the dependencies of lisTours. JQuery: load our version of
+ * jquery and stash it in a global var, taking care not to conflict
+ * with existing, older, jquery, e.g. drupal7 requires jquery 1.4.4
+ * (Bootstrap Tours requires jquery Deferred/Promise classes which
+ * were added in 1.5). Load the bootstrap tours css and load a
+ * customized bootstrap tour js (consumes our __jquery version).
  */
+
 var lisTours = {}; /* the lisTours library, created by this module */
 
 (function(){
   var that = this;
+  var JQUERY_MIN = 1.5;
   var TOUR_ID_KEY = 'lisTourId';
   var VISITED_KEY = 'lisTourVisited';
   var MS = 100; /* interval for checking on dynamic content */
@@ -22,33 +30,47 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   }
 
-  /* loadDeps() : use webpack lazy loading to load the dependencies of
-   * lisTours only if a tour is requested or tour in progress.
-   */
   this.loadDeps = function(cb) {
-    require.ensure(['jquery',
-                    '!style!css!../css/bootstrap-tour-standalone.min.css',
-                    '!style!css!../css/lis-tours.css',
-                    './bootstrap-tour-loader.js',
-                    './tours/index.js'],
-                   function(require) {
-                     // JQuery: load our version of jquery and stash it in a global
-                     // var, taking care not to conflict with existing, older, jquery,
-                     // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
-                     // jquery Deferred/Promise classes)
-                     $ = window.__jquery = require('jquery').noConflict(true);
-                     // load the bootstrap tours css
-                     require('!style!css!../css/bootstrap-tour-standalone.min.css');
-                     require('!style!css!../css/lis-tours.css');
-                     // load a customized bootstrap tour js (consumes our __jquery version)
-                     require('./bootstrap-tour-loader.js');
-                     // load tour definitions
-                     require('./tours/index.js');
-                     // callback fn
-                     cb.call(that);
-                   });
+    if(_bootstrapExists()) {
+      // lazy-load normal bootstrap-tour
+      require.ensure(
+	['!style!css!../css/bootstrap-tour.min.css',
+	 '!style!css!../css/lis-tours.css',
+	 './bootstrap-tour-loader.js',
+	 './tours/index.js'],
+	function(require) {
+	  console.log('loading normal bootstrap-tour');
+	  require('!style!css!../css/bootstrap-tour.min.css');
+	  require('!style!css!../css/lis-tours.css');
+	  require('./bootstrap-tour-loader.js');
+	  require('./tours/index.js');
+	  cb.call(that);
+	});
+    }
+    else {
+      // lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
+      require.ensure(
+	['!style!css!../css/bootstrap-tour-standalone.min.css',
+	 '!style!css!../css/lis-tours.css',
+	 './bootstrap-tour-standalone-loader.js',
+	 './tours/index.js'],
+	function(require) {
+	  console.log('loading bootstrap-standalone-tour');
+	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
+	  require('!style!css!../css/lis-tours.css');
+	  require('./bootstrap-tour-standalone-loader.js');
+	  require('./tours/index.js');
+	  cb.call(that);		  
+	});
+    }
   };
 
+  function _bootstrapExists() {
+    var bootstrapLinks = $('link[href*="bootstrap"]').length;
+    console.log('bootstrap css links detected: ' + bootstrapLinks);
+    return (bootstrapLinks > 0);
+  }
+  
   /* go() : force a tour to start at step 0, or the specific step num.
    */
   this.go = function(tourId, stepNum) {
@@ -161,15 +183,27 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
   };
 
-
-  if('jQuery' in window) {
-    jQuery(document).ready(that.init);
+  function _jQueryRequired() {
+    if (! window.jQuery) { return true; }
+    try {
+      var version = parseFloat(window.jQuery.fn.jquery);
+      return (version < JQUERY_MIN); 
+    }
+    catch(e) {
+      return true;
+    }
+  }
+  
+  if(! _jQueryRequired()) {
+    // use existing jquery
+    $ = window.__jquery = jQuery;
+    $(document).ready(that.init);
   }
   else {
-    // lazy load our jquery, if there is not one already.
+    // lazy load the latest jquery
     require.ensure(['jquery'], function(require) {
-      window.__jquery = require('jquery').noConflict(true);
-      window.__jquery(document).ready(that.init);
+      $ = window.__jquery = require('jquery').noConflict(true);
+      $(document).ready(that.init);
     });
   }
 
