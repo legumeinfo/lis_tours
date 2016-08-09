@@ -41,9 +41,11 @@
     steps: [
       {
         title: 'Welcome',
-        content: 'This is a short tour of the Germplasm map viewer. This web\
-          app offers searching and visualization of germplasm accessions and\
-trait observations.',
+        content: 'This is a short tour of the Germplasm map viewer. This web \
+          app offers searching and visualization of germplasm accessions and \
+          trait observations. Use the Next button or &#8594; (right arrow key)\
+          to advance the tour. Use the Prev button or &#8592; (left arrow key)\
+          to step back.',
 	onShow: function(tour) {
 	  // if the URL is not matching germplasm/map
 	  if(document.location.href.indexOf(EXAMPLE_URL) === -1) {

@@ -36,7 +36,9 @@
       {
       	title: 'Welcome',
       	content: 'This quick tour will acquaint you with the phylogeny tree \
-               viewer and other resources available in this section.'
+          viewer and other resources available in this section. Use the Next \
+          button or &#8594; (right arrow key) to advance the tour. Use the \
+          Prev button or &#8592; (left arrow key) to step back.'
       },
       {
       	title: 'Gene family name',
