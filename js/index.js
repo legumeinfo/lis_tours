@@ -1,18 +1,33 @@
-"use strict";
+'use strict';
 
 /*
- *  lisTours bundle entry point (index.js).
+
+ lisTours bundle entry point (index.js). use webpack lazy loading to
+  load the dependencies of lisTours.
+
+ Note jquery versions!
+
+ bootstrap requires jquery < 3.0
+ bootstrap-tours requires jquery > 1.5 (needs Promise/Deferred classes)
+ Drupal7 runs with jquery 1.4.4 which is too old.
+
+ So, we need to detect jquery and possibly lazy-load it and stash it
+ in a global var, taking care not to conflict with existing, older,
+ jquery.
+
+ Similarly, need to detect bootstrap, and lazy-load either the
+ standalone or regular version of bootstrap-tours js and css.
  */
+
 var lisTours = {}; /* the lisTours library, created by this module */
 
 (function(){
   var that = this;
+  var JQUERY_VER = 2.2; // 2.2.x will do
   var TOUR_ID_KEY = 'lisTourId';
   var VISITED_KEY = 'lisTourVisited';
-  var MS = 100;
-  //adf: doubled this from previous value to accomodate slow gene searches;
-  //maybe there's a better approach.
-  var MAX_MS = 20000;
+  var MS = 10; /* interval for checking on dynamic content */
+  var MAX_MS = 10000;
   var dependenciesLoaded = false;
   var $ = null;
 
@@ -24,33 +39,47 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   }
 
-  /* loadDeps() : use webpack lazy loading to load the dependencies of
-   * lisTours only if a tour is requested or tour in progress.
-   */
   this.loadDeps = function(cb) {
-    require.ensure(['jquery',
-                    '!style!css!../css/bootstrap-tour-standalone.min.css',
-                    '!style!css!../css/lis-tours.css',
-                    './bootstrap-tour-loader.js',
-                    './tours/index.js'],
-                   function(require) {
-                     // JQuery: load our version of jquery and stash it in a global
-                     // var, taking care not to conflict with existing, older, jquery,
-                     // e.g. drupal7 requires jquery 1.4.4 (Bootstrap Tours requires
-                     // jquery Deferred/Promise classes)
-                     $ = window.__jquery = require('jquery').noConflict(true);
-                     // load the bootstrap tours css
-                     require('!style!css!../css/bootstrap-tour-standalone.min.css');
-                     require('!style!css!../css/lis-tours.css');
-                     // load a customized bootstrap tour js (consumes our __jquery version)
-                     require('./bootstrap-tour-loader.js');
-                     // load tour definitions
-                     require('./tours/index.js');
-                     // callback fn
-                     cb.call(that);
-                   });
+    if(_bootstrapExists()) {
+      // lazy-load normal bootstrap-tour
+      require.ensure(
+	['!style!css!../css/bootstrap-tour.min.css',
+	 '!style!css!../css/lis-tours.css',
+	 './bootstrap-tour-loader.js',
+	 './tours/index.js'],
+	function(require) {
+	  console.log('loading normal bootstrap-tour');
+	  require('!style!css!../css/bootstrap-tour.min.css');
+	  require('!style!css!../css/lis-tours.css');
+	  require('./bootstrap-tour-loader.js');
+	  require('./tours/index.js');
+	  cb.call(that);
+	});
+    }
+    else {
+      // lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
+      require.ensure(
+	['!style!css!../css/bootstrap-tour-standalone.min.css',
+	 '!style!css!../css/lis-tours.css',
+	 './bootstrap-tour-standalone-loader.js',
+	 './tours/index.js'],
+	function(require) {
+	  console.log('loading bootstrap-standalone-tour');
+	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
+	  require('!style!css!../css/lis-tours.css');
+	  require('./bootstrap-tour-standalone-loader.js');
+	  require('./tours/index.js');
+	  cb.call(that);		  
+	});
+    }
   };
 
+  function _bootstrapExists() {
+    var bootstrapLinks = $('link[href*="bootstrap"]').length;
+    console.log('bootstrap css links detected: ' + bootstrapLinks);
+    return (bootstrapLinks > 0);
+  }
+  
   /* go() : force a tour to start at step 0, or the specific step num.
    */
   this.go = function(tourId, stepNum) {
@@ -114,20 +143,25 @@ var lisTours = {}; /* the lisTours library, created by this module */
   /* waitForSelector() : a wrapper for waitForContent(). Use this to wait for
    * existence of a jquery selector string.
    */
-  this.waitForSelector = function(tour, jquerySelector) {
+  this.waitForSelector = function(tour, jquerySelector, timeout) {
     console.log(jquerySelector);
-    return that.waitForContent(tour, function() {
-      return ($(jquerySelector).length > 0);
-    });
+    return that.waitForContent(
+      tour,
+      function() {
+	return ($(jquerySelector).length > 0);
+      },
+      timeout);
   };
 
   /* waitForContent(): provide a callback function which will resolve
    * a promise when the callback returns truthy. Useful for onShow()
    * and onShown() for example.
    */
-  this.waitForContent = function(tour, cb) {
+  this.waitForContent = function(tour, cb, timeout) {
     var promise = new $.Deferred();
     var elapsed = 0;
+    var maxMs = timeout || MAX_MS;
+
     function waiter() {
       var res = cb();
       if(res) {
@@ -136,7 +170,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       else {
         elapsed += MS;
-        if(elapsed >= MAX_MS) {
+        if(elapsed >= maxMs) {
           tour.end();
           throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
         }
@@ -158,15 +192,34 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
   };
 
-
-  if('jQuery' in window) {
-    jQuery(document).ready(that.init);
+  function _jQueryRequired() {
+    
+    if (! window.jQuery) {
+      return true;
+    }
+    try {
+      var version = parseFloat(window.jQuery.fn.jquery);
+      console.log('existing jquery: ' + window.jQuery.fn.jquery);
+      var required = (version !== JQUERY_VER);
+      return required;
+    }
+    catch(e) {
+      return true;
+    }
+  }
+  
+  if(! _jQueryRequired()) {
+    // use existing jquery
+    $ = window.__jquery = jQuery;
+    $(document).ready(that.init);
+    console.log('using jquery: '+ $.fn.jquery);
   }
   else {
-    // lazy load our jquery, if there is not one already.
+    // lazy load the latest jquery
     require.ensure(['jquery'], function(require) {
-      window.__jquery = require('jquery').noConflict(true);
-      window.__jquery(document).ready(that.init);
+      $ = window.__jquery = require('jquery').noConflict(true);
+      $(document).ready(that.init);
+      console.log('using jquery: '+ $.fn.jquery);
     });
   }
 

@@ -1,6 +1,9 @@
-/* overrides and additions to bootstrap-tour-standalone.css */
+/* overrides and additions to bootstrap-tour.css */
 .popover-content {
     font-size: 87.5%;
+}
+h3.popover-title {
+    display: block;
 }
 .tour-step-element-reflex {
     border-style: solid;
