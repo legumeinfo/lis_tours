@@ -1,5 +1,3 @@
-'use strict';
-
 /*
 
  lisTours bundle entry point (index.js). use webpack lazy loading to
@@ -18,6 +16,7 @@
  Similarly, need to detect bootstrap, and lazy-load either the
  standalone or regular version of bootstrap-tours js and css.
  */
+'use strict';
 
 var lisTours = {}; /* the lisTours library, created by this module */
 
@@ -39,38 +38,56 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   }
 
-  this.loadDeps = function(cb) {
-    if(_bootstrapExists()) {
-      // lazy-load normal bootstrap-tour
-      require.ensure(
-	['!style!css!../css/bootstrap-tour.min.css',
-	 '!style!css!../css/lis-tours.css',
-	 './bootstrap-tour-loader.js',
-	 './tours/index.js'],
-	function(require) {
-	  console.log('loading normal bootstrap-tour');
-	  require('!style!css!../css/bootstrap-tour.min.css');
-	  require('!style!css!../css/lis-tours.css');
-	  require('./bootstrap-tour-loader.js');
-	  require('./tours/index.js');
-	  cb.call(that);
-	});
+  this._loadDeps = function(cb) {
+
+    function loader() {
+      if(_bootstrapExists()) {
+	// lazy-load normal bootstrap-tour
+	require.ensure(
+	  ['!style!css!../css/bootstrap-tour.min.css',
+	   '!style!css!../css/lis-tours.css',
+	   './bootstrap-tour-loader.js',
+	   './tours/index.js'],
+	  function(require) {
+	    console.log('loading normal bootstrap-tour');
+	    require('!style!css!../css/bootstrap-tour.min.css');
+	    require('!style!css!../css/lis-tours.css');
+	    require('./bootstrap-tour-loader.js');
+	    require('./tours/index.js');
+	    cb.call(that);
+	  });
+      }
+      else {
+	// lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
+	require.ensure(
+	  ['!style!css!../css/bootstrap-tour-standalone.min.css',
+	   '!style!css!../css/lis-tours.css',
+	   './bootstrap-tour-standalone-loader.js',
+	   './tours/index.js'],
+	  function(require) {
+	    console.log('loading bootstrap-standalone-tour');
+	    require('!style!css!../css/bootstrap-tour-standalone.min.css');
+	    require('!style!css!../css/lis-tours.css');
+	    require('./bootstrap-tour-standalone-loader.js');
+	    require('./tours/index.js');
+	    cb.call(that);		  
+	  });
+      }
+    }
+    
+    if(! _jQueryRequired()) {
+      // use existing jquery
+      $ = window.__jquery = jQuery;
+      $(document).ready(loader);
+      console.log('using jquery: '+ $.fn.jquery);
     }
     else {
-      // lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
-      require.ensure(
-	['!style!css!../css/bootstrap-tour-standalone.min.css',
-	 '!style!css!../css/lis-tours.css',
-	 './bootstrap-tour-standalone-loader.js',
-	 './tours/index.js'],
-	function(require) {
-	  console.log('loading bootstrap-standalone-tour');
-	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
-	  require('!style!css!../css/lis-tours.css');
-	  require('./bootstrap-tour-standalone-loader.js');
-	  require('./tours/index.js');
-	  cb.call(that);		  
-	});
+      // lazy load the latest jquery
+      require.ensure(['jquery'], function(require) {
+	$ = window.__jquery = require('jquery').noConflict(true);
+	$(document).ready(loader);
+	console.log('using jquery: '+ $.fn.jquery);
+      });
     }
   };
 
@@ -83,7 +100,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
   /* go() : force a tour to start at step 0, or the specific step num.
    */
   this.go = function(tourId, stepNum) {
-    that.loadDeps(function() {
+    that._loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
         localStorage.removeItem(TOUR_ID_KEY);
@@ -112,7 +129,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * retained state.
    */
   this.resume = function(tourId) {
-    that.loadDeps(function() {
+    that._loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
         localStorage.removeItem(TOUR_ID_KEY);
@@ -185,7 +202,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
   /* init() : lookup the most recent tour id, and load it's module, to
    * enable tour to resume automatically.
    */
-  this.init = function() {
+  this._init = function() {
     var tourId = localStorage.getItem(TOUR_ID_KEY);
     if(tourId) {
       that.resume(tourId);
@@ -193,7 +210,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
   };
 
   function _jQueryRequired() {
-    
     if (! window.jQuery) {
       return true;
     }
@@ -207,22 +223,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
       return true;
     }
   }
-  
-  if(! _jQueryRequired()) {
-    // use existing jquery
-    $ = window.__jquery = jQuery;
-    $(document).ready(that.init);
-    console.log('using jquery: '+ $.fn.jquery);
-  }
-  else {
-    // lazy load the latest jquery
-    require.ensure(['jquery'], function(require) {
-      $ = window.__jquery = require('jquery').noConflict(true);
-      $(document).ready(that.init);
-      console.log('using jquery: '+ $.fn.jquery);
-    });
-  }
 
+  this._init();
+  
 }.call(lisTours));
 
 // make the lisTours library available globally
