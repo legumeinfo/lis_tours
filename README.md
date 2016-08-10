@@ -6,7 +6,7 @@ Multi-page and dynamic  [bootstrap-tours](http://bootstraptour.com)  for legumei
 Requires npm package manager (install nodejs)
 
     npm install # install all requirements from package.json
-    npm install -g webpack # make this available on cli, by -g global flag
+    npm install webpack -g # make this available on cli, by -g global flag
     
 ## Webpack usage
 
