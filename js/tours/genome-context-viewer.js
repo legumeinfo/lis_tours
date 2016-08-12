@@ -49,7 +49,6 @@
 	    // if the URL is not matching lis_context_viewer
 	    if(document.location.href.indexOf('lis_context_viewer/') === -1) {
 	      console.log('redirecting to example context viewer: '+ EXAMPLE_URL);
-	      debugger;
 	      document.location.href = EXAMPLE_URL;
 	      return (new jQuery.Deferred()).promise();
 	    }
