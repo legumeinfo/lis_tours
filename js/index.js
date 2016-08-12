@@ -1,20 +1,9 @@
 /*
 
  lisTours bundle entry point (index.js). use webpack lazy loading to
-  load the dependencies of lisTours.
+  load the dependencies of lisTours: jquery and
+  bootstrap-tour-standalone.
 
- Note jquery versions!
-
- bootstrap requires jquery < 3.0
- bootstrap-tours requires jquery > 1.5 (needs Promise/Deferred classes)
- Drupal7 runs with jquery 1.4.4 which is too old.
-
- So, we need to detect jquery and possibly lazy-load it and stash it
- in a global var, taking care not to conflict with existing, older,
- jquery.
-
- Similarly, need to detect bootstrap, and lazy-load either the
- standalone or regular version of bootstrap-tours js and css.
  */
 'use strict';
 
@@ -22,7 +11,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
 
 (function(){
   var that = this;
-  var JQUERY_VER = 2.2; // 2.2.x will do
   var TOUR_ID_KEY = 'lisTourId';
   var VISITED_KEY = 'lisTourVisited';
   var MS = 10; /* interval for checking on dynamic content */
@@ -75,26 +63,21 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
     }
     
-    if(! _jQueryRequired()) {
-      // use existing jquery
-      $ = window.__jquery = jQuery;
+    // lazy load the latest jquery
+    require.ensure(['jquery'], function(require) {
+      $ = window.__jquery = require('jquery').noConflict(true);
       $(document).ready(loader);
       console.log('using jquery: '+ $.fn.jquery);
-    }
-    else {
-      // lazy load the latest jquery
-      require.ensure(['jquery'], function(require) {
-	$ = window.__jquery = require('jquery').noConflict(true);
-	$(document).ready(loader);
-	console.log('using jquery: '+ $.fn.jquery);
-      });
-    }
+    });
   };
 
   function _bootstrapExists() {
-    var bootstrapLinks = $('link[href*="bootstrap"]').length;
-    console.log('bootstrap css links detected: ' + bootstrapLinks);
-    return (bootstrapLinks > 0);
+    // punt and do not try to use existing bootstrap library. cannot get it to work with the context viewer.
+    return false;
+    
+    // var bootstrapLinks = $('link[href*="bootstrap"]').length;
+    // console.log('bootstrap css links detected: ' + bootstrapLinks);
+    // return (bootstrapLinks > 0);
   }
   
   /* go() : force a tour to start at step 0, or the specific step num.
@@ -216,7 +199,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     try {
       var version = parseFloat(window.jQuery.fn.jquery);
       console.log('existing jquery: ' + window.jQuery.fn.jquery);
-      var required = (version !== JQUERY_VER);
+      var required = (version < JQUERY_MIN_VER || version > JQUERY_MAX_VER);
       return required;
     }
     catch(e) {
