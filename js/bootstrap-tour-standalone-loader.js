@@ -710,15 +710,15 @@
 }(window.__jquery);
 
 (function(window, factory) {
-  if (typeof define === 'function' && define.amd) {
-    return define(['jquery'], function(jQuery) {
-      return window.Tour = factory(jQuery);
-    });
-  } else if (typeof exports === 'object') {
-    return module.exports = factory(require('jQuery'));
-  } else {
+  // if (typeof define === 'function' && define.amd) {
+  //   return define(['jquery'], function(jQuery) {
+  //     return window.Tour = factory(jQuery);
+  //   });
+  // } else if (typeof exports === 'object') {
+  //   return module.exports = factory(require('jQuery'));
+  // } else {
     return window.Tour = factory(window.window.__jquery);
-  }
+  //}
 })(window, function($) {
   var Tour, document;
   document = window.document;

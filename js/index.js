@@ -29,38 +29,20 @@ var lisTours = {}; /* the lisTours library, created by this module */
   this._loadDeps = function(cb) {
 
     function loader() {
-      if(_bootstrapExists()) {
-	// lazy-load normal bootstrap-tour
-	require.ensure(
-	  ['!style!css!../css/bootstrap-tour.min.css',
-	   '!style!css!../css/lis-tours.css',
-	   './bootstrap-tour-loader.js',
-	   './tours/index.js'],
-	  function(require) {
-	    console.log('loading normal bootstrap-tour');
-	    require('!style!css!../css/bootstrap-tour.min.css');
-	    require('!style!css!../css/lis-tours.css');
-	    require('./bootstrap-tour-loader.js');
-	    require('./tours/index.js');
-	    cb.call(that);
-	  });
-      }
-      else {
-	// lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
-	require.ensure(
-	  ['!style!css!../css/bootstrap-tour-standalone.min.css',
-	   '!style!css!../css/lis-tours.css',
-	   './bootstrap-tour-standalone-loader.js',
-	   './tours/index.js'],
-	  function(require) {
-	    console.log('loading bootstrap-standalone-tour');
-	    require('!style!css!../css/bootstrap-tour-standalone.min.css');
-	    require('!style!css!../css/lis-tours.css');
-	    require('./bootstrap-tour-standalone-loader.js');
-	    require('./tours/index.js');
-	    cb.call(that);		  
-	  });
-      }
+      // lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
+      require.ensure(
+	['!style!css!../css/bootstrap-tour-standalone.min.css',
+	 '!style!css!../css/lis-tours.css',
+	 './bootstrap-tour-standalone-loader.js',
+	 './tours/index.js'],
+	function(require) {
+	  console.log('loading bootstrap-standalone-tour');
+	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
+	  require('!style!css!../css/lis-tours.css');
+	  require('./bootstrap-tour-standalone-loader.js');
+	  require('./tours/index.js');
+	  cb.call(that);		  
+	});
     }
     
     // lazy load the latest jquery
@@ -70,15 +52,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
       console.log('using jquery: '+ $.fn.jquery);
     });
   };
-
-  function _bootstrapExists() {
-    // punt and do not try to use existing bootstrap library. cannot get it to work with the context viewer.
-    return false;
-    
-    // var bootstrapLinks = $('link[href*="bootstrap"]').length;
-    // console.log('bootstrap css links detected: ' + bootstrapLinks);
-    // return (bootstrapLinks > 0);
-  }
   
   /* go() : force a tour to start at step 0, or the specific step num.
    */
