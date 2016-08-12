@@ -7,6 +7,8 @@
 	home_button: 'a:contains("Context Viewer")',
   };
 
+  var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?numNeighbors=10&numMatchedFamilies=4&numNonFamily=5&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=30&threshold=25&track_regexp=&order=distance&sources=lis";
+  
   var tour = new Tour({
     name: 'genome-context-viewer',
     debug: true,
@@ -35,8 +37,23 @@
 */
         {
           title: "Genome Context Viewer Tour: Landing Page",
+	  // Dont use complex path properties, because if the URL
+	  // path/hash/query string etc.  is changed by angular then
+	  // bootstrap-tour will go into a redirect loop trying to
+	  // load the stated path. This onShow() approach can be used
+	  // instead.
+	  
           //path: "/lis_context_viewer/#/instructions",
-          path: "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?numNeighbors=10&numMatchedFamilies=4&numNonFamily=5&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=30&threshold=25&track_regexp=&order=distance&sources=lis",
+          //path: "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?numNeighbors=10&numMatchedFamilies=4&numNonFamily=5&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=30&threshold=25&track_regexp=&order=distance&sources=lis",
+	  onShow: function(tour) {
+	    // if the URL is not matching lis_context_viewer
+	    if(document.location.href.indexOf('lis_context_viewer/') === -1) {
+	      console.log('redirecting to example context viewer: '+ EXAMPLE_URL);
+	      debugger;
+	      document.location.href = EXAMPLE_URL;
+	      return (new jQuery.Deferred()).promise();
+	    }
+	  },
           content: "The Genome Context Viewer allows you to view regions of genomes considered primarily with respect to the ordering and orientation of their annotated gene content, as well as to search for segments similar in gene content and organization. This allows a quick but powerful view into microsyntenic relationships among difference chromosomal segments.",
           element: 'h1:contains("Welcome")',
         },
