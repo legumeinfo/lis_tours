@@ -155,18 +155,30 @@
          content: "The 'Neighbor' value controls the number of genes that surround the central gene. By default, the regions extend out by 8 genes upstream and down from the selected genes. Increasing this value will give you longer contexts with more sensitivity for finding distant matches, but will increase retrieval times and may make the display harder to interpret.",
          element: "#neighborpane", //Should point to the field input, but depends on the size/shape of the window.
          placement: "right",       
+         onShow: function() {
+            $('#left-slider-content').animate({
+               //scrollTop: $("#algpar").offset().top
+               scrollTop: 0
+            }, 1);
+         }
         },
         {
          title: "Scroll Control",
          content: "The scroll input is used to scroll in either direction on the query track's chromosome. In other words, given a scroll distance and direction from the current focus gene, a new query is made with the track built around the new focus found with these parameters. The allowed scroll values are constrained so that the new focus gene after scrolling is present in the context before scrolling.",
          element: "#form-wrapper",
-         placement: "right"
-            },    
+         placement: "right",
+        },    
         {
          title: "Algorithms",
          content: "Synteny between tracks is determined via a modified Smith-Waterman or Repeat alignment algorithm. For Smith-Waterman, the orientation (forward/reverse) with the higher score is displayed. For the Repeat algorithm, all alignments are kept and displayed as related tracks. This has the advantage of nicely capturing inversions.",
          element: "#algpar",
          placement: "right",
+         onShow: function() {
+            $('#left-slider-content').animate({
+               //scrollTop: $("#algpar").offset().top
+               scrollTop: 400
+            }, 1);
+         }
         },
         {
          title: "Alerts",
