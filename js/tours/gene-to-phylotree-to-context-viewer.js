@@ -9,6 +9,7 @@
   // jquery selectors which are used in the tour definition 
   var SELECTOR = {
     context_link: '#phylonode_popup_dialog a[href*="lis_context_viewer"]',
+    context_focus_gene: 'path.point.focus:first',
   };
 
   var tour = new Tour({
@@ -48,8 +49,20 @@
           $('#edit-description-op')[0].value='starts';
         },
       }, {
+        title: 'Gene Tour: Filter by Species',
+        content: "Supposing we are initially interested in the genes from Vigna radiata (mungbean), we would specify the five-letter species abbreviation 'vigra', composed of the first three letters of the genus and the first two letters of the species component of the scientific name.",
+        onShow: function() {
+          $("#edit-abbreviation")[0].value='vigra';
+        },
+        element: '#edit-abbreviation',
+        placement: 'bottom',
+        reflex: true,
+        onPrev: function(tour) {
+          tour.skipStep = true;
+        }
+      }, {
         title: 'Gene Tour: Gene Search',
-        content: 'Then click "Apply" to apply the specified filter to the genes in the result.',
+        content: 'Then click "Apply" to apply the specified filters to the genes in the result.',
         placement: 'bottom',
         element: '#edit-submit-gene',
         reflex: true,
@@ -81,55 +94,11 @@
         }
       }, {
         title: 'Gene Tour: Search Results',
-        content: "We've gotten paged results back for genes matching the given description across all species with annotated genomes in LIS. ",
+        content: "We've gotten paged results back for genes matching the given description in our target species.",
         element: 'th.views-field-name',
         placement: 'top',
         onPrev: function(tour) {
           tour.skipStep = true;
-        }
-      }, {
-        title: 'Gene Tour: Filter by Species',
-        content: "Supposing we are initially interested in the genes from Vigna radiata (mungbean), we would specify the five-letter species abbreviation 'vigra', composed of the first three letters of the genus and the first two letters of the species component of the scientific name.",
-        onShow: function() {
-          $("#edit-abbreviation")[0].value='vigra';
-        },
-        element: '#edit-abbreviation',
-        placement: 'bottom',
-        reflex: true,
-        onPrev: function(tour) {
-          tour.skipStep = true;
-        }
-      }, {
-        title: 'Gene Tour: Gene Search',
-        content: 'Again click "Apply" to apply the added filter to the genes in the result.',
-        placement: 'bottom',
-        element: '#edit-submit-gene',
-        reflex: true,
-        onNext: function() {
-          $('#edit-submit-gene')[0].click();
-        }
-      }, {
-        title: 'Gene Tour: Gene Search',
-        content: 'Waiting for query results...',
-        placement: 'top',
-        onShown: function(tour) {
-          $('.popover-navigation div').hide();
-          // wait for dynamic content with a loading dialog.
-          if(tour.skipStep) {
-            tour.skipStep = false;
-            tour.prev();
-            return;
-          }
-          var promise = lisTours.waitForContent(
-            tour,
-            function() {
-              return $('tr.views-row-first td.views-field-abbreviation:contains(\'vigra\')')[0];
-            });
-          // advance automatically to next step when done loading
-          promise.then(function() {
-            tour.next();
-          });
-          return promise;
         }
        }, {
      title: 'Gene Tour: Functional description',
@@ -272,7 +241,7 @@
         //path : '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360?numNeighbors=8&numMatchedFamilies=6&numNonFamily=5&algorithm=repeat&match=5&mismatch=-1&gap=-1&score=25&threshold=25&track_regexp=&order=chromosome',
         title: 'Gene Tour: Genome Context Viewer',
         content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong, and genomic segments with similar gene content are aligned to the track containing our search gene.',
-        element: 'g.gene:has(:contains("Vradi01g03360")) > path',
+        element: SELECTOR.context_focus_gene,
         placement: 'top',
         onPrev: function(tour) {
           tour.skipStep = true;}
