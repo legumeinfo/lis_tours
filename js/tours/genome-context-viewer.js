@@ -25,53 +25,6 @@
     },
 
     steps: [
-        /*
-        {
-          title: "Genome Context Viewer Tour: Welcome to LIS!",
-          content: 'Let\'s go the legumeinfo.org homepage, where the Genome Context Viewer Tour will begin.  Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
-          element: "#site-name",
-          placement: "bottom",
-          reflex: "true",
-        },
-        {
-          title: "Genome Context Viewer Tour: Getting started",
-          path: "/home",
-          content: 'The Genome Context Viewer can be linked to directly using gene names, and is linked to from many places on the site where genes are present. For this tour, we\'ll go directly via the front page.',
-          element: SELECTOR.home_button,
-          placement: "bottom",
-          reflex: "true",
-          onNext: function() {
-            $(SELECTOR.home_button)[0].click();
-          }
-        },
-        {
-          title: "Genome Context Viewer Tour: Landing Page",
-      // Dont use complex path properties, because if the URL
-      // path/hash/query string etc.  is changed by angular then
-      // bootstrap-tour will go into a redirect loop trying to
-      // load the stated path. This onShow() approach can be used
-      // instead.
-      
-          //path: "/lis_context_viewer/#/instructions",
-          //path: "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?numNeighbors=10&numMatchedFamilies=4&numNonFamily=5&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=30&threshold=25&track_regexp=&order=distance&sources=lis",
-      onShow: function(tour) {
-        // if the URL is not matching lis_context_viewer
-        if(document.location.href.indexOf('lis_context_viewer/') === -1) {
-          console.log('redirecting to example context viewer: '+ LANDING_URL);
-          document.location.href = LANDING_URL;
-          return (new jQuery.Deferred()).promise();
-        }
-      },
-          content: "The Genome Context Viewer allows you to view regions of genomes considered primarily with respect to the ordering and orientation of their annotated gene content, as well as to search for segments similar in gene content and organization. This allows a quick but powerful view into microsyntenic relationships among difference chromosomal segments.",
-          element: 'h1:contains("Welcome")',
-        },
-        {
-          title: "Genome Context Viewer Tour: Examples",
-          content: "We've provided some examples to get you started. For this tour, we'll focus on the first example.",
-          element: 'h2:contains("Examples") + li',
-          placement: "right",
-        },
-        */
         {
           title: 'Welcome',
           content: 'This quick tour will acquaint you with the genome context \
@@ -84,12 +37,12 @@
           element: ".rail:last",
           placement: "bottom",
           onShow: function() {
-             $('#viewer').animate({
-                scrollTop: 1000
-             }, 4000);
-             $('#viewer').animate({
-                scrollTop: 0
-             }, 4000);
+             // $('#viewer').animate({
+             //    scrollTop: 1000
+             // }, 4000);
+             // $('#viewer').animate({
+             //    scrollTop: 0
+             // }, 4000);
           }
          },      
         {
@@ -105,29 +58,20 @@
                 scrollTop: 100
              }, 3000);
           }
-      /*
-      onShow: function(tour) {
-        // if the URL is not matching lis_context_viewer
-        if (document.location.href.indexOf(EXAMPLE_URL) === -1) {
-          console.log('redirecting to example context viewer: '+ EXAMPLE_URL);
-          document.location.href = EXAMPLE_URL;
-          return (new jQuery.Deferred()).promise();
-        }
-      }
-        */
          }, 
         {
           title: "Gene Families",
           content: "Since genes in a family tend to have relatively similar sequences, we can use them to predict the functions of newly identified genes based on their relations to other known genes, especially in cases where the genes are found in similar syntenic contexts. Gene family colors in the legend will display all representatives of the family in the current view when moused-over, or when clicked will list those genes with the option to view them in the context of the family's phylogenetic tree. ",
-          element: "#legend-content",
+          element: "#legend",
           placement: "left"
            },    
         {
           title: "Dot Plots",
-                content: "Dot plots are useful in identifying interspersed, lost, or gained repeat motifs.",
+                content: "Dot plots are useful in identifying interspersed, lost, or gained repeat motifs. The <strong>plot</strong> link reveals the dot plot for the given genome track against the query track.",
           element: ".axis_right",
           placement: "top",
           multipage: true,
+	  reflex: true,
           onNext: function() {
               $.fn.d3Click = function () {
                 this.each(function (i, e) {
@@ -147,7 +91,7 @@
         {
          title: "The Plot Thickens",
          content: "The main diagonal shows the sequence's alignment with itself, while patterns off the main diagonal indicate structural similarities among different parts of the sequences. Lines off the main diagonal imply different regions with a high similarity.", 
-         element: "local-plot",
+         element: "#local-plot",
          placement: "left",
          onNext: function() {
              $('#gloplot')[0].click();
