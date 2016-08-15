@@ -22,7 +22,7 @@
   
   var tour = new Tour({
     name: 'phylotree',
-    debug: true,
+    // debug: true,
     orphan: true,
     onShow: function(tour) {
       // if the URL is not matching chado_phylotree/[family]
