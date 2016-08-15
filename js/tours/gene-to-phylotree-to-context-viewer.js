@@ -45,6 +45,7 @@
         reflex: true,
         onShown: function(tour) {
           $('#edit-description')[0].value=FOCUS_GENE_FUNCTION;
+          $('#edit-description-op')[0].value='starts';
         },
       }, {
         title: 'Gene Tour: Gene Search',
@@ -310,8 +311,9 @@
       }, {
         path : '/tours',
         title: 'Gene Tour: The End',
-        content: 'Congratulations, you\'ve made it to the end of the Gene Tour. Please let us know if you have any suggestions on how to improve the tools or this tour by using our Contact form. And don\'t forget to click End Tour to avoid unexpected re-entry as you visit the rest of the site.' ,
+        content: 'Congratulations, you\'ve made it to the end of the Gene Tour. Please let us know if you have any suggestions on how to improve the tools used in this tour or the tour itself by using our Contact form. Now press End Tour.' ,
         element: 'a:contains("Contact")',
+        reflex: true,
         placement: 'bottom'
      }
     ]
