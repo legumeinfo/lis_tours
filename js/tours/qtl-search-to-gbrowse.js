@@ -172,34 +172,13 @@
           tour.skipStep = true;
         },
         onNext: function() {
-          $('#frameviewer').contents().find('select.searchtitle').val(200000).change();
-        }
-      }, {
-        title: 'QTL Tour: GBrowse Navigation',
-        content: 'Zooming out will give you better sense for the genomic neighborhood in which the marker resides. We\'re right at the edge of some conserved syntenic blocks.',
-        element: '#frameviewer',
-        placement: 'top',
-        onShown: function() {
-            setTimeout(function() {
-                    $('html, body').animate({
-                       scrollTop: 1000
-                    }, 6000);
-                    $('html, body').animate({
-                       scrollTop: 0
-                    }, 6000);
-                }, 3000);
-        },
-        onNext: function() {
           $('#frameviewer').contents().find('select.searchtitle').val(5000000).change();
         }
       }, {
         title: 'QTL Tour: GBrowse Navigation',
-        content: 'Zooming even further out, we see that the loss of synteny corresponds to our entrance into a region relatively poor in annotated gene content on the edge of the centromere.',
+        content: 'Zooming out will give you better sense for the genomic neighborhood in which the marker resides. We\'re right at the edge of some conserved syntenic blocks. We also see that the loss of synteny corresponds to our entrance into a region relatively poor in annotated gene content on the edge of the centromere.',
         element: '#frameviewer',
         placement: 'top',
-        onNext: function() {
-          $('#frameviewer').contents().find('select.searchtitle').val(5000000).change();
-        }
       }, {
         title: 'QTL Tour: GBrowse Settings',
         content: 'You can rearrange tracks by dragging them, or choose which tracks to display through the navigation bar (Select Tracks).',
