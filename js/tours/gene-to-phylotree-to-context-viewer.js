@@ -38,12 +38,12 @@
     keyboard: true,
     debug: true,
     orphan: true,
-    // this template is the default one, with Prev button removed.
-    // template: "<div class='popover tour'><div class='arrow'></div><h3 class='popover-title'></h3><div class='popover-content'></div><div class='popover-navigation'><button class='btn btn-default' data-role='next'>Next &#8594;</button><button class='btn btn-default' data-role='end'>End tour</button></div></div>",
+    // this template should be same as default, except with Prev button removed.
+    template: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="next">Next &#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
     steps : [
       {
         title: 'Gene Tour: Welcome to LIS!',
-        content: 'Let\'s go the legumeinfo.org homepage, where the Gene Tour will begin.  Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
+        content: 'Let\'s go the legumeinfo.org homepage, where the Gene Tour will begin.  Use the Next button or &#8594; (right arrow key) to advance the tour.',
         placement: 'bottom',
         element: SELECTOR.welcome,
         reflex: true,
@@ -80,9 +80,6 @@
         element: SELECTOR.formFieldAbbrev,
         placement: 'bottom',
         reflex: true,
-        onPrev: function(tour) {
-          tour.skipStep = true;
-        }
       }, {
         title: 'Gene Tour: Gene Search',
         content: 'Then click "Apply" to apply the specified filters to the genes in the result.',
@@ -99,11 +96,6 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          if(tour.skipStep) {
-            tour.skipStep = false;
-            tour.prev();
-            return;
-          }
           var promise = lisTours.waitForContent(
             tour,
             function() {
@@ -121,18 +113,12 @@
         element: SELECTOR.searchResult,
         placement: 'top',
         reflex: true,
-        onPrev: function(tour) {
-          tour.skipStep = true;
-        }
        }, {
      title: 'Gene Tour: Functional description',
      content: "Notice that there is a subtle difference in the annotation of the genes, though they are all listed as belonging to the same gene family.",
      placement: 'top',
      element: SELECTOR.functionalDesc,
      reflex: true,
-     onPrev: function(tour) {
-       tour.skipStep = true;
-     },
       }, {
         title: 'Gene Tour: Gene Family',
         content: "Following the link to the gene family will show you this gene in the context of a tree representing the orthologous, paralogous and homoeologous members of the family.",
@@ -151,11 +137,6 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          if(tour.skipStep) {
-            tour.skipStep = false;
-            tour.prev();
-            return;
-          }
 	  var promise = lisTours.waitForSelector(tour, SELECTOR.phylotree);
           // advance automatically to next step when done loading
           promise.then(function() {
@@ -171,9 +152,6 @@
 	onShow: function(tour) {
 	  return lisTours.waitForSelector(tour, SELECTOR.phylotree)
 	},
-        onPrev: function(tour) {
-          tour.skipStep = true;
-        }
       }, {
         title: 'Gene Tour: Phylotree',
         placement: 'right',
@@ -215,11 +193,6 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          if(tour.skipStep) {
-            tour.skipStep = false;
-            tour.prev();
-            return;
-          }
           var promise = lisTours.waitForContent(
             tour,
             function() {
@@ -236,8 +209,6 @@
         content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong, and genomic segments with similar gene content are aligned to the track containing our search gene.',
         element: SELECTOR.contextFocusGene,
         placement: 'top',
-        onPrev: function(tour) {
-          tour.skipStep = true;}
       }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'Hover over the gene family to see all representatives highlighted in their syntenic contexts. Click the gene family for more information.',
