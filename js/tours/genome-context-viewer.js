@@ -15,8 +15,17 @@
     name: 'genome-context-viewer',
     debug: true,
     orphan: true,
+    onShow: function(tour) {
+      // if the URL is not matching
+      if(document.location.href.indexOf('lis_context_viewer') === -1) {
+       console.log('redirecting to example focus gene : '+ EXAMPLE_URL);
+       document.location.href = EXAMPLE_URL;
+       return (new jQuery.Deferred()).promise();
+      }
+    },
 
     steps: [
+        /*
         {
           title: "Genome Context Viewer Tour: Welcome to LIS!",
           content: 'Let\'s go the legumeinfo.org homepage, where the Genome Context Viewer Tour will begin.  Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
@@ -62,11 +71,41 @@
           element: 'h2:contains("Examples") + li',
           placement: "right",
         },
+        */
+        {
+          title: 'Welcome',
+          content: 'This quick tour will acquaint you with the genome context \
+               viewer application, which is useful for exploring microsynteny relationships among sets of genomic segments. Use the Next \
+               button or &#8594; (right arrow key) to advance the tour. Use the \
+               Prev button or &#8592; (left arrow key) to step back.'
+        }, {
+          title: "Context Viewer",
+          content: "The context viewer displays corresponding regions around a selected gene or set of genes in a subtree. It makes it easy to find functional gene groups as well as help make hypotheses about their evolutionary histories. Gene glyphs have mouse over and click interactivity. If a glyph is moused over its name and genomic position are shown. If a gene is clicked a widget will appear with a variety of links related to the gene, such as a link to the source of the gene annotation. The thicker the connecting line between the genes, the longer the intergenic distance on the chromosome; intergenic distances and gene identities for tracks can also be displayed by mousing over the track labels to the left of the tracks.",
+          element: ".rail:last",
+          placement: "bottom",
+          onShow: function() {
+             $('#viewer').animate({
+                scrollTop: 1000
+             }, 4000);
+             $('#viewer').animate({
+                scrollTop: 0
+             }, 4000);
+          }
+         },      
         {
           title: "Gene Families: Legend",
           content: "Each gene in a Context View is colored by the gene family it belongs to as indicated in the legend (genes belonging to families with no other representatives in a view are left uncolored, while genes not belonging to families are uncolored and have dotted outlines). In the case where a single gene is used to invoke the viewer, that gene's context track will be used as a query to find other tracks annotated with similar gene family content in the database. If a set of genes from a gene family was used to request a view, these genes will be centered in each context but no alignment of the tracks will be performed.",
           element: "#legend",
           placement: "left",
+          onShow: function() {
+             $('#legend').animate({
+                scrollTop: 400
+             }, 3000);
+             $('#legend').animate({
+                scrollTop: 100
+             }, 3000);
+          }
+      /*
       onShow: function(tour) {
         // if the URL is not matching lis_context_viewer
         if (document.location.href.indexOf(EXAMPLE_URL) === -1) {
@@ -75,6 +114,7 @@
           return (new jQuery.Deferred()).promise();
         }
       }
+        */
          }, 
         {
           title: "Gene Families",
@@ -82,12 +122,6 @@
           element: "#legend-content",
           placement: "left"
            },    
-        {
-          title: "Context Viewer",
-          content: "The context viewer displays corresponding regions around a selected gene or set of genes in a subtree. It makes it easy to find functional gene groups as well as help make hypotheses about their evolutionary histories. Gene glyphs have mouse over and click interactivity. If a glyph is moused over its name and genomic position are shown. If a gene is clicked a widget will appear with a variety of links related to the gene, such as a link to the source of the gene annotation. The thicker the connecting line between the genes, the longer the intergenic distance on the chromosome; intergenic distances and gene identities for tracks can also be displayed by mousing over the track labels to the left of the tracks.",
-          element: ".rail:last",
-          placement: "bottom",
-         },      
         {
           title: "Dot Plots",
                 content: "Dot plots are useful in identifying interspersed, lost, or gained repeat motifs.",
@@ -157,7 +191,8 @@
          placement: "right",       
          onShow: function() {
             $('#left-slider-content').animate({
-               //scrollTop: $("#algpar").offset().top
+               //not sure why the offset this gives is not what we want
+               //scrollTop: $("#neighborpane").offset().top
                scrollTop: 0
             }, 1);
          }
@@ -175,6 +210,7 @@
          placement: "right",
          onShow: function() {
             $('#left-slider-content').animate({
+               //not sure why the offset this gives is not what we want
                //scrollTop: $("#algpar").offset().top
                scrollTop: 400
             }, 1);

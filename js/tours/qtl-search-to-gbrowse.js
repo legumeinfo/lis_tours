@@ -2,6 +2,8 @@
 
   var $ = jQuery;
   var GBROWSE = '/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red';
+  var FOCUS_TRAIT_TERM = 'Seed yield';
+  var FOCUS_TRAIT = 'phavu.Seed-yield-2-6';
     
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
@@ -9,160 +11,204 @@
     orphan: true,
     steps : [
       {
-      	path: '/tours',
-      	title: 'QTL Tour: Welcome to LIS!',
-      	content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
-      	placement: 'bottom',
-      	element: '#site-name',
-	reflex: true,	
-      },
-      {
-      	path: '/',
-      	title: 'QTL Tour: Getting started',
-      	content: 'This tour will provide an example of navigating LIS from the genetic location of a published QTL to the associated region of the annotated genome for the species in which it was found.<br> Now press the QTL Search button, or use the Next button or press &#8594;.',
-      	placement: 'bottom',
-      	element: "[href='/search/qtl']",
-	reflex: true,
-      },
-      {
-      	path: '/search/qtl',
-      	title: 'QTL Tour: QTL Search',
-      	content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above. We entered "Seed yield" in the QTL name field. The Apply button will apply the search parameters. Now press Next or &#8594;',
-      	placement: 'bottom',
-      	element: '#edit-qtl-name',
-	reflex: true,
-      	onShown: function(tour) {
-      	  $('#edit-qtl-name')[0].value='Seed yield';
-      	},
+          path: '/tours',
+          title: 'QTL Tour: Welcome to LIS!',
+          content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
+          placement: 'bottom',
+          element: '#site-name',
+          reflex: true,    
       }, {
-	title: 'QTL Tour: QTL Search',
-	content: 'Then click "Apply" to apply the specified filter to the QTL in the result.',
-	placement: 'bottom',
-	element: '#edit-submit-qtl',
-	reflex: true,
-	onNext: function() {
-          $('#edit-submit-qtl')[0].click();
-	}
+          path: '/',
+          title: 'QTL Tour: Getting started',
+          content: 'This tour will provide an example of navigating LIS from the genetic location of a published QTL to the associated region of the annotated genome for the species in which it was found.<br> Now press the QTL Search button, or use the Next button or press &#8594;.',
+          placement: 'bottom',
+          element: "[href='/search/qtl']",
+          reflex: true,
       }, {
-      	path: '/search/qtl',
-      	title: 'QTL Tour: The list of QTL matching the query',
-      	content: 'Let\'s look at the details for a specific "seed yield" QTL.',
-      	element: "[href='/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5']",
-	reflex: true,
-      	placement: 'bottom',
-      },
-      {
-      	path: '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5',
-      	title: 'QTL Tour: Information about the selected QTL',
-      	content: "The QTL Details link will reveal this QTL's place on the chromosome.",
-      	placement: 'right',
-      	element: "[href='?pane=qtl_details']",
-	reflex: true,
-	onNext: function(tour) {	  
-	  var el = $("[href='?pane=qtl_details']")[0];
-	  if(el) {
-	    el.click();
-	  }
-	}
-      },
-      {
-	path: '/feature/Phaseolus/vulgaris/QTL/phavu.Seed-yield-2-5#pane=qtl_details',
-      	title: 'QTL Tour: BM199 = Nearest Marker',
-      	content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
-      	placement: 'right',
-      	element: "#tripal_feature-table-base > tbody > tr:nth-child(3) > td > a",
-	reflex: true,
-	onShow: function(tour) {
-	  if(location.hash.indexOf('qtl_details') === -1) {
-	    var el = $("[href='?pane=qtl_details']")[0];
-	    if(el) {
-	      el.click();
-	    }
-	  }
-	}
-      },
-      {
-	path: '/node/1360783', /* url must match prev reflex element url */
-      	title: 'QTL Tour: Marker Overview',
-      	content: 'The "Overview" links to articles and descriptions of the marker. To find this marker on the phaseolus map, we can look under "Marker Positions".',
-      	element: "[href='?pane=positions']",
-	reflex: true,
-      	placement: 'bottom',
-	onNext: function(tour) {
-	  var el = $("[href='?pane=positions']")[0];
-	  if(el) {
-	    el.click();
-	  }
-	}
-      },
-      {
-	path: '/node/1360783#pane=positions',
-      	title: 'QTL Tour: Genome Browser',
-      	content: 'The linked GBrowse map will show you annotations on the genome.',
-      	element: "[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']",
-	reflex: true,
-      	placement: 'top',
-	onShow: function(tour) {
-	  if(location.hash.indexOf('positions') === -1) {
-	    var el = $("[href='?pane=positions']")[0];
-	    if(el) {
-	      el.click();
-	    }
-	  }
-	}
-      },
-      {
-	path: GBROWSE,
-	title: 'QTL Tour: GBrowse',
-	content: 'Loading GBrowse...',
-	placement: 'top',
-	onShown: function(tour) {
-	  // wait for dynamic content with a loading dialog.
+          path: '/search/qtl',
+          title: 'QTL Tour: QTL Search',
+          content: 'All of the QTLs that have been curated into LIS from the literature are displayed in the paged results below, and can be filtered using the search fields above.',
+          placement: 'top',
+          element: '.view-content',
+          reflex: true,
+      }, {
+          title: 'QTL Tour: QTL Search',
+          content: 'We entered "'+FOCUS_TRAIT_TERM+'" in the QTL name field. This reflects the standardized trait ontology used by the curators. Now press Next or &#8594;',
+          placement: 'bottom',
+          element: '#edit-qtl-name',
+          reflex: true,
+          onShown: function(tour) {
+            $('#edit-qtl-name')[0].value=FOCUS_TRAIT_TERM;
+          },
+      }, {
+          title: 'QTL Tour: QTL Search',
+          content: 'Then click "Apply" to apply the specified filter to the QTL in the result.',
+          placement: 'bottom',
+          element: '#edit-submit-qtl',
+          reflex: true,
+          onNext: function() {
+                $('#edit-submit-qtl')[0].click();
+          }
+      }, {
+        title: 'QTL Tour: QTL Search',
+        content: 'Please be patient, as we wait for the query results to be returned...',
+        placement: 'top',
+        onShown: function(tour) {
           $('.popover-navigation div').hide();
-	  if(tour.skipStep) {
-	    tour.skipStep = false;
-	    tour.prev();
-	    return;
-	  }
-	  var promise = lisTours.waitForContent(
-	    tour,
-	    function() {
-	      return $('#frameviewer').contents().find('#centromere_image')[0];
-	    });
-	  // advance automatically to next step when done loading
-	  promise.then(function() {
-	    tour.next();
-	  });
-	  return promise;
-	}
-      },
-      {
-	path: GBROWSE,
-	title: 'QTL Tour: GBrowse',
-	content: 'GBrowse allows you to visualize syntenic relationships between legumes of your choice. The red bar is the lowest flanking marker for "seed yield".',
-	element: '#frameviewer',
-	placement: 'top',
-	onPrev: function(tour) {
-	  tour.skipStep = true;
-	}
-      },
-      {
-	path: GBROWSE,
-        title: 'QTL Tour: Our track in GBrowse',
-        content: 'Also visible is the lowest flanking marker, BM199. All the tracks can be dragged to rearrange them.',
-	element: '#frameviewer',
-	placement: 'top',
+          // wait for dynamic content with a loading dialog.
+          if(tour.skipStep) {
+            tour.skipStep = false;
+            tour.prev();
+            return;
+          }
+          var promise = lisTours.waitForContent(
+            tour,
+            function() {
+              return $('tr.views-row-first td.views-field-qtl-name:contains("'+FOCUS_TRAIT_TERM+'")')[0];
+            });
+          // advance automatically to next step when done loading
+          promise.then(function() {
+            tour.next();
+          });
+          return promise;
+        }
       }, {
-	path: GBROWSE,
-        title: 'QTL Tour: GBrowse Settings',
-        content: 'You can choose which tracks to display through the navigation bar (Select Tracks).',
-	element: '#frameviewer',
-	placement: 'top'
+          path: '/search/qtl',
+          title: 'QTL Tour: The list of QTL matching the query',
+          content: 'Let\'s look at the details for a specific QTL.',
+          element: '[href="/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'"]',
+          reflex: true,
+          placement: 'bottom',
+          onPrev: function(tour) {
+            tour.skipStep = true;
+          }
       },
       {
-	path: '/',
-	title: 'QTL Tour: Completed',
-	content: 'Congratulations, you have finished the QTL Tour! Summary: We navigated LIS from the genetic location of a published QTL to the associated region of the annotated genome for Phaseolus Vulgaris. Now press End Tour.'
+          path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT,
+          title: 'QTL Tour: Information about the selected QTL',
+          content: "The QTL Details link will reveal this QTL's place on the chromosome.",
+          placement: 'right',
+          element: "[href='?pane=qtl_details']",
+          reflex: true,
+          onNext: function(tour) {      
+            var el = $("[href='?pane=qtl_details']")[0];
+            if(el) {
+              el.click();
+            }
+          }
+      }, {
+        path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'#pane=qtl_details',
+        title: 'QTL Tour: Nearest Marker',
+        content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
+        placement: 'right',
+        element: "#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a",
+        reflex: true,
+        onShow: function(tour) {
+          if(location.hash.indexOf('qtl_details') === -1) {
+            var el = $("[href='?pane=qtl_details']")[0];
+            if(el) {
+              el.click();
+            }
+          }
+        }
+      }, {
+        path: '/node/1360783', /* url must match prev reflex element url */
+        title: 'QTL Tour: Marker Overview',
+        content: 'The "Overview" links to articles and descriptions of the marker. To find this marker on the phaseolus map, we can look under "Marker Positions".',
+        element: "[href='?pane=positions']",
+        reflex: true,
+        placement: 'bottom',
+        onNext: function(tour) {
+          var el = $("[href='?pane=positions']")[0];
+          if(el) {
+            el.click();
+          }
+        }
+      }, {
+        path: '/node/1360783#pane=positions',
+        title: 'QTL Tour: Genome Browser',
+        content: 'The linked GBrowse map will show you annotations on the genome.',
+        element: "[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']",
+        reflex: true,
+        placement: 'top',
+        onShow: function(tour) {
+          if(location.hash.indexOf('positions') === -1) {
+            var el = $("[href='?pane=positions']")[0];
+            if(el) {
+              el.click();
+            }
+          }
+        }
+      }, {
+        path: GBROWSE,
+        title: 'QTL Tour: GBrowse',
+        content: 'Loading GBrowse...',
+        placement: 'top',
+        onShown: function(tour) {
+          // wait for dynamic content with a loading dialog.
+              $('.popover-navigation div').hide();
+          if(tour.skipStep) {
+            tour.skipStep = false;
+            tour.prev();
+            return;
+          }
+          var promise = lisTours.waitForContent(
+            tour,
+            function() {
+              return $('#frameviewer').contents().find('#centromere_image')[0];
+            });
+          // advance automatically to next step when done loading
+          promise.then(function() {
+            tour.next();
+          });
+          return promise;
+        }
+      }, {
+        title: 'QTL Tour: GBrowse',
+        content: 'GBrowse allows you to visualize features of biological significance that have been located on reference genomes, for example annotated genes or syntenic relationships to other legume genomes. The red bar shows us the position of the marker associated with our search QTL.',
+        element: '#frameviewer',
+        placement: 'top',
+        onPrev: function(tour) {
+          tour.skipStep = true;
+        },
+        onNext: function() {
+          $('#frameviewer').contents().find('select.searchtitle').val(200000).change();
+        }
+      }, {
+        title: 'QTL Tour: GBrowse Navigation',
+        content: 'Zooming out will give you better sense for the genomic neighborhood in which the marker resides. We\'re right at the edge of some conserved syntenic blocks.',
+        element: '#frameviewer',
+        placement: 'top',
+        onShown: function() {
+            setTimeout(function() {
+                    $('html, body').animate({
+                       scrollTop: 1000
+                    }, 6000);
+                    $('html, body').animate({
+                       scrollTop: 0
+                    }, 6000);
+                }, 3000);
+        },
+        onNext: function() {
+          $('#frameviewer').contents().find('select.searchtitle').val(5000000).change();
+        }
+      }, {
+        title: 'QTL Tour: GBrowse Navigation',
+        content: 'Zooming even further out, we see that the loss of synteny corresponds to our entrance into a region relatively poor in annotated gene content on the edge of the centromere.',
+        element: '#frameviewer',
+        placement: 'top',
+        onNext: function() {
+          $('#frameviewer').contents().find('select.searchtitle').val(5000000).change();
+        }
+      }, {
+        title: 'QTL Tour: GBrowse Settings',
+        content: 'You can rearrange tracks by dragging them, or choose which tracks to display through the navigation bar (Select Tracks).',
+        element: '#frameviewer',
+        placement: 'top'
+      }, {
+        path: '/tours',
+        title: 'QTL Tour: Completed',
+        content: 'Congratulations, you have finished the QTL Tour! Summary: We navigated LIS from the genetic location of a published QTL to the associated region of the annotated genome for Phaseolus Vulgaris. Now press End Tour.'
       }
     ]
   });
