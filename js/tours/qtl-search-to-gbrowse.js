@@ -208,7 +208,10 @@
       }, {
         path: '/tours',
         title: 'QTL Tour: Completed',
-        content: 'Congratulations, you have finished the QTL Tour! Summary: We navigated LIS from the genetic location of a published QTL to the associated region of the annotated genome for Phaseolus Vulgaris. Now press End Tour.'
+        content: 'Congratulations, you have finished the QTL Tour! Summary: We navigated LIS from the genetic location of a published QTL to the associated region of the annotated genome for Phaseolus Vulgaris. Please let us know if you have any suggestions on how to improve the tools used in this tour or the tour itself by using our Contact form. Now press End Tour.',
+        element: 'a:contains("Contact")',
+        reflex: true,
+        placement: 'bottom'
       }
     ]
   });
