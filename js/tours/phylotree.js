@@ -23,6 +23,7 @@
   var tour = new Tour({
     name: 'phylotree',
     // debug: true,
+    template: lisTours.template.defaultTemplate,
     orphan: true,
     onShow: function(tour) {
       // if the URL is not matching chado_phylotree/[family]
@@ -60,7 +61,7 @@
       	placement: 'top',
 	reflex: true,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.phylogram);
+	  return lisTours.waitForSelector(tour, SELECTOR.phylogram).promise();
 	}
       },
       {
@@ -74,7 +75,7 @@
         element: SELECTOR.leaf,
         placement: 'top',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.leaf);
+	  return lisTours.waitForSelector(tour, SELECTOR.leaf).promise();
 	},
       },
       {
@@ -105,7 +106,7 @@
         element: SELECTOR.root,
         placement: 'bottom',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.root);
+	  return lisTours.waitForSelector(tour, SELECTOR.root).promise();
 	},
 	onNext: function(tour) {
 	  $(SELECTOR.msa)[0].click();
