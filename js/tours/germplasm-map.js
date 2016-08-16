@@ -36,7 +36,8 @@
 
   var tour = new Tour({
     name: 'germplasm-map',
-    debug: true,
+    //debug: true,
+    template: lisTours.template.defaultTemplate,
     orphan: true,
     steps: [
       {
@@ -76,7 +77,7 @@
         placement: 'bottom',
 	reflex: true,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.leafletMap);
+	  return lisTours.waitForSelector(tour, SELECTOR.leafletMap).promise();
 	}
       },
       {
@@ -88,28 +89,28 @@ species.',
         element: SELECTOR.leafletMarker,
         placement: 'bottom',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.leafletMarker);
+	  return lisTours.waitForSelector(tour, SELECTOR.leafletMarker).promise();
 	}
       },
       {
         title: 'Results Table',
-        content: 'The accessions shown here are automatically synced with the \
+        content: 'The accessions shown here are automatically coordinated with the \
 search results, and with the map frame.',
         element: SELECTOR.results,
         placement: 'top',
 	reflex: true,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.results);
+	  return lisTours.waitForSelector(tour, SELECTOR.results).promise();
 	}
       },
       {
         title: 'Accession Id Buttons',
-        content: 'Click on an accession id to get more details, including \
+        content: 'Click on an accession id button to get more details, including \
 links out to search other resources. Try it!',
         element: SELECTOR.accession,
         placement: 'top',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.accession);
+	  return lisTours.waitForSelector(tour, SELECTOR.accession).promise();
 	}
       },
       {
@@ -121,7 +122,7 @@ Try it!',
         element: SELECTOR.locator,
         placement: 'top',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.locator);
+	  return lisTours.waitForSelector(tour, SELECTOR.locator).promise();
 	}
       },
       {
@@ -137,7 +138,7 @@ You may click OK to close the search parameters panel.',
         placement: 'top',
 	reflex: true,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.search);
+	  return lisTours.waitForSelector(tour, SELECTOR.search).promise();
         },
       },
       {
@@ -149,7 +150,7 @@ automatically. Try it!',
         element: SELECTOR.filters,
         placement: 'top',
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.filters);
+	  return lisTours.waitForSelector(tour, SELECTOR.filters).promise();
 	}
       },
       {
@@ -165,7 +166,7 @@ accessions, use this button.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.reframe).length > 0);	      
-	    });
+	    }).promise();
 	}
       },
       {
@@ -181,7 +182,7 @@ accessions, use this button.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.addMyData).length > 0);
-	    });
+	    }).promise();
 	}
       },
       {
@@ -198,7 +199,7 @@ accessions, use this button.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.baseMap).length > 0);
-	    });
+	    }).promise();
 	}	
       },
       {
@@ -215,7 +216,7 @@ there. Remember: the search results are updated automatically.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.coords).length > 0);
-	    });
+	    }).promise();
 	}
       },
       {
@@ -232,7 +233,7 @@ browser). Remember: the search results are updated automatically.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.geolocate).length > 0);
-	    });
+	    }).promise();
 	}
       },
       {
@@ -248,7 +249,7 @@ this tool.',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.mapHeight).length > 0);
-	    });
+	    }).promise();
 	}	
       },
       {
@@ -264,7 +265,7 @@ the web app!',
 	    function() {
 	      _showMenu();
 	      return ($(SELECTOR.tour).length > 0);
-	    });
+	    }).promise();
 	},
 	onNext: function(tour) {
 	  $(SELECTOR.menu).trigger('click');
@@ -272,12 +273,13 @@ the web app!',
       },
       {
         title: 'Menu',
-        content: 'Hide/Show the options menu with this button.',
+        content: 'Hide/Show the options menu with this button. Congratulations,\
+            you have completed the tour!',
         element: SELECTOR.menu,
         placement: 'left',
 	reflex: true,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.menu);
+	  return lisTours.waitForSelector(tour, SELECTOR.menu).promise();
 	}
       }      
     ]
