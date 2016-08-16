@@ -19,7 +19,8 @@
   };
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
-    debug: true,
+    //debug: true,
+    template: lisTours.template.defaultTemplate,
     orphan: true,
     steps : [
       {
