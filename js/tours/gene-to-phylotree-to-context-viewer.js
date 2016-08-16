@@ -1,11 +1,15 @@
  (function(jQuery) {
 
   var $ = jQuery;
-  var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
-  var FOCUS_GENE = 'vigra.Vradi01g03360';
+
+   var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
   var FOCUS_GENE_UNIQUENAME = 'Vradi01g03360.Vradi.ver6';
+  var FOCUS_GENE = 'vigra.Vradi01g03360';
   var FOCUS_PROTEIN = FOCUS_GENE + '.1';
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
+  var ALT_GENE = 'vigra.Vradi0091s00130';
+   var ALT_PROTEIN = ALT_GENE + '.1';
+   
   var SELECTOR = {
     welcome: '#site-name',
     searchBtn: "a:contains('Gene Search')",
@@ -16,7 +20,8 @@
     searchResult: 'th.views-field-name',
     functionalDesc: 'th.views-field-description',
     geneFamilyLink:'a[href*="'+FOCUS_GENE_UNIQUENAME+'"]:contains("'+FOCUS_GENE_FAMILY+'")',
-    phylotree: '#phylogram text:contains("'+FOCUS_PROTEIN+'")',
+    phylotreeFocusProtein: '#phylogram g > :contains("'+ FOCUS_PROTEIN +'"):first',
+    phylotreeAltProtein: '#phylogram g > :contains("'+ ALT_PROTEIN +'"):first',
     popup: '#phylonode_popup_dialog',
     contextViewerLink: "#phylonode_popup_dialog a[href*='lis_context_viewer']",
     contextFocusGene: 'path.point.focus:first',
@@ -38,8 +43,7 @@
     keyboard: true,
     debug: true,
     orphan: true,
-    // this template should be same as default, except with Prev button removed.
-    template: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="next">Next &#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
+    template: lisTours.template.noPrevBtnTemplate,
     steps : [
       {
         title: 'Gene Tour: Welcome to LIS!',
@@ -48,8 +52,8 @@
         element: SELECTOR.welcome,
         reflex: true,
       }, {
-        path: '/home',
         title: 'Gene Tour: Getting started',
+        path: '/home',
         content: "This tour will provide an example of navigating LIS from a gene annotated with a specific function to views of its evolutionary context both with respect to other individual genes as well as to the genomic context in which it occurs.<br> Now press the Gene Search button, or use the Next button or press &#8594;.",
         placement: 'bottom',
         element: SELECTOR.searchBtn,
@@ -96,16 +100,16 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          var promise = lisTours.waitForContent(
+          var deferred = lisTours.waitForContent(
             tour,
             function() {
               return $('tr.views-row-first td.views-field-description:contains("'+FOCUS_GENE_FUNCTION+'")')[0];
             }, 40000);
           // advance automatically to next step when done loading
-          promise.then(function() {
+          deferred.then(function() {
             tour.next();
           });
-          return promise;
+          return deferred.promise();
         }
       }, {
         title: 'Gene Tour: Search Results',
@@ -132,51 +136,72 @@
         //external absolute links to legumeinfo.org probably due to
         //peanutbase
         path: '/chado_phylotree/'+FOCUS_GENE_FAMILY+'?hilite_node='+FOCUS_PROTEIN,
-        content: 'Waiting for tree display...',
+        content: 'Please be patient, as the phylogram chart loads...',
         placement: 'top',
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-	  var promise = lisTours.waitForSelector(tour, SELECTOR.phylotree);
+	  var deferred = lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
           // advance automatically to next step when done loading
-          promise.then(function() {
+          deferred.then(function() {
             tour.next();
           });
-          return promise;
+          return deferred.promise();
         }
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'right',
+        placement: 'bottom',
         content : 'Here is our gene again, surrounded by orthologues from other species. ',
-        element : SELECTOR.phylotree,
+        element : SELECTOR.phylotreeFocusProtein,
 	onShow: function(tour) {
-	  return lisTours.waitForSelector(tour, SELECTOR.phylotree)
+	  // wait for dynamic content from d3js; and an additional
+	  // wait of 200ms while the phylotree js scrolls to the
+	  // hilighted protein. jquery 'fast' transition is ~ 200ms.
+	  var deferred = new $.Deferred();
+	  lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein)
+	    .then(function() {
+	      setTimeout(function() { deferred.resolve(); }, 250);
+	    });
+	  return deferred.promise();
 	},
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'right',
+        placement: 'top',
         content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
-        element : SELECTOR.phylotree,
+        element : SELECTOR.phylotreeAltProtein,
+	onShow: function(tour) {
+	  // note: same as previous step onShow()
+	  var deferred = new $.Deferred();
+	  lisTours.waitForSelector(tour, SELECTOR.phylotreeAltProtein)
+	    .then(function() {
+	      setTimeout(function() { deferred.resolve(); }, 250);
+	    });
+	  return deferred.promise();
+	}
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'right',
+        placement: 'bottom',
         content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
-        element : SELECTOR.phylotree,
+        element : SELECTOR.phylotreeFocusProtein,
         reflex: true,
+	onShow: function(tour) {
+	  // note: same as previous step onShow()
+	  var deferred = new $.Deferred();
+	  lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein)
+	    .then(function() {
+	      setTimeout(function() { deferred.resolve(); }, 250);
+	    });
+	  return deferred.promise();
+	},
         onNext: function() {
-          $('#phylogram g.leaf:contains("'+FOCUS_PROTEIN+'")').d3Click();
-          var promise = lisTours.waitForContent(
-            tour,
-            function() {
-              return $("#phylonode_popup_dialog a[href*='lis_context_viewer']")[0];
-            });
-          return promise;
+          $(SELECTOR.phylotreeFocusProtein).d3Click();
+	  return lisTours.waitForSelector(tour, SELECTOR.contextViewerLink);
         }
       }, {
         title: 'Gene Tour: Gene Linkouts',
         content: 'We get a popup with a number of options relevant to the gene.',
         element: SELECTOR.popup,
-        placement: 'bottom',
+        placement: 'left',
       }, {
         title: 'Gene Tour: Genomic Contexts',
         content: 'Let\'s follow the link for similar genomic contexts',
@@ -185,6 +210,8 @@
         placement: 'right',
         onNext: function() {
           $(SELECTOR.contextViewerLink)[0].click();
+	  var deferred = new $.Deferred();
+	  return deferred.promise();
         }
       }, {
         title: 'Gene Tour: Gene Search',
@@ -193,16 +220,16 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          var promise = lisTours.waitForContent(
+          var deferred = lisTours.waitForContent(
             tour,
             function() {
               return $('g.gene:has(:contains("'+FOCUS_GENE+'")) > path');
             });
           // advance automatically to next step when done loading
-          promise.then(function() {
+          deferred.then(function() {
             tour.next();
           });
-          return promise;
+          return deferred.promise();
         }
       },{
         title: 'Gene Tour: Genome Context Viewer',
@@ -244,8 +271,7 @@
      }
     ]
   });
-
-
+   
   lisTours.register(tour);
   
 }(window.__jquery));

@@ -26,6 +26,11 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   }
 
+  this.template = {
+    defaultTemplate: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="prev">&#8592;Prev</button><button class="btn btn-sm btn-default" data-role="next">Next&#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
+    noPrevBtnTemplate: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="next">Next&#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
+  };
+  
   this._loadDeps = function(cb) {
 
     function loader() {
@@ -49,7 +54,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
     require.ensure(['jquery'], function(require) {
       $ = window.__jquery = require('jquery').noConflict(true);
       $(document).ready(loader);
-      console.log('using jquery: '+ $.fn.jquery);
     });
   };
   
@@ -73,6 +77,11 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   };
 
+  // active() : check for existence of a tour id
+  this.active = function() {
+    return (localStorage[TOUR_ID_KEY]);
+  };
+  
   function _visited(tourId) {
     var j = localStorage.getItem(VISITED_KEY) || '{}';
     var visited = JSON.parse(j);
@@ -129,20 +138,20 @@ var lisTours = {}; /* the lisTours library, created by this module */
   };
 
   /* waitForContent(): provide a callback function which will resolve
-   * a promise when the callback returns truthy. Useful for onShow()
+   * a deferred when the callback returns truthy. Useful for onShow()
    * and onShown() for example.
    */
   this.waitForContent = function(tour, cb, timeout) {
     if(! tour) { throw 'tour parameter required'; }
     if(! cb) { throw 'callback parameter required'; }
-    var promise = new $.Deferred();
+    var deferred = new $.Deferred();
     var elapsed = 0;
     var maxMs = timeout || MAX_MS;
 
     function waiter() {
       var res = cb();
       if(res) {
-        promise.resolve();
+        deferred.resolve();
         return;
       }
       else {
@@ -156,7 +165,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
     }
     setTimeout(waiter, MS);
-    return promise;
+    return deferred;
   };
 
   /* init() : lookup the most recent tour id, and load it's module, to
