@@ -15,15 +15,16 @@
     name: 'genome-context-viewer',
     debug: true,
     orphan: true,
+    template: lisTours.template.noPrevBtnTemplate,
     onShow: function(tour) {
-      // if the URL is not matching
-      if(document.location.href.indexOf('lis_context_viewer') === -1) {
-       console.log('redirecting to example focus gene : '+ EXAMPLE_URL);
-       document.location.href = EXAMPLE_URL;
-       return (new jQuery.Deferred()).promise();
+      // check if we are currently on a context viewer url, if not redirect the browser.
+      if(document.location.href.indexOf('lis_context_viewer') === -1  ||
+    	 document.location.hash.indexOf('/search') === -1) {
+	console.log('redirecting to example focus gene : '+ EXAMPLE_URL);
+	document.location.href = EXAMPLE_URL;
+	return (new jQuery.Deferred()).promise();
       }
     },
-
     steps: [
         {
           title: 'Welcome',
