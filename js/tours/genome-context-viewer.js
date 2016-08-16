@@ -34,8 +34,8 @@
         }, {
           title: "Context Viewer",
           content: "The context viewer displays corresponding regions around a selected gene or set of genes in a subtree. It makes it easy to find functional gene groups as well as help make hypotheses about their evolutionary histories. Gene glyphs have mouse over and click interactivity. If a glyph is moused over its name and genomic position are shown. If a gene is clicked a widget will appear with a variety of links related to the gene, such as a link to the source of the gene annotation. The thicker the connecting line between the genes, the longer the intergenic distance on the chromosome; intergenic distances and gene identities for tracks can also be displayed by mousing over the track labels to the left of the tracks.",
-          element: ".rail:last",
-          placement: "bottom",
+          element: "path.point.focus:first",
+          placement: "left",
           onShow: function() {
              // $('#viewer').animate({
              //    scrollTop: 1000

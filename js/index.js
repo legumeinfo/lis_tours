@@ -117,6 +117,8 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * existence of a jquery selector string.
    */
   this.waitForSelector = function(tour, jquerySelector, timeout) {
+    if(! tour) { throw 'tour parameter required'; }
+    if(! jquerySelector) { throw 'jquerySelector parameter required'; }
     console.log(jquerySelector);
     return that.waitForContent(
       tour,
@@ -131,6 +133,8 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * and onShown() for example.
    */
   this.waitForContent = function(tour, cb, timeout) {
+    if(! tour) { throw 'tour parameter required'; }
+    if(! cb) { throw 'callback parameter required'; }
     var promise = new $.Deferred();
     var elapsed = 0;
     var maxMs = timeout || MAX_MS;
