@@ -8,6 +8,7 @@ require('./qtl-search-to-gbrowse.js');
 require('./gene-to-phylotree-to-context-viewer.js');
 require('./phylotree.js');
 require('./genome-context-viewer.js');
+require('./genome-context-viewer-help.js');
 require('./germplasm-map.js');
 
 // under development:
