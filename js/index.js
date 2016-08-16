@@ -73,6 +73,11 @@ var lisTours = {}; /* the lisTours library, created by this module */
     });
   };
 
+  // active() : check for existence of a tour id
+  this.active = function() {
+    return (localStorage[TOUR_ID_KEY]);
+  };
+  
   function _visited(tourId) {
     var j = localStorage.getItem(VISITED_KEY) || '{}';
     var visited = JSON.parse(j);
