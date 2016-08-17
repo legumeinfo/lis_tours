@@ -15,8 +15,15 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var VISITED_KEY = 'lisTourVisited';
   var MS = 10; /* interval for checking on dynamic content */
   var MAX_MS = 10000;
+  var DEBUG = false; // print messages to console
   var $ = null;
 
+  function debug(s) {
+    if(DEBUG) {
+      console.log(s);
+    }
+  }
+  
   // if(! window.console )
   // {
   //   // support console.log on old IE versions, if it doesn't exist
@@ -102,7 +109,9 @@ var lisTours = {}; /* the lisTours library, created by this module */
       }
       tour.init();
       if(tour.ended()) {
-        //console.log('removing tour id: ' + tourId) ;
+	if(DEBUG) {
+          debug('removing tour id: ' + tourId) ;
+	}
         localStorage.removeItem(TOUR_ID_KEY);
       }
       else {
@@ -128,7 +137,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
   this.waitForSelector = function(tour, jquerySelector, timeout) {
     if(! tour) { throw 'tour parameter required'; }
     if(! jquerySelector) { throw 'jquerySelector parameter required'; }
-    //console.log(jquerySelector);
+    debug(jquerySelector);
     return that.waitForContent(
       tour,
       function() {
@@ -160,7 +169,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
           tour.end();
           throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
         }
-        //console.log('waiting for dynamic content from callback ' + cb);
+        debug('waiting for dynamic content from callback ' + cb);
         setTimeout(waiter, MS);
       }
     }
@@ -184,7 +193,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
     try {
       var version = parseFloat(window.jQuery.fn.jquery);
-      //console.log('existing jquery: ' + window.jQuery.fn.jquery);
+      debug('existing jquery: ' + window.jQuery.fn.jquery);
       var required = (version < JQUERY_MIN_VER || version > JQUERY_MAX_VER);
       return required;
     }
@@ -197,7 +206,5 @@ var lisTours = {}; /* the lisTours library, created by this module */
   
 }.call(lisTours));
 
-// make the lisTours library available globally
 module.exports = lisTours;
 window.lisTours = lisTours;
-//console.log('lisTours loaded');
