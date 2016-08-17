@@ -1,3 +1,5 @@
+'use strict';
+
 (function(jQuery) {
 
   var $ = jQuery;
@@ -17,7 +19,7 @@
   var tour = new Tour({
 
     name: 'genome-context-viewer',
-    debug: true,
+    //debug: true,
     orphan: true,
     template: lisTours.template.noPrevBtnTemplate,
     steps: [{

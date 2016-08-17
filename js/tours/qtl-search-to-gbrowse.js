@@ -1,3 +1,5 @@
+'use strict';
+
 (function(jQuery) {
 
   var $ = jQuery;
@@ -20,7 +22,7 @@
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
     //debug: true,
-    template: lisTours.template.defaultTemplate,
+    template: lisTours.template.noPrevBtnTemplate,
     orphan: true,
     steps : [
       {

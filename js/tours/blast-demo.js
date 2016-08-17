@@ -1,3 +1,7 @@
+// TODO: finish porting tour steps from hopscotch  to bootstrap-tours.
+
+'use strict';
+
 (function(jQuery) {
 
   var $ = jQuery;
