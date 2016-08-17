@@ -4,13 +4,14 @@
 
   var $ = jQuery;
 
-   var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
+  var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
   var FOCUS_GENE_UNIQUENAME = 'Vradi01g03360.Vradi.ver6';
   var FOCUS_GENE = 'vigra.Vradi01g03360';
   var FOCUS_PROTEIN = FOCUS_GENE + '.1';
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
   var ALT_GENE = 'vigra.Vradi0091s00130';
-   var ALT_PROTEIN = ALT_GENE + '.1';
+  var ALT_PROTEIN = ALT_GENE + '.1';
+  var CONTEXT_VIEWER_URL = '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360';
    
   var SELECTOR = {
     welcome: '#site-name',
@@ -43,7 +44,7 @@
   var tour = new Tour({
     name: 'gene-to-phylotree-to-context-viewer',
     keyboard: true,
-    //debug: true,
+    debug: true,
     orphan: true,
     template: lisTours.template.noPrevBtnTemplate,
     steps : [
@@ -80,7 +81,7 @@
       }, {
         title: 'Gene Tour: Filter by Species',
         content: "Supposing we are initially interested in the genes from Vigna radiata (mungbean), we would specify the five-letter species abbreviation 'vigra', composed of the first three letters of the genus and the first two letters of the species component of the scientific name.",
-        onShown: function() {
+        onShown: function(tour) {
           $(SELECTOR.formFieldAbbrev)[0].value='vigra';
         },
         element: SELECTOR.formFieldAbbrev,
@@ -92,7 +93,7 @@
         placement: 'bottom',
         element: SELECTOR.submitBtn,
         reflex: true,
-        onNext: function() {
+        onNext: function(tour) {
           $(SELECTOR.submitBtn)[0].click();
         }
       }, {
@@ -195,7 +196,7 @@
 	    });
 	  return deferred.promise();
 	},
-        onNext: function() {
+        onNext: function(tour) {
           $(SELECTOR.phylotreeFocusProtein).d3Click();
 	  return lisTours.waitForSelector(tour, SELECTOR.contextViewerLink);
         }
@@ -206,27 +207,24 @@
         placement: 'left',
       }, {
         title: 'Gene Tour: Genomic Contexts',
-        content: 'Let\'s follow the link for similar genomic contexts',
+        content: 'Let\'s follow the link for similar genomic contexts.',
         element: SELECTOR.contextViewerLink,
         reflex: true,
         placement: 'right',
-        onNext: function() {
-          $(SELECTOR.contextViewerLink)[0].click();
-	  var deferred = new $.Deferred();
-	  return deferred.promise();
+        onNext: function(tour) {
+	  document.location.href = CONTEXT_VIEWER_URL;
+	  return (new $.Deferred()).promise();
         }
       }, {
         title: 'Gene Tour: Gene Search',
         content: 'Please be patient, as we wait for the page to load...',
-        placement: 'top',
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          var deferred = lisTours.waitForContent(
+          var deferred = lisTours.waitSelector(
             tour,
-            function() {
-              return $('g.gene:has(:contains("'+FOCUS_GENE+'")) > path');
-            });
+            'g.gene:has(:contains("'+FOCUS_GENE+'")) > path'
+	  );
           // advance automatically to next step when done loading
           deferred.then(function() {
             tour.next();
@@ -238,12 +236,15 @@
         content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong, and genomic segments with similar gene content are aligned to the track containing our search gene.',
         element: SELECTOR.contextFocusGene,
         placement: 'top',
+	onShow: function(tour) {
+	  return lisTours.waitForSelector(SELECTOR.contextFocusGene);
+	}
       }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'Hover over the gene family to see all representatives highlighted in their syntenic contexts. Click the gene family for more information.',
         element: SELECTOR.contextLocus,
         placement: 'left',
-        onNext: function() {
+        onNext: function(tour) {
           $(SELECTOR.contextLocus).d3Click();
         },
       }, {
@@ -256,7 +257,7 @@
         content: 'Following this link will take us back to the phylotree, with all of the syntenic members of the family highlighted.',
         element: SELECTOR.contextFamilyLink,
         placement: 'right',
-        onNext: function() {
+        onNext: function(tour) {
           $(SELECTOR.contextFamilyLink)[0].click();
         },
       }, {
