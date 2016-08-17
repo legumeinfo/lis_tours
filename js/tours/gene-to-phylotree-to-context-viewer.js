@@ -11,7 +11,6 @@
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
   var ALT_GENE = 'vigra.Vradi0091s00130';
   var ALT_PROTEIN = ALT_GENE + '.1';
-  var CONTEXT_VIEWER_URL = '/lis_context_viewer/index.html#/search/vigra.Vradi01g03360';
    
   var SELECTOR = {
     welcome: '#site-name',
@@ -44,7 +43,7 @@
   var tour = new Tour({
     name: 'gene-to-phylotree-to-context-viewer',
     keyboard: true,
-    debug: true,
+//    debug: true,
     orphan: true,
     template: lisTours.template.noPrevBtnTemplate,
     steps : [
@@ -212,8 +211,7 @@
         reflex: true,
         placement: 'right',
         onNext: function(tour) {
-	  document.location.href = CONTEXT_VIEWER_URL;
-	  return (new $.Deferred()).promise();
+	  $(SELECTOR.contextViewerLink)[0].click();
         }
       }, {
         title: 'Gene Tour: Gene Search',
@@ -221,7 +219,7 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-          var deferred = lisTours.waitSelector(
+          var deferred = lisTours.waitForSelector(
             tour,
             'g.gene:has(:contains("'+FOCUS_GENE+'")) > path'
 	  );
@@ -236,9 +234,6 @@
         content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong, and genomic segments with similar gene content are aligned to the track containing our search gene.',
         element: SELECTOR.contextFocusGene,
         placement: 'top',
-	onShow: function(tour) {
-	  return lisTours.waitForSelector(SELECTOR.contextFocusGene);
-	}
       }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'Hover over the gene family to see all representatives highlighted in their syntenic contexts. Click the gene family for more information.',
