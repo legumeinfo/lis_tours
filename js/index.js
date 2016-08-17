@@ -15,7 +15,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var VISITED_KEY = 'lisTourVisited';
   var MS = 10; /* interval for checking on dynamic content */
   var MAX_MS = 10000;
-  var dependenciesLoaded = false;
   var $ = null;
 
   // if(! window.console )
