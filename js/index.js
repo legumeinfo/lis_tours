@@ -18,16 +18,18 @@ var lisTours = {}; /* the lisTours library, created by this module */
   var dependenciesLoaded = false;
   var $ = null;
 
-  if(! window.console )
-  {
-    // support console.log on old IE versions, if it doesn't exist
-    require.ensure(['console-shim'], function(require) {
-      require('console-shim');
-    });
-  }
+  // if(! window.console )
+  // {
+  //   // support console.log on old IE versions, if it doesn't exist
+  //   require.ensure(['console-shim'], function(require) {
+  //     require('console-shim');
+  //   });
+  // }
 
   this.template = {
+    // straight from the bootstrap tour docs:
     defaultTemplate: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="prev">&#8592;Prev</button><button class="btn btn-sm btn-default" data-role="next">Next&#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
+    // same as default, but without prev button.
     noPrevBtnTemplate: '<div class="popover tour"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div><div class="popover-navigation"><div class="btn-group"><button class="btn btn-sm btn-default" data-role="next">Next&#8594;</button></div><button class="btn btn-sm btn-default" data-role="end">End tour</button></div></div>',
   };
   
@@ -41,7 +43,6 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	 './bootstrap-tour-standalone-loader.js',
 	 './tours/index.js'],
 	function(require) {
-	  console.log('loading bootstrap-standalone-tour');
 	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
 	  require('!style!css!../css/lis-tours.css');
 	  require('./bootstrap-tour-standalone-loader.js');
@@ -128,7 +129,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
   this.waitForSelector = function(tour, jquerySelector, timeout) {
     if(! tour) { throw 'tour parameter required'; }
     if(! jquerySelector) { throw 'jquerySelector parameter required'; }
-    console.log(jquerySelector);
+    //console.log(jquerySelector);
     return that.waitForContent(
       tour,
       function() {
@@ -160,7 +161,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
           tour.end();
           throw 'error: dynamic content timeout ' + elapsed + ' ms : ' + cb;
         }
-        console.log('waiting for dynamic content from callback ' + cb);
+        //console.log('waiting for dynamic content from callback ' + cb);
         setTimeout(waiter, MS);
       }
     }
@@ -184,7 +185,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     }
     try {
       var version = parseFloat(window.jQuery.fn.jquery);
-      console.log('existing jquery: ' + window.jQuery.fn.jquery);
+      //console.log('existing jquery: ' + window.jQuery.fn.jquery);
       var required = (version < JQUERY_MIN_VER || version > JQUERY_MAX_VER);
       return required;
     }
