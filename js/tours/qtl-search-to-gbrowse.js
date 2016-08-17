@@ -27,7 +27,7 @@
     steps : [
       {
           title: 'QTL Tour: Welcome to LIS!',
-          content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
+          content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour.',
           placement: 'bottom',
           element: SELECTOR.welcome,
           reflex: true,    
@@ -75,16 +75,16 @@
             tour.prev();
             return;
           }
-          var promise = lisTours.waitForContent(
+          var deferred = lisTours.waitForContent(
             tour,
             function() {
               return $('tr.views-row-first td.views-field-qtl-name:contains("'+FOCUS_TRAIT_TERM+'")')[0];
             });
           // advance automatically to next step when done loading
-          promise.then(function() {
+          deferred.then(function() {
             tour.next();
           });
-          return promise;
+          return deferred.promise();
         }
       }, {
           path: '/search/qtl',
@@ -156,7 +156,7 @@
       }, {
         path: GBROWSE,
         title: 'QTL Tour: GBrowse',
-        content: 'Loading GBrowse...',
+        content: 'Please wait, loading GBrowse...',
         placement: 'top',
         onShown: function(tour) {
           // wait for dynamic content with a loading dialog.
@@ -166,16 +166,16 @@
             tour.prev();
             return;
           }
-          var promise = lisTours.waitForContent(
+          var deferred = lisTours.waitForContent(
             tour,
             function() {
               return $(SELECTOR.gbrowseFrame).contents().find('#centromere_image')[0];
             });
           // advance automatically to next step when done loading
-          promise.then(function() {
+          deferred.then(function() {
             tour.next();
           });
-          return promise;
+          return deferred.promise();
         }
       }, {
         title: 'QTL Tour: GBrowse',
