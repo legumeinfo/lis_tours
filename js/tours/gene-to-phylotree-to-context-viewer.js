@@ -43,7 +43,7 @@
   var tour = new Tour({
     name: 'gene-to-phylotree-to-context-viewer',
     keyboard: true,
-//    debug: true,
+    debug: true,
     orphan: true,
     template: lisTours.template.noPrevBtnTemplate,
     steps : [
@@ -120,16 +120,16 @@
         placement: 'top',
         reflex: true,
        }, {
-     title: 'Gene Tour: Functional description',
-     content: "Notice that there is a subtle difference in the annotation of the genes, though they are all listed as belonging to the same gene family.",
-     placement: 'top',
-     element: SELECTOR.functionalDesc,
-     reflex: true,
+        title: 'Gene Tour: Functional description',
+        content: "Notice that there is a subtle difference in the annotation of the genes, though they are all listed as belonging to the same gene family.",
+        placement: 'top',
+        element: SELECTOR.functionalDesc,
+        reflex: true,
       }, {
         title: 'Gene Tour: Gene Family',
         content: "Following the link to the gene family will show you this gene in the context of a tree representing the orthologous, paralogous and homoeologous members of the family.",
         placement: 'left',
-	reflex: false, // NB dont use reflex, because of absolute link to legumeinfo.org,
+        reflex: false, // NB dont use reflex, because of absolute link to legumeinfo.org,
         element: SELECTOR.geneFamilyLink,
       }, {
         title: 'Gene Tour: Phylotree',
@@ -197,7 +197,7 @@
 	},
         onNext: function(tour) {
           $(SELECTOR.phylotreeFocusProtein).d3Click();
-	  return lisTours.waitForSelector(tour, SELECTOR.contextViewerLink);
+          return lisTours.waitForSelector(tour, SELECTOR.contextViewerLink);
         }
       }, {
         title: 'Gene Tour: Gene Linkouts',
@@ -211,7 +211,7 @@
         reflex: true,
         placement: 'right',
         onNext: function(tour) {
-	  $(SELECTOR.contextViewerLink)[0].click();
+          $(SELECTOR.contextViewerLink)[0].click();
         }
       }, {
         title: 'Gene Tour: Gene Search',
@@ -256,10 +256,24 @@
           $(SELECTOR.contextFamilyLink)[0].click();
         },
       }, {
+        title: 'Gene Tour: Phylotree',
+        content: 'Please be patient, as the phylogram chart loads...',
+        placement: 'top',
+        onShown: function(tour) {
+          $('.popover-navigation div').hide();
+          // wait for dynamic content with a loading dialog.
+          var deferred = lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+          // advance automatically to next step when done loading
+          deferred.then(function() {
+            tour.next();
+          });
+          return deferred.promise();
+        }
+      }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'We see that most of the members of the clade containing our gene were found by the syntenic context matching. The context viewer alignment parameters might be relaxed to try to include more of the clade and see how the gene content of the regions may have diverged more rapidly in these species.',
-        element: SELECTOR.phylotree,
-        placement: 'right'
+        element: SELECTOR.phylotreeFocusProtein,
+        placement: 'bottom'
       }, {
         title: 'Gene Tour: The End',
         content: 'Congratulations, you\'ve made it to the end of the Gene Tour. Please let us know if you have any suggestions on how to improve the tools used in this tour or the tour itself by using our Contact form. Now press End Tour.' ,
