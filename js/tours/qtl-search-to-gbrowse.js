@@ -13,6 +13,8 @@
     editQtlName: '#edit-qtl-name',
     editQtlSubmit: '#edit-submit-qtl',
     searchResult: '[href="/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'"]',
+    overviewHeaderQTL: ".qtl-tripal-data-pane-title",
+    overviewHeaderMarker: ".marker-tripal-data-pane-title",
     detailsPane: "[href='?pane=qtl_details']",
     positionsPane: "[href='?pane=positions']",
     nearestMarker: "#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a",
@@ -89,18 +91,24 @@
       }, {
           path: '/search/qtl',
           title: 'QTL Tour: The list of QTL matching the query',
-          content: 'Let\'s look at the details for a specific QTL.',
+          content: 'We\'ve gotten back paged results for all "Seed yield" QTL; let\'s look at the details for a specific QTL.',
           element: SELECTOR.searchResult,
           reflex: true,
           placement: 'bottom',
           onPrev: function(tour) {
             tour.skipStep = true;
           }
-      },
-      {
+      }, {
           path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT,
           title: 'QTL Tour: Information about the selected QTL',
-          content: "The QTL Details link will reveal this QTL's place on the chromosome.",
+          content: "The Overview pane gives a variety of information about the QTL, such as the publication from which it was collected, markers linked to the QTL, statistical significance of the association, and how the trait was measured.",
+          placement: 'top',
+          element: SELECTOR.overviewHeaderQTL,
+          reflex: true,
+      }, {
+          path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT,
+          title: 'QTL Tour: Information about the selected QTL',
+          content: "Links on the sidebar will reveal panes with additional information; for example, we'll access the QTL Details link to see this QTL's place on the chromosome.",
           placement: 'right',
           element: SELECTOR.detailsPane,
           reflex: true,
@@ -113,7 +121,7 @@
       }, {
         path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'#pane=qtl_details',
         title: 'QTL Tour: Nearest Marker',
-        content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
+        content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among all those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
         placement: 'right',
         element: SELECTOR.nearestMarker,
         reflex: true,
@@ -128,7 +136,14 @@
       }, {
         path: '/node/1360783', /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
-        content: 'The "Overview" links to articles and descriptions of the marker. To find this marker on the phaseolus map, we can look under "Marker Positions".',
+        content: 'The Overview pane for Markers contains information such as primers and amplified sequence.',
+        element: SELECTOR.overviewHeaderMarker,
+        reflex: true,
+        placement: 'top',
+      }, {
+        path: '/node/1360783', /* url must match prev reflex element url */
+        title: 'QTL Tour: Marker Overview',
+        content: 'To find this marker on the phaseolus map, we can look under "Marker Positions".',
         element: SELECTOR.positionsPane,
         reflex: true,
         placement: 'bottom',
@@ -169,7 +184,7 @@
           var deferred = lisTours.waitForContent(
             tour,
             function() {
-              return $(SELECTOR.gbrowseFrame).contents().find('#centromere_image')[0];
+              return $(SELECTOR.gbrowseFrame).contents().find('map[name*="My_Track"')[0];
             });
           // advance automatically to next step when done loading
           deferred.then(function() {
