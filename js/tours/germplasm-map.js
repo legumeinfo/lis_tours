@@ -190,7 +190,7 @@ accessions, use this button.',
       {
         title: 'Change Base Map',
         content: 'You can adjust the base map for a different \
-          appearance, if desired. This does not effect your search \
+          appearance, if desired. This does not affect your search \
           results!',
         element: SELECTOR.baseMap,
         placement: 'bottom',
