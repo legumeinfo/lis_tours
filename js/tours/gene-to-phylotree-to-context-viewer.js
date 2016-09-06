@@ -43,7 +43,7 @@
   var tour = new Tour({
     name: 'gene-to-phylotree-to-context-viewer',
     keyboard: true,
-    debug: true,
+    //debug: true,
     orphan: true,
     template: lisTours.template.noPrevBtnTemplate,
     steps : [
