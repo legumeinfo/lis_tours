@@ -131,10 +131,8 @@ Try it!',
         title: 'Set Search Parameters',
         content: 'Click on the Search button to reveal search settings. \
 The Taxon Search may be plain text or use logical \
-AND (&amp;) and OR (|) operators. For example <br/> \
-<code>Arachis hypogaea</code> or <br/>\
-<code>sylvestris | burchellii</code> or <br/>\
-<code>medicago &amp; brevispina</code>.\
+AND (&amp;) and OR (|) operators. For example \
+<code>Arachis hypogaea</code>\
 You may click OK to close the search parameters panel.',
         element: SELECTOR.search,
         placement: 'top',
