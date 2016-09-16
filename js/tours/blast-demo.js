@@ -112,26 +112,41 @@
 	content: 'Click "Add to Basket" if you would like to save copies of mRNA sequences to compare.',
 	element: '#ajax-link',
 	placement: 'top',
-//	arrowOffset: '230',
-//	xOffset: '-200'
       }, {
         title: 'BLAST Tour: GBrowse',
         content: 'Here we can see our chickpea gene and choose tracks to add to the visualization.',
-        delay: '400',
         element: jQuery('#frameviewer') [0],
         placement: 'top',
 	path: '/feature/Cicer/arietinum/gene/Ca_09040_gene'
       }, {
 	title: 'BLAST Tour: Let\'s look at some more genes',
 	content: 'We can also find related genes in the phylotree viewer.',
-	element: jQuery("#tripal_feature-table-base > tbody > tr:nth-child(4) > td > a")[0],
+	element: jQuery('#tripal_feature-table-base > tbody > tr:nth-child(4) > td > a')[0],
 	placement: 'top',
-	path: '/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040'
+      },{
+         title: 'BLAST: Phylotree',
+         //NB: currently, this must use path instead of click on the
+         //link element due to the fact that these are being made into
+         //external absolute links to legumeinfo.org probably due to
+         //peanutbase
+         path: '/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040',
+         content: 'Please be patient, as the phylogram chart loads...',
+         placement: 'top',
+         onShown: function(tour) {
+           $('.popover-navigation div').hide();
+           // wait for dynamic content with a loading dialog.
+           var deferred = lisTours.waitForSelector(tour, '#phylogram > svg > g > :contains("cicar.Ca_09040"):first');
+           // advance automatically to next step when done loading
+           deferred.then(function() {
+             tour.next();
+           });
+           return deferred.promise();
+         }
       }, {
 	title: 'BLAST Tour: Family Tree',
 	content: 'Here is Ca_09040 next to a closely related barrel medick gene.',
-	element:'#phylogram > svg > g > rect.hilite-node :contains("cicar.Ca_09040"):last', 
-	placement: 'left'
+	element:'#phylogram > svg > g > :contains("cicar.Ca_09040"):first', 
+	placement: 'bottom'
       }
 
     ]
