@@ -8,6 +8,11 @@ Requires npm package manager (install nodejs)
     npm install # install all requirements from package.json
     npm install webpack -g # make this available on cli, by -g global flag
 
+If you get file permission errors from the npm installs, then configure npm to install into your home directory, then re-run the npm installs:
+
+    npm config set prefix '~/.npm'      # write config to npm
+    export PATH="$PATH:$HOME/.npm/bin"  # add to .bash_profile
+
 ## Webpack usage
 
 The [webpack module bundler] (https://webpack.github.io) is used to:
