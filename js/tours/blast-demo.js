@@ -55,7 +55,7 @@
 	onShown: function(tour) {
           $('.popover-navigation div').hide();},
       },{
-        title: 'Gene Tour: Gene Search',
+        title: 'BLAST Tour',
         content: 'Please be patient, as we wait for the query results to be returned...',
         placement: 'top',
         onShown: function(tour) {
@@ -64,7 +64,7 @@
           var deferred = lisTours.waitForContent(
             tour,
             function() {
-              return $('tr.views-row-first td.views-field-description:contains("'+FOCUS_GENE_FUNCTION+'")')[0];
+              return $('#blast_report > thead > tr > th.query')[0];
             }, 40000);
           // advance automatically to next step when done loading
           deferred.then(function() {
@@ -77,17 +77,16 @@
 	content: 'The E-value, or expected value, describes the probability that the results are by chance. A lower e-value suggests that the two sequences are more identical, and a "0" suggests that there is no possibility that these are two random sequences, they must be identical.',
 	element: jQuery('.evalue')[0],
 	placement: 'top',
-	arrowOffset: '250',
-	xOffset: '-230',
 	onNext: function() {
-	  jQuery('.arrow-col').trigger('click');}
+	  jQuery('.arrow-col').trigger('click');
+	},
+	reflex: true
       }, {
 	title: 'BLAST Tour: Positive Score',
 	content: 'This is the percentage of positive scores that came up on the substitution matrix.',
-	delay: '400',
 	element: jQuery('.positive')[0],
 	placement: 'bottom'
-      }, {
+      },{ 
 	title: 'BLAST Tour: Identity',
 	content: 'This scores how alike the two sequences are.',
 	element: jQuery('.identity')[0],
@@ -102,47 +101,52 @@
 	content: 'We can learn more about our chickpea element, Ca_09040, by entering it into a gene search query.',
 	element: jQuery("[href='/search']")[0],
 	placement: 'bottom',
-	onNext: function() {
-	  lisTours.location('/search/gene?name=Ca_09040');}
+	path: '/search/gene?name=Ca_09040'
       }, {
 	title: 'BLAST Tour: Our Chickpea Gene',
 	content: 'Searching for gene and gene family information',
-	element: 'edit-name',
+	element: '#edit-name',
 	placement: 'bottom'
       }, {
 	title: 'BLAST Tour: Using the Gene Basket',
 	content: 'Click "Add to Basket" if you would like to save copies of mRNA sequences to compare.',
-	element: jQuery('#ajax-link')[0],
+	element: '#ajax-link',
 	placement: 'top',
-	arrowOffset: '230',
-	xOffset: '-200'
       }, {
-	title: 'BLAST Tour: Gene Info',
-	content: 'Let\'s gather some more information on our gene',
-	element: jQuery("#block-system-main > div > div > div.view-content > table > tbody > tr.odd.views-row-first > td.views-field.views-field-name.active > a")[0],
-	placement: 'top',
-	onNext: function() {
-	  lisTours.location('/feature/Cicer/arietinum/gene/Ca_09040_gene');}
-      }, {
-	title: 'BLAST Tour: GBrowse',
-	content: 'Here we can see our chickpea gene and choose tracks to add to the visualization.',
-	delay: '400',
-	element: jQuery('#frameviewer') [0],
-	placement: 'top',
+        title: 'BLAST Tour: GBrowse',
+        content: 'Here we can see our chickpea gene and choose tracks to add to the visualization.',
+        element: jQuery('#frameviewer') [0],
+        placement: 'top',
+	path: '/feature/Cicer/arietinum/gene/Ca_09040_gene'
       }, {
 	title: 'BLAST Tour: Let\'s look at some more genes',
 	content: 'We can also find related genes in the phylotree viewer.',
-	element: jQuery("#tripal_feature-table-base > tbody > tr:nth-child(4) > td > a")[0],
+	element: jQuery('#tripal_feature-table-base > tbody > tr:nth-child(4) > td > a')[0],
 	placement: 'top',
-	onNext: function() {
-	  lisTours.location('/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040');}
+      },{
+         title: 'BLAST: Phylotree',
+         //NB: currently, this must use path instead of click on the
+         //link element due to the fact that these are being made into
+         //external absolute links to legumeinfo.org probably due to
+         //peanutbase
+         path: '/chado_phylotree/phytozome_10_2.59198402?hilite_node=cicar.Ca_09040',
+         content: 'Please be patient, as the phylogram chart loads...',
+         placement: 'top',
+         onShown: function(tour) {
+           $('.popover-navigation div').hide();
+           // wait for dynamic content with a loading dialog.
+           var deferred = lisTours.waitForSelector(tour, '#phylogram > svg > g > :contains("cicar.Ca_09040"):first');
+           // advance automatically to next step when done loading
+           deferred.then(function() {
+             tour.next();
+           });
+           return deferred.promise();
+         }
       }, {
 	title: 'BLAST Tour: Family Tree',
 	content: 'Here is Ca_09040 next to a closely related barrel medick gene.',
-	element: function() {
-	  return jQuery('.hilite-node')[0]},
-	placement: 'right',
-	yOffset: '-22'
+	element:'#phylogram > svg > g > :contains("cicar.Ca_09040"):first', 
+	placement: 'bottom'
       }
 
     ]

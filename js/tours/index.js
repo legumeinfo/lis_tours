@@ -5,3 +5,4 @@
 // this is required.
 
 require('./germplasm-map.js');
+require('./qtl-search-to-gbrowse.js');

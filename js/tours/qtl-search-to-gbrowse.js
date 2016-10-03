@@ -23,12 +23,12 @@
   };
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
-    //debug: true,
+    debug: true,
     template: lisTours.template.noPrevBtnTemplate,
     orphan: true,
     steps : [
       {
-          title: 'QTL Tour: Welcome to LIS!',
+          title: 'QTL Tour: Welcome to PeanutBase!',
           content: 'Let\'s go the legumeinfo.org homepage, where the QTL Tour will begin.<br>Use the Next button or &#8594; (right arrow key) to advance the tour.',
           placement: 'bottom',
           element: SELECTOR.welcome,
@@ -226,3 +226,8 @@
   lisTours.register(tour);
   
 }(window.__jquery));
+
+
+
+
+
