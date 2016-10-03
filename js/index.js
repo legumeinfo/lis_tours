@@ -70,7 +70,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that._loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
-        localStorage.removeItem(TOUR_ID_KEY);
+        sessionStorage.removeItem(TOUR_ID_KEY);
         throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
@@ -79,14 +79,14 @@ var lisTours = {}; /* the lisTours library, created by this module */
       if(stepNum) {
         tour.goTo(stepNum);
       }
-      localStorage[TOUR_ID_KEY] = tourId;
+      sessionStorage.setItem(TOUR_ID_KEY, tourId);
       _visited(tourId);
     });
   };
 
   // active() : check for existence of a tour id
   this.active = function() {
-    return (localStorage[TOUR_ID_KEY]);
+    return ( sessionStorage.getItem(TOUR_ID_KEY) );
   };
   
   function _visited(tourId) {
@@ -104,7 +104,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
     that._loadDeps(function() {
       var tour = that.tours[tourId];
       if(! tour) {
-        localStorage.removeItem(TOUR_ID_KEY);
+        sessionStorage.removeItem(TOUR_ID_KEY);
         throw 'failed to load tour id: ' + tourId;
       }
       tour.init();
@@ -112,7 +112,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
 	if(DEBUG) {
           debug('removing tour id: ' + tourId) ;
 	}
-        localStorage.removeItem(TOUR_ID_KEY);
+        sessionStorage.removeItem(TOUR_ID_KEY);
       }
       else {
         var force = true;
@@ -181,7 +181,7 @@ var lisTours = {}; /* the lisTours library, created by this module */
    * enable tour to resume automatically.
    */
   this._init = function() {
-    var tourId = localStorage.getItem(TOUR_ID_KEY);
+    var tourId = sessionStorage.getItem(TOUR_ID_KEY);
     if(tourId) {
       that.resume(tourId);
     }
