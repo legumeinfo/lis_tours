@@ -11,6 +11,5 @@ require('./genome-context-viewer.js');
 require('./germplasm-map.js');
 
 // under development:
-
- require('./blast-demo.js');
- require('./protein-domain.js');
+// require('./blast-demo.js');
+// require('./protein-domain.js');

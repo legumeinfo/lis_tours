@@ -8,7 +8,7 @@
   var tour = new Tour({
     name: 'protein-domain',
     orphan: true,
-    debug: true,  
+    //debug: true,  
     steps: [
       {
 	title: 'Welcome to LIS',

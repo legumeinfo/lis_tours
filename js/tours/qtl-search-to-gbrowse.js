@@ -22,7 +22,7 @@
   };
   var tour = new Tour({
     name: 'qtl-search-to-gbrowse',
-    debug: true,
+    //debug: true,
     template: lisTours.template.noPrevBtnTemplate,
     orphan: true,
     steps : [

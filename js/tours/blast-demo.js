@@ -9,7 +9,7 @@
   var tour = new Tour({
     name: "blast-demo",
     orphan: true,
-    debug: true,
+    //debug: true,
     steps: [
       {
 	title: 'BLAST Tour: Welcome to LIS',

@@ -31,7 +31,6 @@
 	target: 'site-name',
 	dynamicContent: 'dynamic',
 	dynamicTarget: function() {
-	  debugger;
 	  return jQuery('#frameviewer').contents().find('#track_centromere')[0];
 	},
 	placement: 'bottom',
