@@ -11,12 +11,11 @@
     family:           '#base-tripal-data-pane .tripal-data-block-desc',
     phylogram:        '#phylogram svg',
     phylogramNav:     'a:contains("Phylogram")',
-    leaf:             '#phylogram .legume-leaf-node:last',
+    leaf:             '#phylogram .legume.leaf:last',
     interior:         '#phylogram .inner circle:first',
     root:             '#phylogram .root circle:first',
-    msa:              '#msa-toggle',
-    circularDendrogram:'a:contains("Circular Dendrogram")',
-    organisms:        'a:contains("Organisms")',
+    msaButton:        '#msa-toggle',
+    msaDialog:        '#msa-dialog',
     references:       '#phylotree_references',
     analysis:         '#phylotree_analysis',
     search:           'ul li a[title="Search"]',
@@ -111,50 +110,36 @@ rooting of the tree.)',
 					return lisTours.waitForSelector(tour, SELECTOR.root).promise();
 				},
 				onNext: function(tour) {
-					$(SELECTOR.msa)[0].click();
+					$(SELECTOR.msaButton)[0].click();
 				}
       },
       {
         title: 'MSA',
         content: 'The Multiple Sequence Alignment for the family \
 is available via this button.',
-        element: SELECTOR.msa,
+        element: SELECTOR.msaButton,
         placement: 'top',
-				onNext: function(tour) {
-					$(SELECTOR.msa)[0].click();
-					$(SELECTOR.circularDendrogram)[0].click();
+				onShow: function(tour) {
+					return lisTours.waitForSelector(tour, SELECTOR.msaButton).promise();
+				},
+				onShown: function(tour) {
+					// TODO: add the toggle state of the msa dialog onto the button
+					// either through html5-data or a class
+					// TODO: scroll to top before opening the MSA dialog
+					$(SELECTOR.msaButton)[0].click();
 				},  
       },
       {
-        title: 'Circular Dendrogram',
-        content: 'You can view an alternate representation of the same \
-phylogram data via this link. This view will not allow you \
-to see the fine details, but does give a concise overview \
-of the topology of the tree and how gene content from different \
-species is distributed throughout.',
-        element: SELECTOR.circularDendrogram,
-				placement: 'bottom',
-				onPrev: function(tour) {
-					$(SELECTOR.msa)[0].click();
-					$(SELECTOR.phylogramNav)[0].click();
+        title: 'MSA',
+        content: 'The MSA dialog can be moved, or closed if it is obscuring your view.',
+        element: SELECTOR.msaDialog,
+        placement: 'top',
+				onShow: function(tour) {
+					return lisTours.waitForSelector(tour, SELECTOR.msaDialog).promise();
 				},
-				onNext: function(tour) {
-					$(SELECTOR.organisms)[0].click();
-				}
-      },
-      {
-        title: 'Organisms',
-        content: 'You can display the membership counts per species in a \
-diagram illustrating their relative abundances (helpful for \
-very large families)',
-        element: SELECTOR.organisms,
-        placement: 'bottom',
-				onPrev: function(tour) {
-					$(SELECTOR.circularDendrogram)[0].click();
-				},
-				onNext: function(tour) {
-					$(SELECTOR.references)[0].click();
-				}
+				onShown: function(tour) {
+					//$(SELECTOR.msaDialog)[0].click();
+				},  
       },
       {
         title: 'Cross References',
