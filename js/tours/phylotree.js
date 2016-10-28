@@ -75,9 +75,7 @@ Ontology identifiers.',
         title: 'Phylogram',
 				content:  'The phylogram view displays a phylogenetic tree with \
 branch spans proportional to the amount of character change, including both \
-legumes and selected non-legumes. <em>The phylogram view is coordinated with \
-the Taxa and MSA views, so updating updating any view effects the others. \
-</em>',
+legumes and selected non-legumes.',
         element: SELECTOR.phylogram,
         placement: 'top',
         reflex: true,
@@ -85,6 +83,57 @@ the Taxa and MSA views, so updating updating any view effects the others. \
 					lisTours.fixHScroll();
           return lisTours.waitForSelector(tour, SELECTOR.phylogram).promise();
 				}
+      },
+      {
+        title: 'Terminal Nodes',
+        content: 'The tree nodes on the right are terminal nodes. \
+Click on a (colored) node to see more information about legume \
+genes including links to organism, gene, genomic context, and \
+various resources and viewers. For example, the genomic context \
+viewer shows flanking genes and allows exploration of syntenic \
+regions from all included legume genomes.',
+        element: SELECTOR.leaf,
+        placement: 'top',
+				onShow: function(tour) {
+					lisTours.fixHScroll();
+					return lisTours.waitForSelector(tour, SELECTOR.leaf).promise();
+				},
+      },
+      {
+        title: 'Interior Nodes',
+        content: 'The other tree nodes are \'interior\' nodes. Click on \
+a (white) interior node to view genomic context and genomic distribution \
+for the node\'s sub-tree. In addition, you can expand and collapse subtrees \
+and you can focus the phylogram to the selected subtree. If you expand, \
+collapse, or focus on a subtree, the changes are instantly reflected in the \
+taxon view and in the msa view (more about those in a moment).',
+        element: SELECTOR.interior,
+        placement: 'top',
+				onShow: function(tour) {
+					// this will error out for tiny trees with no interior nodes
+					// return lisTours.waitForSelector(tour, SELECTOR.interior);
+					lisTours.fixHScroll();
+				},
+				onShown: function(tour) {
+					var interiorNodes = $(SELECTOR.interior).length;
+					if(! interiorNodes) {
+						$('h3.popover-title').html('Interior Nodes (Not visible in this tree)');
+					}
+				}
+      },
+      {
+        title: 'Root Node',
+        content: 'The root node is also an interior node, although it \
+is colored differently for reference. (Note: this root is \
+only one of several possible root choices, and may not be \
+the oldest common ancestor. It is the result of midpoint \
+rooting of the tree.)',
+        element: SELECTOR.root,
+        placement: 'bottom',
+				onShow: function(tour) {
+					lisTours.fixHScroll();
+					return lisTours.waitForSelector(tour, SELECTOR.root).promise();
+				},
       },
       {
         title: 'Taxa and Legend',
@@ -107,8 +156,8 @@ the Taxa and MSA views, so updating updating any view effects the others. \
       {
         title: 'Taxa and Legend - Dialog',
         content: 'You can click the species names to toggle them on and off. \
-You can double-click a species name to filter by that species. Changes \
-are reflected in the phylogram view and in the msa view.',
+You can double-click a species name to filter to only that species. Changes \
+are instantly reflected in the phylogram view and in the msa view.',
         element: SELECTOR.taxaDialog,
         placement: 'top',
 				onShow: function(tour) {
@@ -163,55 +212,6 @@ feature names in the MSA, and they will be hilited in the phylogram view.',
 						$(SELECTOR.msaButton)[0].click();
 					}
 				}
-      },
-      {
-        title: 'Terminal Nodes',
-        content: 'The tree nodes on the right are terminal nodes. \
-Click on a (colored) node to see more information about legume \
-genes including links to organism, gene, genomic context, and \
-various resources and viewers. For example, the genomic context \
-viewer shows flanking genes and allows exploration of syntenic \
-regions from all included legume genomes.',
-        element: SELECTOR.leaf,
-        placement: 'top',
-				onShow: function(tour) {
-					lisTours.fixHScroll();
-					return lisTours.waitForSelector(tour, SELECTOR.leaf).promise();
-				},
-      },
-      {
-        title: 'Interior Nodes',
-        content: 'The other tree nodes are \'interior\' nodes. Click on \
-a (white) interior node to view genomic context and genomic distribution \
-for the node\'s sub-tree. In addition, you can expand and collapse subtrees \
-and you can focus the phylogram to the selected subtree.',
-        element: SELECTOR.interior,
-        placement: 'top',
-				onShow: function(tour) {
-					// this will error out for tiny trees with no interior nodes
-					// return lisTours.waitForSelector(tour, SELECTOR.interior);
-					lisTours.fixHScroll();
-				},
-				onShown: function(tour) {
-					var interiorNodes = $(SELECTOR.interior).length;
-					if(! interiorNodes) {
-						$('h3.popover-title').html('Interior Nodes (Not visible in this tree)');
-					}
-				}
-      },
-      {
-        title: 'Root Node',
-        content: 'The root node is also an interior node, although it \
-is colored differently for reference. (Note: this root is \
-only one of several possible root choices, and may not be \
-the oldest common ancestor. It is the result of midpoint \
-rooting of the tree.)',
-        element: SELECTOR.root,
-        placement: 'bottom',
-				onShow: function(tour) {
-					lisTours.fixHScroll();
-					return lisTours.waitForSelector(tour, SELECTOR.root).promise();
-				},
       },
       {
         title: 'Cross References',
