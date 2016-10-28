@@ -28,15 +28,6 @@
     //debug: true,
     template: lisTours.template.defaultTemplate,
     orphan: true,
-    onShow: function(tour) {
-      // if the URL is not matching chado_phylotree/[family]
-      if(document.location.href.indexOf('phylotree') === -1) {
-				console.log('redirecting to example gene family: '+ EXAMPLE_URL);
-				document.location.href = EXAMPLE_URL;
-				return (new jQuery.Deferred()).promise();
-      }
-
-    },
     steps : [
       {
         title: 'Welcome',
@@ -45,6 +36,12 @@ viewer and other resources available in this section. Use the Next \
 button or &#8594; (right arrow key) to advance the tour. Use the \
 Prev button or &#8592; (left arrow key) to step back.',
 				onShow: function(tour) {
+					// if the URL is not matching chado_phylotree/[family]
+					if(document.location.href.indexOf('phylotree') === -1) {
+						console.log('redirecting to example gene family: '+ EXAMPLE_URL);
+						document.location.href = EXAMPLE_URL;
+						return (new $.Deferred()).promise();
+					}
 					lisTours.fixHScroll();
 					return lisTours.waitForSelector(tour, SELECTOR.taxaButton).promise();
 				},
