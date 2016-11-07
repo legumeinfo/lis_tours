@@ -177,6 +177,11 @@ var lisTours = {}; /* the lisTours library, created by this module */
     return deferred;
   };
 
+	this.fixHScroll = function() {
+		// horizontal scroll messes with the tour step placement
+		$('html,body').attr('scrollLeft', 0);
+	};
+
   /* init() : lookup the most recent tour id, and load it's module, to
    * enable tour to resume automatically.
    */

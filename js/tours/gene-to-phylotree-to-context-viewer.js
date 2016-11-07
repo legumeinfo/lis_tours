@@ -22,15 +22,19 @@
     searchResult: 'th.views-field-name',
     functionalDesc: 'th.views-field-description',
     geneFamilyLink:'a[href*="'+FOCUS_GENE_UNIQUENAME+'"]:contains("'+FOCUS_GENE_FAMILY+'")',
-    phylotreeFocusProtein: '#phylogram g > :contains("'+ FOCUS_PROTEIN +'"):first',
-    phylotreeAltProtein: '#phylogram g > :contains("'+ ALT_PROTEIN +'"):first',
-    popup: '#phylonode_popup_dialog',
-    contextViewerLink: "#phylonode_popup_dialog a[href*='lis_context_viewer']",
+		phylotreeFocusProtein: '#phylogram g.legume:contains("'+ FOCUS_PROTEIN +'")',
+		phylotreeAltProtein: '#phylogram g.legume:contains("'+ ALT_PROTEIN +'")',
+    popup: '#node-dialog',
+    contextViewerLink: "#node-dialog a[href*='lis_context_viewer']",
     contextFocusGene: 'path.point.focus:first',
     contextLocus: 'g.legend:has(:contains("phytozome_10_2.59088092"))',
     contextFocus: 'h4:contains("phytozome_10_2.59088092")',
     contextFamilyLink: 'a:contains("View genes in phylogram")',
     contact: 'a:contains("Contact")',
+    msaButton:        '#msa-toggle',
+    msaDialog:        '#msa-dialog',
+		taxaButton:       '#taxa-toggle',
+		taxaDialog:       '#taxa-dialog',
   };
 
   $.fn.d3Click = function () {
@@ -143,7 +147,7 @@
         onShown: function(tour) {
           $('.popover-navigation div').hide();
           // wait for dynamic content with a loading dialog.
-	  var deferred = lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+    var deferred = lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
           // advance automatically to next step when done loading
           deferred.then(function() {
             tour.next();
@@ -155,49 +159,41 @@
         placement: 'bottom',
         content : 'Here is our gene again, surrounded by orthologues from other species. ',
         element : SELECTOR.phylotreeFocusProtein,
-	onShow: function(tour) {
-	  // wait for dynamic content from d3js; and an additional
-	  // wait of 200ms while the phylotree js scrolls to the
-	  // hilighted protein. jquery 'fast' transition is ~ 200ms.
-	  var deferred = new $.Deferred();
-	  lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein)
-	    .then(function() {
-	      setTimeout(function() { deferred.resolve(); }, 250);
-	    });
-	  return deferred.promise();
-	},
+        onShow: function(tour) {
+					return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+        },
+        onShown: function(tour) {
+          lisTours.fixHScroll();
+          // hide the taxa and msa dialog for less clutter in this tour
+					if($(SELECTOR.taxaDialog).is(':visible')) {
+						$(SELECTOR.taxaButton)[0].click();
+					}
+					if($(SELECTOR.msaDialog).is(':visible')) {
+						$(SELECTOR.msaButton)[0].click();
+					}
+        }
       }, {
         title: 'Gene Tour: Phylotree',
         placement: 'top',
         content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
         element : SELECTOR.phylotreeAltProtein,
-	onShow: function(tour) {
-	  // note: same as previous step onShow()
-	  var deferred = new $.Deferred();
-	  lisTours.waitForSelector(tour, SELECTOR.phylotreeAltProtein)
-	    .then(function() {
-	      setTimeout(function() { deferred.resolve(); }, 250);
-	    });
-	  return deferred.promise();
-	}
+				onShow: function(tour) {
+          lisTours.fixHScroll();
+					return lisTours.waitForSelector(tour, SELECTOR.phylotreeAltProtein);
+				}
       }, {
         title: 'Gene Tour: Phylotree',
         placement: 'bottom',
         content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
         element : SELECTOR.phylotreeFocusProtein,
         reflex: true,
-	onShow: function(tour) {
-	  // note: same as previous step onShow()
-	  var deferred = new $.Deferred();
-	  lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein)
-	    .then(function() {
-	      setTimeout(function() { deferred.resolve(); }, 250);
-	    });
-	  return deferred.promise();
-	},
+				onShow: function(tour) {
+          lisTours.fixHScroll();
+					return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+				},
         onNext: function(tour) {
           $(SELECTOR.phylotreeFocusProtein).d3Click();
-          return lisTours.waitForSelector(tour, SELECTOR.contextViewerLink);
+          return lisTours.waitForSelector(tour, SELECTOR.popup);
         }
       }, {
         title: 'Gene Tour: Gene Linkouts',
@@ -222,7 +218,7 @@
           var deferred = lisTours.waitForSelector(
             tour,
             'g.gene:has(:contains("'+FOCUS_GENE+'")) > path'
-	  );
+    );
           // advance automatically to next step when done loading
           deferred.then(function() {
             tour.next();
