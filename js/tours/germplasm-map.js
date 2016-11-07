@@ -9,7 +9,7 @@
   // jquery selectors which are used in the tour definition 
   var SELECTOR = {
     leafletMap: '#map',
-    leafletMarker: 'svg g path.leaflet-clickable:last',
+    leafletMarker: 'svg g path.leaflet-interactive:last',
     results: '#results-list',
     accession: '#tour-accession-btn',
     locator: '#tour-coords-btn',
@@ -38,7 +38,7 @@
 
   var tour = new Tour({
     name: 'germplasm-map',
-    //debug: true,
+		//debug: true,
     template: lisTours.template.defaultTemplate,
     orphan: true,
     steps: [

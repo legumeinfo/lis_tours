@@ -15,9 +15,8 @@
     searchResult: '[href="/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'"]',
     overviewHeaderQTL: ".qtl-tripal-data-pane-title",
     overviewHeaderMarker: ".marker-tripal-data-pane-title",
-    detailsPane: "[href='?pane=qtl_details']",
     positionsPane: "[href='?pane=positions']",
-    nearestMarker: "#tripal_feature-table-base > tbody > tr:nth-child(2) > td > a",
+    nearestMarker: "#nearest_marker_link",
     gbrowseLink: "[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']",
     gbrowseFrame: '#frameviewer',    
   };
@@ -106,33 +105,11 @@
           element: SELECTOR.overviewHeaderQTL,
           reflex: true,
       }, {
-          path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT,
-          title: 'QTL Tour: Information about the selected QTL',
-          content: "Links on the sidebar will reveal panes with additional information; for example, we'll access the QTL Details link to see this QTL's place on the chromosome.",
-          placement: 'right',
-          element: SELECTOR.detailsPane,
-          reflex: true,
-          onNext: function(tour) {      
-            var el = $(SELECTOR.detailsPane)[0];
-            if(el) {
-              el.click();
-            }
-          }
-      }, {
-        path: '/feature/Phaseolus/vulgaris/QTL/'+FOCUS_TRAIT+'#pane=qtl_details',
         title: 'QTL Tour: Nearest Marker',
-        content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among all those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide.',
+        content: 'This is the marker that had the strongest association with variation in the trait for this QTL, among all those used in the mapping experiment. Since the marker has sequence information associated with it, we can find its position in the genome sequence to find the general region in which the gene responsible for the QTL may be found- note, however that the marker is not guaranteed to be very close to any candidate gene, and you should use this only as a very general guide. Clicking on the link for the marker will give you more information about it.',
         placement: 'right',
         element: SELECTOR.nearestMarker,
         reflex: true,
-        onShow: function(tour) {
-          if(location.hash.indexOf('qtl_details') === -1) {
-            var el = $(SELECTOR.detailsPane)[0];
-            if(el) {
-              el.click();
-            }
-          }
-        }
       }, {
         path: '/node/1360783', /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
