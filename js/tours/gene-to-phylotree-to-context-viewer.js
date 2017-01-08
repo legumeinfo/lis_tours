@@ -22,11 +22,12 @@
     searchResult: 'th.views-field-name',
     functionalDesc: 'th.views-field-description',
     geneFamilyLink:'a[href*="'+FOCUS_GENE_UNIQUENAME+'"]:contains("'+FOCUS_GENE_FAMILY+'")',
-		phylotreeFocusProtein: '#phylogram g.legume:contains("'+ FOCUS_PROTEIN +'")',
-		phylotreeAltProtein: '#phylogram g.legume:contains("'+ ALT_PROTEIN +'")',
-    popup: '#node-dialog',
+    phylotreeFocusProtein: '#phylogram g.legume:contains("'+ FOCUS_PROTEIN +'")',
+    phylotreeAltProtein: '#phylogram g.legume:contains("'+ ALT_PROTEIN +'")',
+    popup: '#node-dialog a:contains("Find similar")',
     contextViewerLink: "#node-dialog a[href*='lis_context_viewer']",
     contextFocusGene: 'path.point.focus:first',
+    familyLegendButton: 'button:contains("Legend")',
     contextLocus: 'g.legend:has(:contains("phytozome_10_2.59088092"))',
     contextFocus: 'h4:contains("phytozome_10_2.59088092")',
     contextFamilyLink: 'a:contains("View genes in phylogram")',
@@ -156,7 +157,7 @@
         }
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'bottom',
+        placement: 'left',
         content : 'Here is our gene again, surrounded by orthologues from other species. ',
         element : SELECTOR.phylotreeFocusProtein,
         onShow: function(tour) {
@@ -174,7 +175,7 @@
         }
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'top',
+        placement: 'left',
         content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
         element : SELECTOR.phylotreeAltProtein,
 				onShow: function(tour) {
@@ -183,7 +184,7 @@
 				}
       }, {
         title: 'Gene Tour: Phylotree',
-        placement: 'bottom',
+        placement: 'right',
         content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
         element : SELECTOR.phylotreeFocusProtein,
         reflex: true,
@@ -230,6 +231,9 @@
         content: 'Our gene is front and center, highlighted among the neighboring genes from the same region on the chromosome. All genes are color coded according to the gene families to which they belong, and genomic segments with similar gene content are aligned to the track containing our search gene.',
         element: SELECTOR.contextFocusGene,
         placement: 'top',
+        onNext: function(tour) {
+          $(SELECTOR.familyLegendButton).click();
+        },
       }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'Hover over the gene family to see all representatives highlighted in their syntenic contexts. Click the gene family for more information.',
@@ -269,7 +273,17 @@
         title: 'Gene Tour: Gene Family Focus',
         content: 'We see that most of the members of the clade containing our gene were found by the syntenic context matching. The context viewer alignment parameters might be relaxed to try to include more of the clade and see how the gene content of the regions may have diverged more rapidly in these species.',
         element: SELECTOR.phylotreeFocusProtein,
-        placement: 'bottom'
+        placement: 'top',
+        onShown: function(tour) {
+          lisTours.fixHScroll();
+          // hide the taxa and msa dialog for less clutter in this tour
+          if($(SELECTOR.taxaDialog).is(':visible')) {
+              $(SELECTOR.taxaButton)[0].click();
+          }
+          if($(SELECTOR.msaDialog).is(':visible')) {
+              $(SELECTOR.msaButton)[0].click();
+          }
+        }
       }, {
         title: 'Gene Tour: The End',
         content: 'Congratulations, you\'ve made it to the end of the Gene Tour. Please let us know if you have any suggestions on how to improve the tools used in this tour or the tour itself by using our Contact form. Now press End Tour.' ,
