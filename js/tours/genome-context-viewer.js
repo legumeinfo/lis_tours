@@ -75,12 +75,12 @@
       }
     }, {
       // now start the actual tour!
-      title: 'Welcome',
-      content: 'This quick tour will acquaint you with the genome context viewer application, which is useful for exploring microsynteny relationships among sets of genomic segments. Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
+      title: 'Welcome: Genome Context Viewer',
+      content: 'This quick tour will acquaint you with the Genome Context Viewer application, which is useful for exploring microsynteny relationships among sets of genomic segments. Use the Next button or &#8594; (right arrow key) to advance the tour. Use the Prev button or &#8592; (left arrow key) to step back.',
       element: SELECTOR.welcomeAnchor,
       placement: 'left',
     }, {
-      title: "Context Viewer",
+      title: "Microsynteny Tracks",
       content: "The context viewer displays corresponding regions around a selected gene or set of genes. It makes it easy to find functional gene groups as well as help make hypotheses about their evolutionary histories. Gene glyphs have mouse over and click interactivity. If a glyph is moused over its name and genomic position are shown. If a gene is clicked a widget will appear with a variety of links related to the gene, such as a link to the source of the gene annotation. The thicker the connecting line between the genes, the longer the intergenic distance on the chromosome; intergenic distances and gene identities for tracks can also be displayed by mousing over the track labels to the left of the tracks.",
       element: "path.point.focus:first",
       placement: "top",
