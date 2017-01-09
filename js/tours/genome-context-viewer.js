@@ -4,7 +4,7 @@
 
   var $ = jQuery;
 
-  var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?neighbors=15&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=50&threshold=40&order=distance&sources=lis&regexp=&matched=2&intermediate=5";
+  var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?neighbors=15&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=120&threshold=40&order=distance&sources=lis&regexp=&matched=5&intermediate=5";
   var SELECTOR = {
     welcomeAnchor: 'button:contains("Legend")',
     macroSynteny: 'rect.viewport',
@@ -87,7 +87,7 @@
       placement: "top",
     }, {
       title: "Macrosynteny Blocks",
-      content: "Chromosomes or scaffolds identified as having microsynteny to the query segment will be used to search for large-scale macrosynteny to the query. The vertical bar shows you the position and extent of the query segment in its chromosomal context, and the colored blocks show how far synteny extends beyond the current microsynteny viewe. Having these blocks available depends on pre-computed server-side analyses, and may not always be in perfect agreement with the results of the microsynteny blocks- especially when macrosynteny has not been pre-computed between given pairs of genomes. The microsynteny search depends only upon pre-assignment of genes to families, the rest is done dynamically when the request is made. ",
+      content: "Chromosomes or scaffolds identified as having microsynteny to the query segment will be used to search for large-scale macrosynteny to the query. The vertical bar shows you the position and extent of the query segment in its chromosomal context, and the colored blocks show how far synteny extends beyond the current microsynteny view. Having these blocks available depends on pre-computed server-side analyses, and may not always be in perfect agreement with the results of the microsynteny blocks- especially when macrosynteny has not been pre-computed between given pairs of genomes. The microsynteny search depends only upon pre-assignment of genes to families, the rest is done dynamically when the request is made.",
       element: SELECTOR.macroSynteny,
       placement: "right",
     }, {
