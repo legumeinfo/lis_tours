@@ -4,7 +4,7 @@
 
   var $ = jQuery;
 
-  var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?neighbors=15&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=120&threshold=40&order=distance&sources=lis&regexp=&matched=5&intermediate=5";
+  var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?neighbors=15&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=100&threshold=20&order=distance&sources=lis&regexp=&matched=5&intermediate=5";
   var SELECTOR = {
     welcomeAnchor: 'button:contains("Legend")',
     macroSynteny: 'rect.viewport',
