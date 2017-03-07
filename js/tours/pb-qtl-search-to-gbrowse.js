@@ -210,7 +210,7 @@
         }
       }, {
         title: 'QTL Tour: GBrowse Navigation',
-        content: 'Zooming out will give you better sense for the genomic neighborhood in which the marker resides. We\'re right at the edge of some conserved syntenic blocks. We also see that the loss of synteny corresponds to our entrance into a region relatively poor in annotated gene content on the edge of the centromere.',
+        content: 'Zooming out will give you better sense for the genomic neighborhood in which the marker resides. We\'re right at the edge of some conserved syntenic blocks. We can also see that we\'ve landed in a cluster of annotated resistance genes.',
         element: SELECTOR.gbrowseFrame,
         placement: 'top',
       }, {
