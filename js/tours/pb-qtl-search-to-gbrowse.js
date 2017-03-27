@@ -6,6 +6,7 @@
   var GBROWSE = '/gbrowse_aradu1.0?query=ref=Aradu.A04;start=112039637;stop=112041573;add=Aradu.A04+Marker+Leg050+112040387..112040823;h_feat=Leg050@yellow;style=Marker+bgcolor=red';
   var FOCUS_TRAIT_TERM = 'nematode';
   var FOCUS_TRAIT = 'arachis.Peanut-root-knot-nematode-1-6';
+  var NEAREST_MARKER = 'Leg050';
   var SELECTOR = {
     welcome: '#logo',
     searchBtn: '#qtl_button',
@@ -139,14 +140,14 @@
         element: SELECTOR.nearestMarker,
         reflex: true,
       }, {
-        path: '/node/318856', /* url must match prev reflex element url */
+        path: '/feature/Arachis/spp./genetic_marker/' + NEAREST_MARKER, /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
         content: 'The Overview pane for Markers contains information such as primers and amplified sequence.',
         element: SELECTOR.overviewHeaderMarker,
         reflex: true,
         placement: 'top',
       }, {
-        path: '/node/318856', /* url must match prev reflex element url */
+        path: '/feature/Arachis/spp./genetic_marker/' + NEAREST_MARKER, /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
         content: 'To find this marker on the map, we can look under "Marker Positions".',
         element: SELECTOR.positionsPane,
@@ -159,7 +160,7 @@
           }
         }
       }, {
-        path: '/node/318856?pane=positions',
+        path: '/feature/Arachis/spp./genetic_marker/' + NEAREST_MARKER + '?pane=positions', /* url must match prev reflex element url */
         title: 'QTL Tour: Genome Browser',
         content: 'The linked GBrowse map will show you annotations on the genome.',
         element: SELECTOR.gbrowseLink,
