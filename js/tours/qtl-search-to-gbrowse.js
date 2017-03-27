@@ -6,6 +6,7 @@
   var GBROWSE = '/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red';
   var FOCUS_TRAIT_TERM = 'Seed yield';
   var FOCUS_TRAIT = 'phavu.Seed-yield-2-6';
+  var NEAREST_MARKER = 'BM199';
   var SELECTOR = {
     welcome: '#site-name',
     searchBtn: "[href='/search/qtl']",
@@ -111,14 +112,14 @@
         element: SELECTOR.nearestMarker,
         reflex: true,
       }, {
-        path: '/node/1360783', /* url must match prev reflex element url */
+        path: '/feature/Phaseolus/vulgaris/genetic_marker/'+NEAREST_MARKER, /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
         content: 'The Overview pane for Markers contains information such as primers and amplified sequence.',
         element: SELECTOR.overviewHeaderMarker,
         reflex: true,
         placement: 'top',
       }, {
-        path: '/node/1360783', /* url must match prev reflex element url */
+        path: '/feature/Phaseolus/vulgaris/genetic_marker/'+NEAREST_MARKER, /* url must match prev reflex element url */
         title: 'QTL Tour: Marker Overview',
         content: 'To find this marker on the phaseolus map, we can look under "Marker Positions".',
         element: SELECTOR.positionsPane,
@@ -131,7 +132,7 @@
           }
         }
       }, {
-        path: '/node/1360783#pane=positions',
+        path: '/feature/Phaseolus/vulgaris/genetic_marker/BM199#pane=positions',
         title: 'QTL Tour: Genome Browser',
         content: 'The linked GBrowse map will show you annotations on the genome.',
         element: SELECTOR.gbrowseLink,
