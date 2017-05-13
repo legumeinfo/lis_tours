@@ -8,9 +8,9 @@
   var SELECTOR = {
     welcomeAnchor: 'button:contains("Legend")',
     macroSynteny: 'rect.viewport',
-    split: 'div.gutter',
+    split: 'div.gutter:first',
     familyLegendButton: 'button:contains("Legend")',
-    legend: 'app-legend',
+    legend: '#bottom-right',
     dotplotLink: 'text:contains("plot"):gt(3):first',
     dotplot: 'plot',
     globalDotplotLink: 'a:contains("Global")',
@@ -98,17 +98,9 @@
       placement: "right",
     }, {
       title: "View divider",
-      content: "This divider can be moved up or down to change the proportion of space in the view dedicated to the macro- and micro-syntenic representations.",
+      content: "This divider can be moved up or down to change the proportion of space in the view dedicated to the macro- and micro-syntenic representations; similar dividers are available for the other main components of the view.",
       element: SELECTOR.split,
       placement: "top",
-    }, {
-      title: "Legend",
-      content: "Clicking the Legend button will reveal the identity of the gene families represented by the colors of the genes.",
-      element: SELECTOR.familyLegendButton,
-      placement: "left",
-      onNext: function(tour) {
-        $(SELECTOR.familyLegendButton).click();
-      },
     }, {
       title: "Gene Families Legend",
       content: "The color of each gene in a Genome Context View is determined by the gene family to which it belongs, as indicated in the legend. Colors are assigned dynamically, but memorized in browser storage for consistency during browsing. Genes belonging to families with no other representatives in a view are left uncolored, while genes not belonging to families are both uncolored and have dotted outlines. Since genes in a family tend to have relatively similar sequences, we can use them to predict the functions of newly identified genes based on their relations to other known genes, especially in cases where the genes are found in similar syntenic contexts. Mouse-over of gene families in the legend will highlight all representatives of the family in the current view, while clicking on the families will display a panel listing those same genes with the option to view them in the context of the family's phylogenetic tree.",
