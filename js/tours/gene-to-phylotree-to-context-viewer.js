@@ -28,6 +28,7 @@
     contextViewerLink: "#node-dialog a[href*='lis_context_viewer']",
     contextFocusGene: 'path.point.focus:first',
     familyLegendButton: 'button:contains("Legend")',
+    contextOrderControl: '#order',
     contextLocus: 'g.legend:has(:contains("phytozome_10_2.59088092"))',
     contextFocus: 'h4:contains("phytozome_10_2.59088092")',
     contextFamilyLink: 'a:contains("View genes in phylogram")',
@@ -234,6 +235,22 @@
         onNext: function(tour) {
           $(SELECTOR.familyLegendButton).click();
         },
+      },{
+        title: 'Gene Tour: Genome Context Viewer',
+        content: 'Changing the track ordering from alphabetical (by Chromosome Name) to a measure of their similarity to the query track (Edit Distance) will affect both the micro- and macro-syntenic tracks.',
+        element: SELECTOR.contextOrderControl,
+        placement: 'top',
+        onNext: function(tour) {
+             var ctl = $(SELECTOR.contextOrderControl);
+             ctl.val('distance');
+             ctl[0].dispatchEvent(new Event("input", { bubbles: true }));
+             ctl[0].dispatchEvent(new Event("change", { bubbles: true }));
+        },
+      }, {
+        title: 'Gene Tour: Gene Family Focus',
+        content: 'The tracks brought to the top due to their higher similarity to the query tend to span the length of the query track, though some are subject to rearrangements.',
+        element: SELECTOR.contextFocusGene,
+        placement: 'top',
       }, {
         title: 'Gene Tour: Gene Family Focus',
         content: 'Hover over the gene family to see all representatives highlighted in their syntenic contexts. Click the gene family for more information.',
