@@ -10,3 +10,7 @@ h3.popover-title {
     border-width: 2px;
     border-color: cyan;
 }
+/*specifically to engage in oneupmanship with the GCV left-slider which is set to 10000000 */
+.popover[class*=tour-]{
+    z-index:10000001
+}
