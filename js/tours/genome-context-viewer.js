@@ -7,21 +7,23 @@
   var EXAMPLE_URL = "/lis_context_viewer/index.html#/search/lis/phavu.Phvul.002G085200?neighbors=15&algorithm=repeat&match=10&mismatch=-1&gap=-1&score=100&threshold=20&order=distance&sources=lis&regexp=&matched=5&intermediate=5";
   var SELECTOR = {
     welcomeAnchor: 'button:contains("Legend")',
-    macroSynteny: 'rect.viewport',
+    macroSynteny: '#top-left',
     split: 'div.gutter:first',
     familyLegendButton: 'button:contains("Legend")',
     legend: '#bottom-right',
-    dotplotLink: 'text:contains("plot"):gt(3):first',
-    dotplot: 'plot',
+    dotplotLink: 'text:contains("plot"):gt(2):first',
+    dotplot: '.local-global-plots',
     globalDotplotLink: 'a:contains("Global")',
     paramsButton: 'button:contains("Parameters")',
     searchParams: 'div.left-slider-content',
+    blockParameters: '#block-params-help',
     queryParameters: '#query-params-help',
     alignParameters: '#align-params-help',
-    filterButton: 'button:contains("Filter")',
-    trackOrdering: '#order-form',
-    trackScrolling: '#scroll-form',
-    alerts: 'div.alerts',
+    searchButton: 'span.glyphicon-search',
+    filterButton: 'span.glyphicon-filter',
+    trackOrdering: 'span.glyphicon-triangle-bottom',
+    trackScrolling: 'a span.glyphicon-chevron-left',
+    alerts: 'div.alert',
     multiDotPlot: 'a:contains("Dot Plots")',
   };
 
@@ -89,11 +91,11 @@
     }, {
       title: "Microsynteny Tracks",
       content: "Although the primary representation in a track is of gene order and orientation, intergenic distances are suggested by the differential widths of the bars connecting adjacent genes. Track labels can also be moused-over or clicked for information and options regarding the complete track content.",
-      element: "micro-viewer text.query",
+      element: "viewer-micro text.query",
       placement: "top",
     }, {
       title: "Macrosynteny Blocks",
-      content: "Chromosomes or scaffolds identified as having microsyntenic matches to the query segment will be used to search for large-scale macrosynteny to the query. The vertical bar shows the position and extent of the query segment in its chromosomal context, and the colored horizontal blocks show how far synteny extends beyond the current microsynteny view. Having these blocks available depends on pre-computed server-side analyses, and may not always be in perfect agreement with the results displayed in the microsynteny tracks, especially when macrosynteny has not been pre-computed between given pairs of genomes. The microsynteny search depends only upon pre-assignment of genes to families, all the rest being done dynamically when the request is made.",
+      content: "The chromosome from which the query segment was taken has macrosynteny blocks to other chromosomes computed dynamically, using user-specifiable parameters, and without restriction as to whether they reside in the same database or come from federated service providers. The vertical bar shows the position and extent of the query segment in its chromosomal context, and the colored horizontal blocks show how far synteny extends beyond the current microsynteny view. Macrosynteny blocks may not always be in perfect agreement with the results displayed in the microsynteny tracks as they rely on somewhat different computational techniques, but adjustment of parameters for the two algorithms can be used to make them correspond more closely.",
       element: SELECTOR.macroSynteny,
       placement: "right",
     }, {
@@ -132,7 +134,7 @@
         return lisTours.waitForContent(
           tour,
           function() {
-            return $("plot")[0];
+            return $(".local-global-plots")[0];
           });
       }
     }, {
@@ -172,6 +174,11 @@
         if (! $('#left-slider').is(':visible')) {
         }
       }
+    }, {
+      title: "Block Parameters",
+      content: 'Options grouped under "Block Parameters" determine how macrosynteny blocks against the query chromosome are determined.',
+      element: SELECTOR.blockParameters, //Should point to the field input, but depends on the size/shape of the window.
+      placement: "right"
     }, {
       title: "Query Parameters",
       content: 'Options grouped under "Query Parameters" determine which remote track retrieval services will be invoked and how they should decide whether a segment of a chromosome has sufficiently similar gene family content to the query segment to be considered as a candidate for alignment by the client.',
