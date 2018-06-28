@@ -4,8 +4,9 @@
 
   var $ = jQuery;
 
+
   var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
-  var FOCUS_GENE_UNIQUENAME = 'Vradi01g03360.Vradi.ver6';
+  var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L_JGH6XN';
   var FOCUS_GENE = 'vigra.Vradi01g03360';
   var FOCUS_PROTEIN = FOCUS_GENE + '.1';
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
@@ -21,7 +22,7 @@
     submitBtn: '#edit-submit-gene',
     searchResult: 'th.views-field-name',
     functionalDesc: 'th.views-field-description',
-    geneFamilyLink:'a[href*="'+FOCUS_GENE_UNIQUENAME+'"]:contains("'+FOCUS_GENE_FAMILY+'")',
+    geneFamilyLink:'a[href*="'+FOCUS_GENE+'"]:contains("'+NEW_FOCUS_GENE_FAMILY+'")',
     phylotreeFocusProtein: '#phylogram g.legume:contains("'+ FOCUS_PROTEIN +'")',
     phylotreeAltProtein: '#phylogram g.legume:contains("'+ ALT_PROTEIN +'")',
     popup: '#node-dialog a:contains("Find similar")',
@@ -29,14 +30,14 @@
     contextFocusGene: 'path.point.focus:first',
     familyLegendButton: 'button:contains("Legend")',
     contextOrderControl: '#order',
-    contextLocus: 'g.legend:has(:contains("phytozome_10_2.59088092"))',
-    contextFocus: 'h4:contains("phytozome_10_2.59088092")',
+    contextLocus: 'g.legend:has(:contains("'+NEW_FOCUS_GENE_FAMILY+'"))',
+    contextFocus: 'h4:contains("'+NEW_FOCUS_GENE_FAMILY+'")',
     contextFamilyLink: 'a:contains("View genes in phylogram")',
     contact: 'a:contains("Contact")',
     msaButton:        '#msa-toggle',
     msaDialog:        '#msa-dialog',
-		taxaButton:       '#taxa-toggle',
-		taxaDialog:       '#taxa-dialog',
+    taxaButton:       '#taxa-toggle',
+    taxaDialog:       '#taxa-dialog',
   };
 
   $.fn.d3Click = function () {
@@ -135,15 +136,13 @@
         title: 'Gene Tour: Gene Family',
         content: "Following the link to the gene family will show you this gene in the context of a tree representing the orthologous, paralogous and homoeologous members of the family.",
         placement: 'left',
-        reflex: false, // NB dont use reflex, because of absolute link to legumeinfo.org,
+        reflex: true,
         element: SELECTOR.geneFamilyLink,
+        onNext: function(tour) {
+          $(SELECTOR.geneFamilyLink)[0].click();
+        }
       }, {
         title: 'Gene Tour: Phylotree',
-        //NB: currently, this must use path instead of click on the
-        //link element due to the fact that these are being made into
-        //external absolute links to legumeinfo.org probably due to
-        //peanutbase
-        path: '/chado_phylotree/'+FOCUS_GENE_FAMILY+'?hilite_node='+FOCUS_PROTEIN,
         content: 'Please be patient, as the phylogram chart loads...',
         placement: 'top',
         onShown: function(tour) {
@@ -162,37 +161,38 @@
         content : 'Here is our gene again, surrounded by orthologues from other species. ',
         element : SELECTOR.phylotreeFocusProtein,
         onShow: function(tour) {
-					return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+                    return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
         },
         onShown: function(tour) {
           lisTours.fixHScroll();
           // hide the taxa and msa dialog for less clutter in this tour
-					if($(SELECTOR.taxaDialog).is(':visible')) {
-						$(SELECTOR.taxaButton)[0].click();
-					}
-					if($(SELECTOR.msaDialog).is(':visible')) {
-						$(SELECTOR.msaButton)[0].click();
-					}
+                    if($(SELECTOR.taxaDialog).is(':visible')) {
+                        $(SELECTOR.taxaButton)[0].click();
+                    }
+                    if($(SELECTOR.msaDialog).is(':visible')) {
+                        $(SELECTOR.msaButton)[0].click();
+                    }
         }
-      }, {
+      }, /* commenting out this step which doesn't make sense with the new gene families; but I can't bear to delete it, in hopes that we may someday be able to illustrate mnoving from the legume-centric tree to a deeper phylogenetic perspective...
+      {
         title: 'Gene Tour: Phylotree',
         placement: 'left',
         content : 'Notice that the two other instances of the gene family from mungbean are in a separate clade. This suggests that the gene was duplicated in an ancestral species and the two copies were retained in most of the species (possibly with subsequent duplications within some of the descendant species). This could be due to an important difference in function that evolved after the ancient duplication occurred.',
         element : SELECTOR.phylotreeAltProtein,
-				onShow: function(tour) {
+                onShow: function(tour) {
           lisTours.fixHScroll();
-					return lisTours.waitForSelector(tour, SELECTOR.phylotreeAltProtein);
-				}
-      }, {
+                    return lisTours.waitForSelector(tour, SELECTOR.phylotreeAltProtein);
+                }
+      }, */ {
         title: 'Gene Tour: Phylotree',
         placement: 'right',
         content : 'The nodes of the tree representing the genes (as well as the internal ancestral nodes) can be clicked for more options.',
         element : SELECTOR.phylotreeFocusProtein,
         reflex: true,
-				onShow: function(tour) {
+        onShow: function(tour) {
           lisTours.fixHScroll();
-					return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
-				},
+          return lisTours.waitForSelector(tour, SELECTOR.phylotreeFocusProtein);
+        },
         onNext: function(tour) {
           $(SELECTOR.phylotreeFocusProtein).d3Click();
           return lisTours.waitForSelector(tour, SELECTOR.popup);

@@ -1,4 +1,8 @@
 /* overrides and additions to bootstrap-tour.css */
+.popover[class*=tour-]{
+    /*one-upmanship with GCV left-slider.component*/
+    z-index:10000001; 
+}
 .popover-content {
     font-size: 87.5%;
 }
@@ -10,3 +14,4 @@ h3.popover-title {
     border-width: 2px;
     border-color: cyan;
 }
+
