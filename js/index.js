@@ -44,13 +44,13 @@ var lisTours = {}; /* the lisTours library, created by this module */
     function loader() {
       // lazy-load bootstrap-tour-standalone (includes bootstrap reqs)
       require.ensure(
-	['!style!css!../css/bootstrap-tour-standalone.min.css',
-	 '!style!css!../css/lis-tours.css',
+	['!style-loader!css-loader!../css/bootstrap-tour-standalone.min.css',
+	 '!style-loader!css-loader!../css/lis-tours.css',
 	 './bootstrap-tour-standalone-loader.js',
 	 './tours/index.js'],
 	function(require) {
-	  require('!style!css!../css/bootstrap-tour-standalone.min.css');
-	  require('!style!css!../css/lis-tours.css');
+	  require('!style-loader!css-loader!../css/bootstrap-tour-standalone.min.css');
+	  require('!style-loader!css-loader!../css/lis-tours.css');
 	  require('./bootstrap-tour-standalone-loader.js');
 	  require('./tours/index.js');
 	  cb.call(that);		  
