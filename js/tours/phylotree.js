@@ -4,7 +4,7 @@
 
   var $ = jQuery;
   
-  var EXAMPLE_URL  = '/chado_phylotree/phytozome_10_2.59027108';
+  var EXAMPLE_URL  = '/chado_phylotree/legfed_v1_0.L_S1TY1G';
 
   // jquery selectors which are used in the tour definition 
   var SELECTOR = {
@@ -212,7 +212,7 @@ feature names in the MSA, and they will be hilited in the phylogram view.',
       },
       {
         title: 'Cross References',
-        content: 'You can access the Phytozome family from which this tree \
+        content: 'You can access the family from which this tree \
 was derived via this link.',
         element: SELECTOR.references,
         placement: 'bottom',
