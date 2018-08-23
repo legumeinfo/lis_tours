@@ -18,7 +18,7 @@
     overviewHeaderMarker: ".marker-tripal-data-pane-title",
     positionsPane: "[href='?pane=positions']",
     nearestMarker: "#nearest_marker_link",
-    gbrowseLink: "[href='/gbrowse_phavu1.0?query=ref=Pv04;start=15056944;stop=15058034;add=Pv04+Marker+BM199+15056944..15057534;h_feat=BM199@yellow;style=Marker+bgcolor=red']",
+    gbrowseLink: "[href*='gbrowse']",
     gbrowseFrame: '#frameviewer',    
   };
   var tour = new Tour({
@@ -179,7 +179,7 @@
           tour.skipStep = true;
         },
         onNext: function() {
-          $(SELECTOR.gbrowseFrame).contents().find('select.searchtitle').val(5000000).change();
+          $(SELECTOR.gbrowseFrame).contents().find('select.searchtitle').val(500000).change();
         }
       }, {
         title: 'QTL Tour: GBrowse Navigation',
