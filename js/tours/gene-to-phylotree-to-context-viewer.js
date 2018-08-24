@@ -6,7 +6,8 @@
 
 
   var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
-  var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L_JGH6XN';
+  //var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L_JGH6XN';
+  var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L.FTX7K';
   var FOCUS_GENE = 'vigra.Vradi01g03360';
   var FOCUS_PROTEIN = FOCUS_GENE + '.1';
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
@@ -32,7 +33,7 @@
     contextOrderControl: '#order',
     contextLocus: 'g.legend:has(:contains("'+NEW_FOCUS_GENE_FAMILY+'"))',
     contextFocus: 'h4:contains("'+NEW_FOCUS_GENE_FAMILY+'")',
-    contextFamilyLink: 'a:contains("View genes in phylogram")',
+    contextFamilyLink: 'a[href*="'+NEW_FOCUS_GENE_FAMILY+'"]',
     contact: 'a:contains("Contact")',
     msaButton:        '#msa-toggle',
     msaDialog:        '#msa-dialog',
