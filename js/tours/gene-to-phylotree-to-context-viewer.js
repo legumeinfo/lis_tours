@@ -6,8 +6,8 @@
 
 
   var FOCUS_GENE_FAMILY = 'phytozome_10_2.59088092';
-  //var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L_JGH6XN';
-  var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L.FTX7K';
+  var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L_JGH6XN';
+  //var NEW_FOCUS_GENE_FAMILY = 'legfed_v1_0.L.FTX7K';
   var FOCUS_GENE = 'vigra.Vradi01g03360';
   var FOCUS_PROTEIN = FOCUS_GENE + '.1';
   var FOCUS_GENE_FUNCTION = 'gamma-glutamyl transpeptidase';
