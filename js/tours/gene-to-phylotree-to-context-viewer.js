@@ -33,7 +33,7 @@
     contextOrderControl: '#order',
     contextLocus: 'g.legend:has(:contains("'+NEW_FOCUS_GENE_FAMILY+'"))',
     contextFocus: 'h4:contains("'+NEW_FOCUS_GENE_FAMILY+'")',
-    contextFamilyLink: 'a[href*="'+NEW_FOCUS_GENE_FAMILY+'"]',
+    contextFamilyLink: 'a[href*="'+NEW_FOCUS_GENE_FAMILY+'"]:contains("Legume Information System")',
     contact: 'a:contains("Contact")',
     msaButton:        '#msa-toggle',
     msaDialog:        '#msa-dialog',
@@ -220,7 +220,7 @@
           // wait for dynamic content with a loading dialog.
           var deferred = lisTours.waitForSelector(
             tour,
-            'g.gene:has(:contains("'+FOCUS_GENE+'")) > path'
+            'g[data-gene="'+FOCUS_GENE+'"'
     );
           // advance automatically to next step when done loading
           deferred.then(function() {
