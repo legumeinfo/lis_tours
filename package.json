@@ -16,7 +16,8 @@
     "webpack-cleanup-plugin": "^0.4.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "node ./node_modules/webpack/bin/webpack.js -p"
   },
   "repository": {
     "type": "git",
