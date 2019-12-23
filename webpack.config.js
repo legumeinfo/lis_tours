@@ -10,7 +10,7 @@ module.exports = {
     // the publicPath, unfortunately does not support relative
     // urls. this absolute path is required for webpack's lazy chunk
     // loading to work.
-    publicPath: 'https://cdn.jsdelivr.net/gh/legumeinfo/lis_tours@lis_gis_docker/dist/',
+    publicPath: 'https://cdn.jsdelivr.net/gh/legumeinfo/lis_tours@lis_gis_docker_cdn/dist/',
     filename: 'bundle.js',
     chunkFilename: 'part-[chunkhash].js'
   },
