@@ -10,7 +10,7 @@ module.exports = {
     // the publicPath, unfortunately does not support relative
     // urls. this absolute path is required for webpack's lazy chunk
     // loading to work.
-    publicPath: '/static/grin_app/js/node_modules/lis_tours/build/',
+    publicPath: '/sites/all/modules/lis_tours/build/',
     filename: 'bundle.js',
     chunkFilename: 'part-[chunkhash].js'
   },
