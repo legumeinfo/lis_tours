@@ -6,11 +6,11 @@ module.exports = {
     main: './js/index.js'
   },
   output: {
-    path: path.join(__dirname, 'build'),
+    path: path.join(__dirname, 'dist'),
     // the publicPath, unfortunately does not support relative
     // urls. this absolute path is required for webpack's lazy chunk
     // loading to work.
-    publicPath: '/sites/all/modules/lis_tours/build/',
+    publicPath: '/sites/all/modules/lis_tours/dist/',
     filename: 'bundle.js',
     chunkFilename: 'part-[chunkhash].js'
   },
