@@ -4,7 +4,7 @@
   
   var $ = jQuery;
   
-  var EXAMPLE_URL  = '/germplasm/map';
+  var EXAMPLE_URL  = '/';
 
   // jquery selectors which are used in the tour definition 
   var SELECTOR = {
