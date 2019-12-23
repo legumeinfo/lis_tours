@@ -1,6 +1,6 @@
 {
   "name": "lis_tours",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Drupal7 module for multi-page hopscotch tours (http://linkedin.github.io/hopscotch/)",
   "main": "js/index.js",
   "dependencies": {
