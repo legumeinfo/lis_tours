@@ -1,6 +1,13 @@
 # lis_tours
 Multi-page and dynamic  [bootstrap-tours](http://bootstraptour.com)  for legumeinfo.org and related websites
 
+___
+## This repository has been archived and is no longer maintained.
+The code is provided for historical reference and may contain unpatched or unknown vulnerabilities.  
+It should not be used in production systems.  
+___
+
+
 ## Installation
 
 Requires npm package manager (install nodejs)
